@@ -149,6 +149,9 @@ export interface SettingsState {
   ttsEnabled: boolean;
   asrEnabled: boolean;
 
+  // Outline preview toggle (show preview/edit interface after outline generation)
+  outlinePreviewEnabled: boolean;
+
   // Auto-config lifecycle flag (persisted)
   autoConfigApplied: boolean;
 
@@ -219,6 +222,7 @@ export interface SettingsState {
   ) => void;
   setTTSEnabled: (enabled: boolean) => void;
   setASREnabled: (enabled: boolean) => void;
+  setOutlinePreviewEnabled: (enabled: boolean) => void;
 
   // Custom audio provider actions
   addCustomTTSProvider: (
@@ -640,6 +644,9 @@ export const useSettingsStore = create<SettingsState>()(
         ttsEnabled: true,
         asrEnabled: true,
 
+        // Outline preview (off by default)
+        outlinePreviewEnabled: false,
+
         autoConfigApplied: false,
 
         // Web Search settings (use defaults)
@@ -805,6 +812,7 @@ export const useSettingsStore = create<SettingsState>()(
         },
         setTTSEnabled: (enabled) => set({ ttsEnabled: enabled }),
         setASREnabled: (enabled) => set({ asrEnabled: enabled }),
+        setOutlinePreviewEnabled: (enabled) => set({ outlinePreviewEnabled: enabled }),
 
         // Custom audio provider actions
         addCustomTTSProvider: (id, name, baseUrl, requiresApiKey, defaultModel) =>
@@ -1443,6 +1451,11 @@ export const useSettingsStore = create<SettingsState>()(
         }
         if ((state as Record<string, unknown>).asrEnabled === undefined) {
           (state as Record<string, unknown>).asrEnabled = true;
+        }
+
+        // Add outline preview toggle if missing (default: false)
+        if ((state as Record<string, unknown>).outlinePreviewEnabled === undefined) {
+          (state as Record<string, unknown>).outlinePreviewEnabled = false;
         }
 
         // Existing users already have their config set up — mark auto-config as done

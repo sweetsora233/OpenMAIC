@@ -486,6 +486,20 @@ function GenerationPreviewContent() {
 
         // Brief pause to let user see the final outline state
         await new Promise((resolve) => setTimeout(resolve, 800));
+
+        // Check if outline preview is enabled
+        const previewSettings = useSettingsStore.getState();
+        if (previewSettings.outlinePreviewEnabled) {
+          // Store outlines and redirect to outline-preview page
+          sessionStorage.setItem('outlinePreviewOutlines', JSON.stringify(outlines));
+          sessionStorage.setItem('outlinePreviewSession', JSON.stringify({
+            ...currentSession,
+            sceneOutlines: outlines,
+            languageDirective,
+          }));
+          router.push('/outline-preview');
+          return; // Exit generation flow, will resume from outline-preview
+        }
       }
 
       // ── Agent generation (after outlines — uses languageDirective + outlines) ──
