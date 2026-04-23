@@ -54,6 +54,38 @@ import { useDraftCache } from '@/lib/hooks/use-draft-cache';
 import { SpeechButton } from '@/components/audio/speech-button';
 import { useImportClassroom } from '@/lib/import/use-import-classroom';
 
+// ─── Personality Presets ─────────────────────────────────────────────────────
+const PERSONALITY_PRESETS = [
+  {
+    id: 'systematic',
+    emoji: '🎯',
+    labelKey: 'profile.presetSystematic',
+    bioKey: 'profile.presetSystematicBio',
+    gradient: 'bg-gradient-to-br from-indigo-500 to-purple-600',
+  },
+  {
+    id: 'practical',
+    emoji: '🔧',
+    labelKey: 'profile.presetPractical',
+    bioKey: 'profile.presetPracticalBio',
+    gradient: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+  },
+  {
+    id: 'explorer',
+    emoji: '🌊',
+    labelKey: 'profile.presetExplorer',
+    bioKey: 'profile.presetExplorerBio',
+    gradient: 'bg-gradient-to-br from-violet-500 to-fuchsia-600',
+  },
+  {
+    id: 'deep',
+    emoji: '🔍',
+    labelKey: 'profile.presetDeep',
+    bioKey: 'profile.presetDeepBio',
+    gradient: 'bg-gradient-to-br from-orange-500 to-amber-600',
+  },
+] as const;
+
 const log = createLogger('Home');
 
 const WEB_SEARCH_STORAGE_KEY = 'webSearchEnabled';
@@ -757,6 +789,7 @@ function GreetingBar() {
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState('');
   const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
+  const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -1003,6 +1036,47 @@ function GreetingBar() {
                     </motion.div>
                   )}
                 </AnimatePresence>
+
+                {/* Personality Presets */}
+                <div className="py-2">
+                  <div className="text-[11px] text-muted-foreground/70 mb-1.5">
+                    {t('profile.personalityPresets')}
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {PERSONALITY_PRESETS.map((preset) => (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedPreset(preset.id);
+                          setBio(t(preset.bioKey));
+                        }}
+                        className={cn(
+                          'relative rounded-lg p-2 text-left transition-all cursor-pointer',
+                          preset.gradient,
+                          selectedPreset === preset.id
+                            ? 'ring-2 ring-white/80 scale-[1.02]'
+                            : 'hover:scale-[1.01] hover:ring-1 ring-white/40'
+                        )}
+                      >
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <span className="text-sm">{preset.emoji}</span>
+                          <span className="text-[11px] font-medium text-white">
+                            {t(preset.labelKey)}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-white/70 line-clamp-2">
+                          {t(preset.bioKey)}
+                        </p>
+                        {selectedPreset === preset.id && (
+                          <div className="absolute top-1 right-1 size-4 rounded-full bg-white flex items-center justify-center">
+                            <Check className="size-2.5 text-violet-600" />
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Bio */}
                 <UITextarea

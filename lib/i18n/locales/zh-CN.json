@@ -902,7 +902,16 @@
     "avatarHint": "你的头像将显示在课堂讨论和对话中",
     "fileTooLarge": "图片过大，请选择小于 5MB 的图片",
     "invalidFileType": "请选择图片文件",
-    "editTooltip": "点击编辑个人资料"
+    "editTooltip": "点击编辑个人资料",
+    "personalityPresets": "选择学习风格",
+    "presetSystematic": "系统学习者",
+    "presetSystematicBio": "喜欢系统化学习，追求完整的知识体系",
+    "presetPractical": "实践学习者",
+    "presetPracticalBio": "注重实践应用，在动手验证中深化理解",
+    "presetExplorer": "探索学习者",
+    "presetExplorerBio": "好奇心驱动，喜欢探索新领域和跨学科知识",
+    "presetDeep": "深度学习者",
+    "presetDeepBio": "喜欢深入钻研，追问本质和底层原理"
   },
   "media": {
     "imageCapability": "图像生成",

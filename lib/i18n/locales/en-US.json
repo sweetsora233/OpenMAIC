@@ -902,7 +902,16 @@
     "avatarHint": "Your avatar will appear in classroom discussions and chats",
     "fileTooLarge": "Image too large — please choose one under 5 MB",
     "invalidFileType": "Please select an image file",
-    "editTooltip": "Click to edit profile"
+    "editTooltip": "Click to edit profile",
+    "personalityPresets": "Select learning style",
+    "presetSystematic": "Systematic Learner",
+    "presetSystematicBio": "Prefers structured learning and complete knowledge systems",
+    "presetPractical": "Practical Learner",
+    "presetPracticalBio": "Focuses on hands-on application and verification",
+    "presetExplorer": "Explorer Learner",
+    "presetExplorerBio": "Driven by curiosity, loves exploring new fields",
+    "presetDeep": "Deep Learner",
+    "presetDeepBio": "Digs deep, seeks fundamentals and underlying principles"
   },
   "media": {
     "imageCapability": "Image Generation",
