@@ -101,6 +101,9 @@ function GenerationPreviewContent() {
       'x-api-key': modelConfig.apiKey,
       'x-base-url': modelConfig.baseUrl,
       'x-provider-type': modelConfig.providerType || '',
+      // User-configured window sizes
+      'x-output-window': modelConfig.outputWindow ? String(modelConfig.outputWindow) : '',
+      'x-context-window': modelConfig.contextWindow ? String(modelConfig.contextWindow) : '',
       // Image generation provider
       'x-image-provider': settings.imageProviderId || '',
       'x-image-model': settings.imageModelId || '',

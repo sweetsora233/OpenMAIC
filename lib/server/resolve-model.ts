@@ -64,15 +64,35 @@ export async function resolveModel(params: {
 /**
  * Resolve a language model from standard request headers.
  *
- * Reads: x-model, x-api-key, x-base-url, x-provider-type
+ * Reads: x-model, x-api-key, x-base-url, x-provider-type, x-output-window, x-context-window
  * Note: requiresApiKey is derived server-side from the provider registry,
  * never from client headers, to prevent auth bypass.
  */
 export async function resolveModelFromHeaders(req: NextRequest): Promise<ResolvedModel> {
-  return resolveModel({
+  const result = await resolveModel({
     modelString: req.headers.get('x-model') || undefined,
     apiKey: req.headers.get('x-api-key') || undefined,
     baseUrl: req.headers.get('x-base-url') || undefined,
     providerType: req.headers.get('x-provider-type') || undefined,
   });
+
+  // Override outputWindow if client sent custom value (user setting from frontend)
+  const clientOutputWindow = req.headers.get('x-output-window');
+  if (clientOutputWindow) {
+    const parsed = parseInt(clientOutputWindow, 10);
+    if (parsed > 0 && result.modelInfo) {
+      result.modelInfo.outputWindow = parsed;
+    }
+  }
+
+  // Override contextWindow if client sent custom value
+  const clientContextWindow = req.headers.get('x-context-window');
+  if (clientContextWindow) {
+    const parsed = parseInt(clientContextWindow, 10);
+    if (parsed > 0 && result.modelInfo) {
+      result.modelInfo.contextWindow = parsed;
+    }
+  }
+
+  return result;
 }
