@@ -42,6 +42,9 @@ function getApiHeaders(): HeadersInit {
     'x-api-key': config.apiKey || '',
     'x-base-url': config.baseUrl || '',
     'x-provider-type': config.providerType || '',
+    // User-configured window sizes (override server defaults)
+    'x-output-window': config.outputWindow ? String(config.outputWindow) : '',
+    'x-context-window': config.contextWindow ? String(config.contextWindow) : '',
     // Image generation provider
     'x-image-provider': settings.imageProviderId || '',
     'x-image-model': settings.imageModelId || '',
