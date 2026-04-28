@@ -42,20 +42,26 @@ import type { WidgetType } from '@/lib/types/widgets';
 import { nanoid } from 'nanoid';
 
 // Scene type icons
-const TYPE_ICONS = {
+const TYPE_ICONS: Record<string, typeof FileText> = {
   slide: FileText,
   quiz: HelpCircle,
   interactive: Puzzle,
   pbl: Briefcase,
 };
 
+// Default icon for unknown types
+const DEFAULT_ICON = FileText;
+
 // Scene type colors
-const TYPE_COLORS = {
+const TYPE_COLORS: Record<string, string> = {
   slide: 'bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800',
   quiz: 'bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800',
   interactive: 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800',
   pbl: 'bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800',
 };
+
+// Default color for unknown types
+const DEFAULT_COLOR = 'bg-gray-50 dark:bg-gray-950/30 border-gray-200 dark:border-gray-800';
 
 // Widget type options for interactive
 const WIDGET_TYPES: { id: WidgetType; label: string }[] = [
@@ -109,7 +115,7 @@ export function OutlineCard({
   const [newSkill, setNewSkill] = useState('');
   const [lightboxImage, setLightboxImage] = useState<PdfImage | null>(null);
 
-  const TypeIcon = TYPE_ICONS[outline.type];
+  const TypeIcon = TYPE_ICONS[outline.type] ?? DEFAULT_ICON;
 
   // Handle type change - clear incompatible fields
   const handleTypeChange = (newType: SceneOutline['type']) => {
@@ -230,7 +236,7 @@ export function OutlineCard({
       layout
       className={cn(
         'rounded-xl border bg-white dark:bg-slate-800 shadow-sm hover:shadow-md transition-shadow',
-        TYPE_COLORS[outline.type]
+        TYPE_COLORS[outline.type] ?? DEFAULT_COLOR
       )}
     >
       {/* Header: drag handle + type + title + expand */}
