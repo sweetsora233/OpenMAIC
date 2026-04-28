@@ -48,7 +48,12 @@ const LLM_ENV_MAP: Record<string, string> = {
   GLM: 'glm',
   SILICONFLOW: 'siliconflow',
   DOUBAO: 'doubao',
+  OPENROUTER: 'openrouter',
   GROK: 'grok',
+  TENCENT: 'tencent-hunyuan',
+  TENCENT_HUNYUAN: 'tencent-hunyuan',
+  XIAOMI: 'xiaomi',
+  MIMO: 'xiaomi',
   OLLAMA: 'ollama',
 };
 
@@ -57,6 +62,7 @@ const TTS_ENV_MAP: Record<string, string> = {
   TTS_AZURE: 'azure-tts',
   TTS_GLM: 'glm-tts',
   TTS_QWEN: 'qwen-tts',
+  TTS_VOXCPM: 'voxcpm-tts',
   TTS_DOUBAO: 'doubao-tts',
   TTS_ELEVENLABS: 'elevenlabs-tts',
   TTS_MINIMAX: 'minimax-tts',
@@ -74,6 +80,7 @@ const PDF_ENV_MAP: Record<string, string> = {
 };
 
 const IMAGE_ENV_MAP: Record<string, string> = {
+  IMAGE_OPENAI: 'openai-image',
   IMAGE_SEEDREAM: 'seedream',
   IMAGE_QWEN_IMAGE: 'qwen-image',
   IMAGE_NANO_BANANA: 'nano-banana',
@@ -205,7 +212,9 @@ function buildConfig(yamlData: YamlData): ServerConfig {
     providers: loadEnvSection(LLM_ENV_MAP, yamlData.providers, {
       keylessProviders: new Set(['ollama']),
     }),
-    tts: loadEnvSection(TTS_ENV_MAP, yamlData.tts),
+    tts: loadEnvSection(TTS_ENV_MAP, yamlData.tts, {
+      keylessProviders: new Set(['voxcpm-tts']),
+    }),
     asr: loadEnvSection(ASR_ENV_MAP, yamlData.asr),
     pdf: loadEnvSection(PDF_ENV_MAP, yamlData.pdf, { requiresBaseUrl: true }),
     image: loadEnvSection(IMAGE_ENV_MAP, yamlData.image),
@@ -351,11 +360,12 @@ export function resolvePDFBaseUrl(providerId: string, clientBaseUrl?: string): s
 // Public API — Image Generation
 // ---------------------------------------------------------------------------
 
-export function getServerImageProviders(): Record<string, Record<string, never>> {
+export function getServerImageProviders(): Record<string, { baseUrl?: string }> {
   const cfg = getConfig();
-  const result: Record<string, Record<string, never>> = {};
-  for (const id of Object.keys(cfg.image)) {
+  const result: Record<string, { baseUrl?: string }> = {};
+  for (const [id, entry] of Object.entries(cfg.image)) {
     result[id] = {};
+    if (entry.baseUrl) result[id].baseUrl = entry.baseUrl;
   }
   return result;
 }
@@ -377,11 +387,12 @@ export function resolveImageBaseUrl(
 // Public API — Video Generation
 // ---------------------------------------------------------------------------
 
-export function getServerVideoProviders(): Record<string, Record<string, never>> {
+export function getServerVideoProviders(): Record<string, { baseUrl?: string }> {
   const cfg = getConfig();
-  const result: Record<string, Record<string, never>> = {};
-  for (const id of Object.keys(cfg.video)) {
+  const result: Record<string, { baseUrl?: string }> = {};
+  for (const [id, entry] of Object.entries(cfg.video)) {
     result[id] = {};
+    if (entry.baseUrl) result[id].baseUrl = entry.baseUrl;
   }
   return result;
 }

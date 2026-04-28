@@ -1,15 +1,25 @@
 import { useSettingsStore } from '@/lib/store/settings';
 import { getModelInfo } from '@/lib/ai/providers';
+import {
+  getThinkingConfigKey,
+  normalizeThinkingConfig,
+  supportsConfigurableThinking,
+} from '@/lib/ai/thinking-config';
 
 /**
  * Get current model configuration from settings store
  */
 export function getCurrentModelConfig() {
-  const { providerId, modelId, providersConfig } = useSettingsStore.getState();
+  const { providerId, modelId, providersConfig, thinkingConfigs } = useSettingsStore.getState();
   const modelString = `${providerId}:${modelId}`;
 
   // Get current provider's config
   const providerConfig = providersConfig[providerId];
+  const modelInfo = providerConfig?.models.find((model) => model.id === modelId);
+  const thinking = modelInfo?.capabilities?.thinking;
+  const thinkingConfig = supportsConfigurableThinking(thinking)
+    ? normalizeThinkingConfig(thinking, thinkingConfigs[getThinkingConfigKey(providerId, modelId)])
+    : undefined;
 
   // Get custom model config from user settings (may override outputWindow/contextWindow)
   const customModelConfig = providerConfig?.models?.find((m) => m.id === modelId);
@@ -32,5 +42,6 @@ export function getCurrentModelConfig() {
     isServerConfigured: providerConfig?.isServerConfigured,
     outputWindow,
     contextWindow,
+    thinkingConfig,
   };
 }
