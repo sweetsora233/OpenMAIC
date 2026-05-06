@@ -358,7 +358,13 @@
     "outlineGenerateFailed": "فشل توليد المخطط، يرجى المحاولة لاحقًا",
     "webSearching": "بحث في الإنترنت",
     "webSearchingDesc": "جارٍ البحث في الإنترنت عن معلومات محدّثة",
-    "webSearchFailed": "فشل البحث في الإنترنت"
+    "webSearchFailed": "فشل البحث في الإنترنت",
+    "regenerateScene": "إعادة التوليد",
+    "regenerateSceneDesc": "صف مشاكل الصفحة الحالية، سيقوم AI بتحسينها بناءً على ملاحظاتك",
+    "describeIssue": "وصف المشكلة",
+    "feedbackPlaceholder": "مثال: الأزرار لا تستجيب عند النقر، أو الرسوم المتحركة سريعة جدًا...",
+    "quickFeedback": "ملاحظة سريعة",
+    "regenerating": "جارٍ إعادة التوليد..."
   },
   "settings": {
     "title": "الإعدادات",
