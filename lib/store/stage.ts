@@ -65,6 +65,9 @@ interface StageState {
   currentGeneratingOrder: number;
   failedOutlines: SceneOutline[];
 
+  // Per-scene regeneration state (not persisted)
+  regeneratingSceneId: string | null;
+
   // Actions
   setStage: (stage: Stage) => void;
   setScenes: (scenes: Scene[]) => void;
@@ -83,6 +86,7 @@ interface StageState {
   addFailedOutline: (outline: SceneOutline) => void;
   clearFailedOutlines: () => void;
   retryFailedOutline: (outlineId: string) => void;
+  setRegeneratingSceneId: (sceneId: string | null) => void;
 
   // Getters
   getCurrentScene: () => Scene | null;
@@ -109,6 +113,7 @@ const useStageStoreBase = create<StageState>()((set, get) => ({
   generationStatus: 'idle' as const,
   currentGeneratingOrder: -1,
   failedOutlines: [],
+  regeneratingSceneId: null,
 
   // Actions
   setStage: (stage) => {
@@ -231,6 +236,8 @@ const useStageStoreBase = create<StageState>()((set, get) => ({
     });
   },
 
+  setRegeneratingSceneId: (sceneId) => set({ regeneratingSceneId: sceneId }),
+
   // Getters
   getCurrentScene: () => {
     const { scenes, currentSceneId } = get();
@@ -317,6 +324,7 @@ const useStageStoreBase = create<StageState>()((set, get) => ({
       currentGeneratingOrder: -1,
       failedOutlines: [],
       generatingOutlines: [],
+      regeneratingSceneId: null,
     }));
     log.info('Store cleared');
   },

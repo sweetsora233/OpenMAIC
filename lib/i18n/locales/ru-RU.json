@@ -358,7 +358,13 @@
     "outlineGenerateFailed": "Ошибка генерации структуры, попробуйте позже",
     "webSearching": "Поиск в интернете",
     "webSearchingDesc": "Поиск актуальной информации в сети",
-    "webSearchFailed": "Ошибка веб-поиска"
+    "webSearchFailed": "Ошибка веб-поиска",
+    "regenerateScene": "Регенерировать",
+    "regenerateSceneDesc": "Опишите проблемы с текущей страницей, AI улучшит её на основе вашего отзыва",
+    "describeIssue": "Описание проблемы",
+    "feedbackPlaceholder": "Например: кнопки не реагируют на нажатие или анимация слишком быстрая...",
+    "quickFeedback": "Быстрый отзыв",
+    "regenerating": "Регенерация..."
   },
   "settings": {
     "title": "Настройки",

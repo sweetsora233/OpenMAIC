@@ -364,7 +364,13 @@
     "outlineGenerateFailed": "Outline generation failed, please try again later",
     "webSearching": "Web Search",
     "webSearchingDesc": "Searching the web for up-to-date information",
-    "webSearchFailed": "Web search failed"
+    "webSearchFailed": "Web search failed",
+    "regenerateScene": "Regenerate",
+    "regenerateSceneDesc": "Describe issues with the current page, AI will improve it based on your feedback",
+    "describeIssue": "Describe the issue",
+    "feedbackPlaceholder": "E.g., buttons don't respond when clicked, or animation is too fast to see...",
+    "quickFeedback": "Quick feedback",
+    "regenerating": "Regenerating..."
   },
   "settings": {
     "title": "Settings",

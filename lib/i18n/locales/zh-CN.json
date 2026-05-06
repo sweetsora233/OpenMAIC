@@ -364,7 +364,13 @@
     "outlineGenerateFailed": "大纲生成失败，请稍后重试",
     "webSearching": "网络搜索",
     "webSearchingDesc": "正在搜索网络获取最新资料",
-    "webSearchFailed": "网络搜索失败"
+    "webSearchFailed": "网络搜索失败",
+    "regenerateScene": "重新生成",
+    "regenerateSceneDesc": "描述您对当前页面的问题，AI会根据您的反馈进行优化改进",
+    "describeIssue": "描述问题",
+    "feedbackPlaceholder": "例如：按钮点击后没有反应，或者动画效果太快看不清...",
+    "quickFeedback": "快捷反馈",
+    "regenerating": "正在重新生成..."
   },
   "settings": {
     "title": "设置",
