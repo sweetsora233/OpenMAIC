@@ -400,6 +400,7 @@ function GenerationPreviewContent() {
                 pdfImages: currentSession.pdfImages,
                 imageMapping,
                 researchContext: currentSession.researchContext,
+                githubProjects: currentSession.githubProjectsText,
               }),
             ),
             signal,

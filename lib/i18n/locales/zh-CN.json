@@ -18,6 +18,8 @@
     "webSearchDesc": "生成前搜索网络获取最新资料，让内容更丰富准确",
     "webSearchProvider": "搜索引擎",
     "webSearchNoProvider": "请在设置中配置搜索引擎 API Key",
+    "githubSearchOn": "GitHub搜索已开启",
+    "githubSearchOff": "点击开启GitHub搜索",
     "selectProvider": "选择模型服务商",
     "configureProvider": "配置模型",
     "configureProviderHint": "请先配置至少一个模型服务商才能生成课程",

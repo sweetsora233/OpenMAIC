@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useMemo } from 'react';
-import { Bot, Brain, Check, Paperclip, FileText, X, Globe2, Search } from 'lucide-react';
+import { Bot, Brain, Check, Paperclip, FileText, X, Globe2, Search, Github } from 'lucide-react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
   Select,
@@ -44,6 +44,8 @@ const MAX_PDF_SIZE_BYTES = MAX_PDF_SIZE_MB * 1024 * 1024;
 export interface GenerationToolbarProps {
   webSearch: boolean;
   onWebSearchChange: (v: boolean) => void;
+  githubSearch: boolean;
+  onGithubSearchChange: (v: boolean) => void;
   onSettingsOpen: (section?: SettingsSection) => void;
   // PDF
   pdfFile: File | null;
@@ -55,6 +57,8 @@ export interface GenerationToolbarProps {
 export function GenerationToolbar({
   webSearch,
   onWebSearchChange,
+  githubSearch,
+  onGithubSearchChange,
   onSettingsOpen,
   pdfFile,
   onPdfFileChange,
@@ -385,6 +389,22 @@ export function GenerationToolbar({
             <TooltipContent>{t('toolbar.webSearchNoProvider')}</TooltipContent>
           </Tooltip>
         )}
+
+        {/* ── GitHub Search ── */}
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              onClick={() => onGithubSearchChange(!githubSearch)}
+              className={githubSearch ? pillActive : pillMuted}
+            >
+              <Github className="size-3.5" />
+              {githubSearch && <span>GitHub</span>}
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            {githubSearch ? t('toolbar.githubSearchOn') : t('toolbar.githubSearchOff')}
+          </TooltipContent>
+        </Tooltip>
 
         {/* ── Separator ── */}
         <div className="w-px h-4 bg-border/60 mx-1" />

@@ -145,12 +145,13 @@ export async function POST(req: NextRequest) {
       return apiError('MISSING_REQUIRED_FIELD', 400, 'Requirements are required');
     }
 
-    const { requirements, pdfText, pdfImages, imageMapping, researchContext, agents } = body as {
+    const { requirements, pdfText, pdfImages, imageMapping, researchContext, githubProjects, agents } = body as {
       requirements: UserRequirements;
       pdfText?: string;
       pdfImages?: PdfImage[];
       imageMapping?: ImageMapping;
       researchContext?: string;
+      githubProjects?: string;
       agents?: AgentInfo[];
     };
     requirementSnippet = requirements?.requirement?.substring(0, 60);
@@ -214,6 +215,7 @@ export async function POST(req: NextRequest) {
       pdfContent: pdfText ? pdfText.substring(0, MAX_PDF_CONTENT_CHARS) : 'None',
       availableImages: availableImagesText,
       researchContext: researchContext || 'None',
+      githubProjects: githubProjects || 'None',
       hasSourceImages,
       imageEnabled: imageGenerationEnabled,
       videoEnabled: videoGenerationEnabled,

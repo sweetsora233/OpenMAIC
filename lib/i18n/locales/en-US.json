@@ -18,6 +18,8 @@
     "webSearchDesc": "Search the web for up-to-date information before generation",
     "webSearchProvider": "Search engine",
     "webSearchNoProvider": "Configure search API key in Settings",
+    "githubSearchOn": "GitHub search enabled",
+    "githubSearchOff": "Click to enable GitHub search",
     "selectProvider": "Select provider",
     "configureProvider": "Set up model",
     "configureProviderHint": "Configure at least one model provider to generate courses",

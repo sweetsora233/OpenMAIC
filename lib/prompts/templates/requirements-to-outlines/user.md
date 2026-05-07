@@ -33,6 +33,10 @@ Infer the course language directive by applying the decision rules from the syst
 
 {{researchContext}}
 
+### GitHub Open Source Projects
+
+{{githubProjects}}
+
 {{teacherContext}}
 
 ---
@@ -74,6 +78,61 @@ Never return a bare array. Never omit `languageDirective`. Both keys are require
 ```
 
 ### Special Notes
+
+- **First scene: Knowledge Context (知识体系定位)**:
+  The first scene should be a "knowledge context" slide that shows where this topic sits in the broader knowledge hierarchy.
+  
+  Include:
+  - Topic position in knowledge tree (e.g., "Linked List → Data Structures → Computer Science")
+  - Prerequisites (what students need to know first)
+  - Follow-up topics (what students can learn after)
+  - Real-world applications
+  
+  Example:
+  ```json
+  {
+    "id": "scene_1",
+    "type": "slide",
+    "title": "知识体系定位：链表",
+    "description": "链表在数据结构体系中的位置及学习路径",
+    "keyPoints": [
+      "链表属于线性数据结构",
+      "前置知识：指针、内存管理基础",
+      "后续学习：栈、队列、树结构",
+      "应用场景：操作系统进程管理、数据库索引"
+    ],
+    "order": 1
+  }
+  ```
+  
+  If you cannot determine the knowledge hierarchy (e.g., topic is too specific or obscure), skip this and start with normal course content.
+
+- **Second scene: Open Source Projects (开源项目推荐)** (if GitHub projects are provided):
+  If the user provided GitHub open source projects, the second scene should showcase these projects.
+  
+  Include:
+  - Project names and links
+  - Brief description of each project
+  - How each project relates to the topic
+  - Recommended learning path
+  
+  Example:
+  ```json
+  {
+    "id": "scene_2",
+    "type": "slide",
+    "title": "开源项目推荐",
+    "description": "以下开源项目可以帮助你实践链表",
+    "keyPoints": [
+      "Linux kernel - 专业的链表实现（C语言）",
+      "Redis - 链表在实际系统中的应用",
+      "建议学习路径：先看 Linux kernel 的简单实现，再研究 Redis 的应用场景"
+    ],
+    "order": 2
+  }
+  ```
+  
+  If no GitHub projects are provided, skip this and continue with normal course content.
 
 - **quiz scenes must include quizConfig**:
    ```json

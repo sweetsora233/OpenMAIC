@@ -99,6 +99,7 @@ interface FormState {
   pdfFile: File | null;
   requirement: string;
   webSearch: boolean;
+  githubSearch: boolean;
   interactiveMode: boolean;
 }
 
@@ -106,6 +107,7 @@ const initialFormState: FormState = {
   pdfFile: null,
   requirement: '',
   webSearch: false,
+  githubSearch: false,
   interactiveMode: false,
 };
 
@@ -353,6 +355,27 @@ function HomePage() {
         }
       }
 
+      // GitHub search if enabled
+      let githubProjectsText: string | undefined;
+      if (form.githubSearch) {
+        try {
+          const analyzeRes = await fetch('/api/analyze-knowledge-point', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ requirement: form.requirement }),
+          });
+          if (analyzeRes.ok) {
+            const analyzeData = await analyzeRes.json();
+            if (analyzeData.success && analyzeData.githubProjectsText) {
+              githubProjectsText = analyzeData.githubProjectsText;
+              log.info('GitHub search results:', analyzeData.githubProjects?.length || 0, 'projects');
+            }
+          }
+        } catch (err) {
+          log.warn('GitHub search failed, continuing without:', err);
+        }
+      }
+
       const sessionState = {
         sessionId: nanoid(),
         requirements,
@@ -364,6 +387,7 @@ function HomePage() {
         pdfProviderId,
         pdfProviderConfig,
         sceneOutlines: null,
+        githubProjectsText,
         currentStep: 'generating' as const,
       };
       sessionStorage.setItem('generationSession', JSON.stringify(sessionState));
@@ -576,6 +600,8 @@ function HomePage() {
                 <GenerationToolbar
                   webSearch={form.webSearch}
                   onWebSearchChange={(v) => updateForm('webSearch', v)}
+                  githubSearch={form.githubSearch}
+                  onGithubSearchChange={(v) => updateForm('githubSearch', v)}
                   onSettingsOpen={(section) => {
                     setSettingsSection(section);
                     setSettingsOpen(true);

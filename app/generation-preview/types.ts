@@ -25,6 +25,8 @@ export interface GenerationSessionState {
   // Web search context
   researchContext?: string;
   researchSources?: Array<{ title: string; url: string }>;
+  // GitHub projects context
+  githubProjectsText?: string;
   // Language directive inferred from outline generation
   languageDirective?: string;
 }
