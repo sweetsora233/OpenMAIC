@@ -1,0 +1,9 @@
+[
+  {
+    "id": "data-structures",
+    "name": "数据结构与算法",
+    "description": "计算机科学核心基础，学习数据的组织、存储和操作方式",
+    "icon": "database",
+    "nodeCount": 16
+  }
+]

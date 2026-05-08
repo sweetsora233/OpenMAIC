@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowUp,
@@ -24,6 +25,7 @@ import {
   Atom,
   Eye,
   X,
+  Network,
 } from 'lucide-react';
 import { useI18n } from '@/lib/hooks/use-i18n';
 import { LanguageSwitcher } from '@/components/language-switcher';
@@ -476,6 +478,15 @@ function HomePage() {
         </div>
 
         <div className="w-[1px] h-4 bg-gray-200 dark:bg-gray-700" />
+
+        {/* Knowledge Graph Link */}
+        <Link
+          href="/knowledge-graph"
+          className="p-2 rounded-full text-gray-400 dark:text-gray-500 hover:bg-white dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-gray-200 hover:shadow-sm transition-all"
+          title="知识图谱"
+        >
+          <Network className="w-4 h-4" />
+        </Link>
 
         {/* Settings Button */}
         <div className="relative">
