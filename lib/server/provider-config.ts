@@ -363,12 +363,13 @@ export function resolvePDFBaseUrl(providerId: string, clientBaseUrl?: string): s
 // Public API — Image Generation
 // ---------------------------------------------------------------------------
 
-export function getServerImageProviders(): Record<string, { baseUrl?: string }> {
+export function getServerImageProviders(): Record<string, { baseUrl?: string; models?: string[] }> {
   const cfg = getConfig();
-  const result: Record<string, { baseUrl?: string }> = {};
+  const result: Record<string, { baseUrl?: string; models?: string[] }> = {};
   for (const [id, entry] of Object.entries(cfg.image)) {
     result[id] = {};
     if (entry.baseUrl) result[id].baseUrl = entry.baseUrl;
+    if (entry.models && entry.models.length > 0) result[id].models = entry.models;
   }
   return result;
 }

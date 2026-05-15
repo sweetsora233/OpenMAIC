@@ -998,7 +998,7 @@ export const useSettingsStore = create<SettingsState>()(
               tts: Record<string, { baseUrl?: string }>;
               asr: Record<string, { baseUrl?: string }>;
               pdf: Record<string, { baseUrl?: string }>;
-              image: Record<string, { baseUrl?: string }>;
+              image: Record<string, { baseUrl?: string; models?: string[] }>;
               video: Record<string, { baseUrl?: string }>;
               webSearch: Record<string, { baseUrl?: string }>;
             };
@@ -1117,16 +1117,19 @@ export const useSettingsStore = create<SettingsState>()(
                     ...newImageConfig[key],
                     isServerConfigured: false,
                     serverBaseUrl: undefined,
+                    customModels: undefined,
                   };
                 }
               }
               for (const [pid, info] of Object.entries(data.image)) {
                 const key = pid as ImageProviderId;
                 if (newImageConfig[key]) {
+                  const serverModels = info.models?.map((id) => ({ id, name: id }));
                   newImageConfig[key] = {
                     ...newImageConfig[key],
                     isServerConfigured: true,
                     serverBaseUrl: info.baseUrl,
+                    customModels: serverModels,
                   };
                 }
               }
