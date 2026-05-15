@@ -1257,19 +1257,27 @@ export const useSettingsStore = create<SettingsState>()(
                 : '';
               const imageModels =
                 IMAGE_PROVIDERS[validImageProvider as ImageProviderId]?.models ?? [];
+              // Also include customModels from server config
+              const imageCustomModels =
+                newImageConfig[validImageProvider as ImageProviderId]?.customModels ?? [];
+              const allImageModels = [...imageModels, ...imageCustomModels];
               const validImageModel = validImageProvider
                 ? recoveredImageModel ||
-                  validateModel(state.imageModelId, imageModels) ||
+                  validateModel(state.imageModelId, allImageModels) ||
                   // validateModel('', ...) returns '' — fallback to first model when modelId is empty
-                  imageModels[0]?.id ||
+                  allImageModels[0]?.id ||
                   ''
                 : '';
               const videoModels =
                 VIDEO_PROVIDERS[validVideoProvider as VideoProviderId]?.models ?? [];
+              // Also include customModels from server config
+              const videoCustomModels =
+                newVideoConfig[validVideoProvider as VideoProviderId]?.customModels ?? [];
+              const allVideoModels = [...videoModels, ...videoCustomModels];
               const validVideoModel = validVideoProvider
                 ? recoveredVideoModel ||
-                  validateModel(state.videoModelId, videoModels) ||
-                  videoModels[0]?.id ||
+                  validateModel(state.videoModelId, allVideoModels) ||
+                  allVideoModels[0]?.id ||
                   ''
                 : '';
 
