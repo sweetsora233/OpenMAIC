@@ -20,7 +20,8 @@ export type BuiltInProviderId =
   | 'grok'
   | 'tencent-hunyuan'
   | 'xiaomi'
-  | 'ollama';
+  | 'ollama'
+  | 'aliyun_tp';
 
 /**
  * Provider ID (built-in or custom)

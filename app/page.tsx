@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
+import { useState, useEffect, useMemo, useRef, useDeferredValue, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
@@ -1452,5 +1452,9 @@ function ClassroomCard({
 }
 
 export default function Page() {
-  return <HomePage />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-zinc-950" />}>
+      <HomePage />
+    </Suspense>
+  );
 }

@@ -116,6 +116,14 @@ export const IMAGE_PROVIDERS: Record<ImageProviderId, ImageProviderConfig> = {
     ],
     supportedAspectRatios: ['16:9', '4:3', '1:1', '9:16'],
   },
+  'aliyun_tp-image': {
+    id: 'aliyun_tp-image',
+    name: '阿里云TokenPlan图片',
+    requiresApiKey: true,
+    defaultBaseUrl: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
+    models: [],
+    supportedAspectRatios: ['16:9', '4:3', '1:1', '9:16'],
+  },
 };
 
 export async function testImageConnectivity(
@@ -134,6 +142,8 @@ export async function testImageConnectivity(
       return testMiniMaxImageConnectivity(config);
     case 'grok-image':
       return testGrokImageConnectivity(config);
+    case 'aliyun_tp-image':
+      return testOpenAIImageConnectivity(config); // OpenAI-compatible
     default:
       return {
         success: false,
@@ -159,6 +169,8 @@ export async function generateImage(
       return generateWithMiniMaxImage(config, options);
     case 'grok-image':
       return generateWithGrokImage(config, options);
+    case 'aliyun_tp-image':
+      return generateWithOpenAIImage(config, options); // OpenAI-compatible
     default:
       throw new Error(`Unsupported image provider: ${config.providerId}`);
   }

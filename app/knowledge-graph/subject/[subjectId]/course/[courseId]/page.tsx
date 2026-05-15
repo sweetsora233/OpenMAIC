@@ -228,7 +228,7 @@ function CourseGraphContent({
   }, [courseData]);
 
   const handleGenerateCourse = () => {
-    if (!selectedNode) return;
+    if (!selectedNode || !courseData) return;
     const requirement = `【${courseData.name}】${selectedNode.label}\n\n请帮我学习「${courseData.name}」课程中的「${selectedNode.label}」知识点。${selectedNode.description || '掌握这个知识点的核心概念和应用'}。请生成一份完整的课程，包含概念讲解、实例演示和练习题。`;
     router.push(`/?requirement=${encodeURIComponent(requirement)}`);
     setSelectedNode(null);
