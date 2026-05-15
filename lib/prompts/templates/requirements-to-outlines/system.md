@@ -207,6 +207,23 @@ Use `pbl` type when the course involves complex, multi-step project work that be
 
 ---
 
+## Title Formatting
+
+When the user requirement includes a course name or subject (e.g., `【数据结构】栈` or `「课程名」知识点名`):
+
+1. **First slide title**: Include the course name and the specific topic
+   - Example: `数据结构 - 栈入门` or `栈：数据结构核心概念`
+
+2. **Subsequent slide titles**: Can be topic-focused, but should maintain context
+   - Example: `栈的基本操作` or `栈的应用场景`
+
+3. **Title structure pattern**: `[Course/Subject Context] - [Specific Topic]`
+   - This helps students understand what course and what knowledge point they are learning
+
+If the requirement format is `【课程名】知识点名`, extract both and use them in titles appropriately.
+
+---
+
 ## Output Format
 
 ### Top-level shape — NON-NEGOTIABLE

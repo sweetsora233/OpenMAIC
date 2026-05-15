@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import {
@@ -115,6 +115,7 @@ function HomePage() {
   const { t } = useI18n();
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [form, setForm] = useState<FormState>(initialFormState);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settingsSection, setSettingsSection] = useState<
@@ -162,6 +163,15 @@ function HomePage() {
     }
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
+
+  // Handle requirement from URL params (e.g., from knowledge graph)
+  useEffect(() => {
+    const requirementFromUrl = searchParams.get('requirement');
+    if (requirementFromUrl) {
+      setForm((prev) => ({ ...prev, requirement: requirementFromUrl }));
+      updateRequirementCache(requirementFromUrl);
+    }
+  }, [searchParams, updateRequirementCache]);
 
   // Restore requirement draft from cache (derived state pattern — no effect needed)
   const [prevCachedRequirement, setPrevCachedRequirement] = useState(cachedRequirement);
