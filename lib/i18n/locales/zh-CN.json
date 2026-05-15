@@ -910,6 +910,8 @@
     "providerNanoBanana": "Nano Banana（Gemini）",
     "providerMiniMaxImage": "MiniMax 图像",
     "providerGrokImage": "Grok Image（xAI）",
+    "providerAliyunTPImage": "阿里云TokenPlan图片",
+    "providerServerTTS": "服务器TTS",
     "testImageGeneration": "测试图像生成",
     "testImageConnectivity": "测试连接",
     "imageConnectivitySuccess": "图像服务连接成功",

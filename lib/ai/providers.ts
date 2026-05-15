@@ -980,6 +980,16 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
       },
     ],
   },
+
+  aliyun_tp: {
+    id: 'aliyun_tp',
+    name: '阿里云TokenPlan',
+    type: 'openai',
+    defaultBaseUrl: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
+    requiresApiKey: true,
+    icon: '/logos/aliyun.svg',
+    models: [],
+  },
 };
 
 applyModelMetadata(PROVIDERS);

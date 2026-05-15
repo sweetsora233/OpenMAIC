@@ -360,6 +360,7 @@ const getDefaultAudioConfig = () => ({
     'doubao-tts': { apiKey: '', baseUrl: '', enabled: false },
     'elevenlabs-tts': { apiKey: '', baseUrl: '', enabled: false },
     'minimax-tts': { apiKey: '', baseUrl: '', modelId: 'speech-2.8-hd', enabled: false },
+    'server-tts': { apiKey: '', baseUrl: '', enabled: true },
     'browser-native-tts': { apiKey: '', baseUrl: '', enabled: true },
   } as Record<
     TTSProviderId,
@@ -393,6 +394,7 @@ const getDefaultImageConfig = () => ({
     'nano-banana': { apiKey: '', baseUrl: '', enabled: false },
     'minimax-image': { apiKey: '', baseUrl: '', enabled: false },
     'grok-image': { apiKey: '', baseUrl: '', enabled: false },
+    'aliyun_tp-image': { apiKey: '', baseUrl: '', enabled: true },
   } as Record<ImageProviderId, { apiKey: string; baseUrl: string; enabled: boolean }>,
 });
 
@@ -996,7 +998,7 @@ export const useSettingsStore = create<SettingsState>()(
               tts: Record<string, { baseUrl?: string }>;
               asr: Record<string, { baseUrl?: string }>;
               pdf: Record<string, { baseUrl?: string }>;
-              image: Record<string, { baseUrl?: string }>;
+              image: Record<string, { baseUrl?: string; models?: string[] }>;
               video: Record<string, { baseUrl?: string }>;
               webSearch: Record<string, { baseUrl?: string }>;
             };
@@ -1115,16 +1117,19 @@ export const useSettingsStore = create<SettingsState>()(
                     ...newImageConfig[key],
                     isServerConfigured: false,
                     serverBaseUrl: undefined,
+                    customModels: undefined,
                   };
                 }
               }
               for (const [pid, info] of Object.entries(data.image)) {
                 const key = pid as ImageProviderId;
                 if (newImageConfig[key]) {
+                  const serverModels = info.models?.map((id) => ({ id, name: id }));
                   newImageConfig[key] = {
                     ...newImageConfig[key],
                     isServerConfigured: true,
                     serverBaseUrl: info.baseUrl,
+                    customModels: serverModels,
                   };
                 }
               }
@@ -1252,19 +1257,27 @@ export const useSettingsStore = create<SettingsState>()(
                 : '';
               const imageModels =
                 IMAGE_PROVIDERS[validImageProvider as ImageProviderId]?.models ?? [];
+              // Also include customModels from server config
+              const imageCustomModels =
+                newImageConfig[validImageProvider as ImageProviderId]?.customModels ?? [];
+              const allImageModels = [...imageModels, ...imageCustomModels];
               const validImageModel = validImageProvider
                 ? recoveredImageModel ||
-                  validateModel(state.imageModelId, imageModels) ||
+                  validateModel(state.imageModelId, allImageModels) ||
                   // validateModel('', ...) returns '' — fallback to first model when modelId is empty
-                  imageModels[0]?.id ||
+                  allImageModels[0]?.id ||
                   ''
                 : '';
               const videoModels =
                 VIDEO_PROVIDERS[validVideoProvider as VideoProviderId]?.models ?? [];
+              // Also include customModels from server config
+              const videoCustomModels =
+                newVideoConfig[validVideoProvider as VideoProviderId]?.customModels ?? [];
+              const allVideoModels = [...videoModels, ...videoCustomModels];
               const validVideoModel = validVideoProvider
                 ? recoveredVideoModel ||
-                  validateModel(state.videoModelId, videoModels) ||
-                  videoModels[0]?.id ||
+                  validateModel(state.videoModelId, allVideoModels) ||
+                  allVideoModels[0]?.id ||
                   ''
                 : '';
 
