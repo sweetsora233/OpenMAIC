@@ -123,6 +123,7 @@ export const IMAGE_PROVIDERS: Record<ImageProviderId, ImageProviderConfig> = {
     defaultBaseUrl: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
     models: [],
     supportedAspectRatios: ['16:9', '4:3', '1:1', '9:16'],
+    icon: '/logos/aliyun.svg',
   },
 };
 
