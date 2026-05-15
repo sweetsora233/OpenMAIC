@@ -21,6 +21,10 @@ import {
   testMiniMaxImageConnectivity,
 } from './adapters/minimax-image-adapter';
 import { generateWithGrokImage, testGrokImageConnectivity } from './adapters/grok-image-adapter';
+import {
+  generateWithTokenPlanImage,
+  testTokenPlanImageConnectivity,
+} from './adapters/token-plan-image-adapter';
 
 export const IMAGE_PROVIDERS: Record<ImageProviderId, ImageProviderConfig> = {
   seedream: {
@@ -144,7 +148,7 @@ export async function testImageConnectivity(
     case 'grok-image':
       return testGrokImageConnectivity(config);
     case 'aliyun_tp-image':
-      return testOpenAIImageConnectivity(config); // OpenAI-compatible
+      return testTokenPlanImageConnectivity(config);
     default:
       return {
         success: false,
@@ -171,7 +175,7 @@ export async function generateImage(
     case 'grok-image':
       return generateWithGrokImage(config, options);
     case 'aliyun_tp-image':
-      return generateWithOpenAIImage(config, options); // OpenAI-compatible
+      return generateWithTokenPlanImage(config, options);
     default:
       throw new Error(`Unsupported image provider: ${config.providerId}`);
   }
