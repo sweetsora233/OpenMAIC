@@ -1,0 +1,963 @@
+{
+  "id": "math-analysis-1",
+  "name": "工科数学分析（上）",
+  "description": "涵盖绪论、函数极限连续、一元函数微分学及其应用、一元函数积分学及其应用、微分方程等内容",
+  "metadata": {
+    "totalNodes": 87,
+    "totalEdges": 53,
+    "maxLevel": 2,
+    "version": "1.0",
+    "source": "工科数学分析课程知识图谱审核内容"
+  },
+  "nodes": [
+    {
+      "id": "module-绪论",
+      "label": "绪论",
+      "level": 1,
+      "description": "绪论模块"
+    },
+    {
+      "id": "module-函数-极限-连续",
+      "label": "函数、极限、连续",
+      "level": 1,
+      "description": "函数、极限、连续模块"
+    },
+    {
+      "id": "module-一元函数微分学及其应用",
+      "label": "一元函数微分学及其应用",
+      "level": 1,
+      "description": "一元函数微分学及其应用模块"
+    },
+    {
+      "id": "module-一元函数积分学及其应用",
+      "label": "一元函数积分学及其应用",
+      "level": 1,
+      "description": "一元函数积分学及其应用模块"
+    },
+    {
+      "id": "module-微分方程",
+      "label": "微分方程",
+      "level": 1,
+      "description": "微分方程模块"
+    },
+    {
+      "id": "重新认识数学学习",
+      "label": "重新认识数学学习",
+      "level": 2,
+      "description": "为什么学？学什么？怎么学？",
+      "module": "绪论",
+      "cognitiveGoal": "能阐述数学学习的意义与方法"
+    },
+    {
+      "id": "数学分析课程介绍",
+      "label": "数学分析课程介绍",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "课程学习说明书",
+      "label": "课程学习说明书",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "集合",
+      "label": "集合",
+      "level": 2,
+      "description": "结合（三要素）相关问题、区间和领域、重要不等式、逻辑量词、实数集的完备性与确界存在定理",
+      "module": "函数、极限、连续",
+      "cognitiveGoal": "能理解集合概念、实数集性质和确界概念"
+    },
+    {
+      "id": "映射与函数的定义",
+      "label": "映射与函数的定义",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的重要性质",
+      "label": "函数的重要性质",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的运算与类别",
+      "label": "函数的运算与类别",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "曲线的极坐标方程与参数方程",
+      "label": "曲线的极坐标方程与参数方程",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "数列的概念",
+      "label": "数列的概念",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "数列极限的定义",
+      "label": "数列极限的定义",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "收敛数列的性质",
+      "label": "收敛数列的性质",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "自变量趋于无穷大时函数的极限",
+      "label": "自变量趋于无穷大时函数的极限",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "自变量趋于有限值时函数的极限",
+      "label": "自变量趋于有限值时函数的极限",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数存在极限的性质",
+      "label": "函数存在极限的性质",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "极限的四则运算法则",
+      "label": "极限的四则运算法则",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "复合函数的极限运算法则",
+      "label": "复合函数的极限运算法则",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "极限存在准则I与第一个重要极限",
+      "label": "极限存在准则（I）与第一个重要极限",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "极限存在准则II与第二个重要极限",
+      "label": "极限存在准则（II）与第二个重要极限",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "极限存在准则III柯西收敛准则",
+      "label": "极限存在准则（III）柯西收敛准则",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "无穷小",
+      "label": "无穷小",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "无穷大",
+      "label": "无穷大",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "无穷小与无穷大的关系",
+      "label": "无穷小与无穷大的关系",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "无穷小的比较",
+      "label": "无穷小的比较",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数连续性的定义",
+      "label": "函数连续性的定义",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的间断点",
+      "label": "函数的间断点",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "连续函数的运算法则",
+      "label": "连续函数的运算法则",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "初等函数的连续性",
+      "label": "初等函数的连续性",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "闭区间上连续函数的性质",
+      "label": "闭区间上连续函数的性质",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "导数的定义",
+      "label": "导数的定义",
+      "level": 2,
+      "description": "导数的定义",
+      "module": "一元函数微分学及其应用",
+      "cognitiveGoal": "能掌握导数的概念及几何意义"
+    },
+    {
+      "id": "单侧导数",
+      "label": "单侧导数",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "导数的几何意义",
+      "label": "导数的几何意义",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的可导性与连续性的关系",
+      "label": "函数的可导性与连续性的关系",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的求导法则",
+      "label": "函数的求导法则",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "高阶导数",
+      "label": "高阶导数",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "隐函数和参数方程求导",
+      "label": "隐函数和参数方程求导",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "相关变化率",
+      "label": "相关变化率",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "微分的概念",
+      "label": "微分的概念",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "微分运算公式与法则",
+      "label": "微分运算公式与法则",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "高阶微分",
+      "label": "高阶微分",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "微分在近似计算中的应用",
+      "label": "微分在近似计算中的应用",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的极值及其性质",
+      "label": "函数的极值及其性质",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "罗尔中值定理",
+      "label": "罗尔中值定理",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "拉格朗日中值定理",
+      "label": "拉格朗日中值定理",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "柯西中值定理",
+      "label": "柯西中值定理",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "洛必达法则",
+      "label": "洛必达法则",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "带皮亚诺余项的泰勒定理",
+      "label": "带皮亚诺余项的泰勒定理",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "带拉格朗日余项的泰勒定理",
+      "label": "带拉格朗日余项的泰勒定理",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "几个初等函数的麦克劳林公式",
+      "label": "几个初等函数的麦克劳林公式",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "泰勒公式的应用",
+      "label": "泰勒公式的应用",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的单调性",
+      "label": "函数的单调性",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的极值",
+      "label": "函数的极值",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数的最值",
+      "label": "函数的最值",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "曲线的凹凸性",
+      "label": "曲线的凹凸性",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "曲线的渐近线",
+      "label": "曲线的渐近线",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "曲线的曲率",
+      "label": "曲线的曲率",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "函数图形的描绘",
+      "label": "函数图形的描绘",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "定积分的概念",
+      "label": "定积分的概念",
+      "level": 2,
+      "description": "定积分的定义、定积分的几何意义、函数的可积条件",
+      "module": "一元函数积分学及其应用",
+      "cognitiveGoal": "能了解定积分的Riemann定义、定积分存在的条件"
+    },
+    {
+      "id": "定积分的性质",
+      "label": "定积分的性质",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "原函数",
+      "label": "原函数",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "微积分基本定理",
+      "label": "微积分基本定理",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "微积分基本公式",
+      "label": "微积分基本公式",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "不定积分的概念",
+      "label": "不定积分的概念",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "不定积分的性质",
+      "label": "不定积分的性质",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "换元积分法",
+      "label": "换元积分法",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "分部积分法",
+      "label": "分部积分法",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "有理函数的积分",
+      "label": "有理函数的积分",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "可化为有理函数的积分举例",
+      "label": "可化为有理函数的积分举例",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "定积分的元素法",
+      "label": "定积分的元素法",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "平面图形的面积",
+      "label": "平面图形的面积",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "平面曲线的弧长",
+      "label": "平面曲线的弧长",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "立体图形的体积",
+      "label": "立体图形的体积",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "做功问题",
+      "label": "做功问题",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "作用力",
+      "label": "作用力",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "反常积分",
+      "label": "反常积分",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "反常积分的审敛法",
+      "label": "反常积分的审敛法",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "微分方程的基本概念",
+      "label": "微分方程的基本概念",
+      "level": 2,
+      "description": "微分方程的基本概念",
+      "module": "微分方程",
+      "cognitiveGoal": "能掌握微分方程的基本概念"
+    },
+    {
+      "id": "一阶微分方程",
+      "label": "一阶微分方程",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "可降阶的高阶微分方程",
+      "label": "可降阶的高阶微分方程",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "高阶线性微分方程解的结构",
+      "label": "高阶线性微分方程解的结构",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "常系数线性齐次微分方程",
+      "label": "常系数线性齐次微分方程",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "常系数线性非齐次微分方程",
+      "label": "常系数线性非齐次微分方程",
+      "level": 2,
+      "description": ""
+    },
+    {
+      "id": "欧拉方程",
+      "label": "*欧拉方程",
+      "level": 2,
+      "description": ""
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-module-重新认识数学学习",
+      "source": "module-绪论",
+      "target": "重新认识数学学习",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-集合",
+      "source": "module-函数-极限-连续",
+      "target": "集合",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-导数的定义",
+      "source": "module-一元函数微分学及其应用",
+      "target": "导数的定义",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-定积分的概念",
+      "source": "module-一元函数积分学及其应用",
+      "target": "定积分的概念",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-微分方程的基本概念",
+      "source": "module-微分方程",
+      "target": "微分方程的基本概念",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e1",
+      "source": "重新认识数学学习",
+      "target": "数学分析课程介绍",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e2",
+      "source": "数学分析课程介绍",
+      "target": "课程学习说明书",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e4",
+      "source": "映射与函数的定义",
+      "target": "集合",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e14",
+      "source": "函数的重要性质",
+      "target": "函数的运算与类别",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e15",
+      "source": "函数的运算与类别",
+      "target": "映射与函数的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e17",
+      "source": "曲线的极坐标方程与参数方程",
+      "target": "曲线的渐近线",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e23",
+      "source": "数列的概念",
+      "target": "映射与函数的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e25",
+      "source": "数列极限的定义",
+      "target": "收敛数列的性质",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e26",
+      "source": "收敛数列的性质",
+      "target": "数列的概念",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e34",
+      "source": "自变量趋于无穷大时函数的极限",
+      "target": "自变量趋于有限值时函数的极限",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e36",
+      "source": "自变量趋于有限值时函数的极限",
+      "target": "函数存在极限的性质",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e37",
+      "source": "极限的四则运算法则",
+      "target": "函数的运算与类别",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e42",
+      "source": "复合函数的极限运算法则",
+      "target": "函数的运算与类别",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e43",
+      "source": "极限存在准则I与第一个重要极限",
+      "target": "极限存在准则II与第二个重要极限",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e45",
+      "source": "极限存在准则II与第二个重要极限",
+      "target": "极限存在准则III柯西收敛准则",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e46",
+      "source": "无穷小",
+      "target": "无穷大",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e49",
+      "source": "无穷大",
+      "target": "无穷小与无穷大的关系",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e50",
+      "source": "函数连续性的定义",
+      "target": "函数的间断点",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e53",
+      "source": "连续函数的运算法则",
+      "target": "初等函数的连续性",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e54",
+      "source": "初等函数的连续性",
+      "target": "闭区间上连续函数的性质",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e55",
+      "source": "闭区间上连续函数的性质",
+      "target": "函数连续性的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e56",
+      "source": "导数的定义",
+      "target": "映射与函数的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e64",
+      "source": "函数的可导性与连续性的关系",
+      "target": "函数连续性的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e66",
+      "source": "函数的求导法则",
+      "target": "隐函数和参数方程求导",
+      "type": "related",
+      "label": "属种"
+    },
+    {
+      "id": "e68",
+      "source": "隐函数和参数方程求导",
+      "target": "函数的运算与类别",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e70",
+      "source": "相关变化率",
+      "target": "映射与函数的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e71",
+      "source": "微分的概念",
+      "target": "微分运算公式与法则",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e74",
+      "source": "高阶微分",
+      "target": "带皮亚诺余项的泰勒定理",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e76",
+      "source": "微分在近似计算中的应用",
+      "target": "函数的求导法则",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e77",
+      "source": "函数的极值及其性质",
+      "target": "导数的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e79",
+      "source": "罗尔中值定理",
+      "target": "拉格朗日中值定理",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e81",
+      "source": "拉格朗日中值定理",
+      "target": "柯西中值定理",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e82",
+      "source": "带皮亚诺余项的泰勒定理",
+      "target": "带拉格朗日余项的泰勒定理",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e84",
+      "source": "带拉格朗日余项的泰勒定理",
+      "target": "几个初等函数的麦克劳林公式",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e86",
+      "source": "函数的单调性",
+      "target": "函数的求导法则",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e89",
+      "source": "函数的极值",
+      "target": "函数的求导法则",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e91",
+      "source": "函数图形的描绘",
+      "target": "函数的单调性",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e95",
+      "source": "定积分的概念",
+      "target": "映射与函数的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e105",
+      "source": "原函数",
+      "target": "微积分基本定理",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e107",
+      "source": "不定积分的概念",
+      "target": "定积分的概念",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e112",
+      "source": "换元积分法",
+      "target": "分部积分法",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e113",
+      "source": "有理函数的积分",
+      "target": "可化为有理函数的积分举例",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e114",
+      "source": "平面图形的面积",
+      "target": "立体图形的体积",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e115",
+      "source": "平面曲线的弧长",
+      "target": "平面图形的面积",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e116",
+      "source": "做功问题",
+      "target": "作用力",
+      "type": "related",
+      "label": "类比"
+    },
+    {
+      "id": "e117",
+      "source": "反常积分",
+      "target": "反常积分的审敛法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e118",
+      "source": "微分方程的基本概念",
+      "target": "导数的定义",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e126",
+      "source": "常系数线性齐次微分方程",
+      "target": "常系数线性非齐次微分方程",
+      "type": "related",
+      "label": "类比"
+    }
+  ],
+  "modules": [
+    {
+      "id": "module-绪论",
+      "name": "绪论"
+    },
+    {
+      "id": "module-函数-极限-连续",
+      "name": "函数、极限、连续"
+    },
+    {
+      "id": "module-一元函数微分学及其应用",
+      "name": "一元函数微分学及其应用"
+    },
+    {
+      "id": "module-一元函数积分学及其应用",
+      "name": "一元函数积分学及其应用"
+    },
+    {
+      "id": "module-微分方程",
+      "name": "微分方程"
+    }
+  ],
+  "relationTypes": {
+    "contains": {
+      "label": "包含",
+      "description": "模块包含知识点",
+      "color": "#10b981"
+    },
+    "prerequisite": {
+      "label": "递进",
+      "description": "较前一知识，后一知识的程度或范围更进一层",
+      "color": "#3b82f6"
+    },
+    "depends": {
+      "label": "依赖",
+      "description": "前一知识的形成依赖后一知识，后一知识是学习前一知识的条件",
+      "color": "#f59e0b"
+    },
+    "related": {
+      "label": "相关",
+      "description": "应用某知识点的技术/方法/步骤等，可以推导/计算/解决知识点相关的问题",
+      "color": "#6b7280"
+    }
+  }
+}

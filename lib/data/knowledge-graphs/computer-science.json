@@ -3,13 +3,15 @@
   "name": "计算机科学与技术",
   "description": "北京邮电大学计算机科学与技术专业培养方案（2021版），培养具有深厚网络背景的计算机科学与技术人才",
   "metadata": {
-    "totalNodes": 45,
-    "totalEdges": 72,
+    "totalNodes": 47,
+    "totalEdges": 75,
     "maxLevel": 4,
-    "version": "2.0",
+    "version": "2.1",
     "source": "北京邮电大学2021版计算机科学与技术专业培养方案"
   },
   "nodes": [
+    { "id": "math-analysis-1", "label": "工科数学分析（上）", "level": 1, "semester": 1, "description": "绪论、函数极限连续、一元函数微分学及其应用、一元函数积分学及其应用、微分方程", "courseGraph": "math-analysis-1" },
+    { "id": "math-analysis-2", "label": "工科数学分析（下）", "level": 1, "semester": 2, "description": "多元函数微分学、多元函数积分学、无穷级数", "courseGraph": "math-analysis-2" },
     { "id": "calculus-1", "label": "高等数学A（上）", "level": 1, "semester": 1, "description": "微积分基础，极限、导数、积分" },
     { "id": "calculus-2", "label": "高等数学A（下）", "level": 1, "semester": 2, "description": "多元函数微积分、级数、微分方程" },
     { "id": "linear-algebra", "label": "线性代数", "level": 1, "semester": 1, "description": "矩阵、向量空间、线性变换" },
@@ -60,6 +62,9 @@
     { "id": "network-science", "label": "网络科学", "level": 4, "semester": 7, "description": "复杂网络、网络拓扑、社会网络分析" }
   ],
   "edges": [
+    { "id": "e0", "source": "math-analysis-1", "target": "math-analysis-2", "type": "prerequisite", "label": "数学基础" },
+    { "id": "e0a", "source": "math-analysis-1", "target": "calculus-1", "type": "related", "label": "数学基础" },
+    { "id": "e0b", "source": "math-analysis-2", "target": "calculus-2", "type": "related", "label": "数学基础" },
     { "id": "e1", "source": "calculus-1", "target": "calculus-2", "type": "prerequisite", "label": "数学基础" },
     { "id": "e2", "source": "calculus-1", "target": "linear-algebra", "type": "related", "label": "数学基础" },
     { "id": "e3", "source": "calculus-2", "target": "probability", "type": "prerequisite", "label": "数学基础" },
