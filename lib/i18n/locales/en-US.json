@@ -984,6 +984,7 @@
     "fileTooLarge": "Image too large — please choose one under 5 MB",
     "invalidFileType": "Please select an image file",
     "editTooltip": "Click to edit profile",
+    "hintText": "Click to personalize~",
     "personalityPresets": "Select learning style",
     "presetSystematic": "Systematic Learner",
     "presetSystematicBio": "Prefers structured learning and complete knowledge systems",

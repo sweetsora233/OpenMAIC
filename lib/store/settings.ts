@@ -720,8 +720,8 @@ export const useSettingsStore = create<SettingsState>()(
         ttsEnabled: true,
         asrEnabled: true,
 
-        // Outline preview (off by default)
-        outlinePreviewEnabled: false,
+        // Outline preview (on by default for new users)
+        outlinePreviewEnabled: true,
 
         autoConfigApplied: false,
 

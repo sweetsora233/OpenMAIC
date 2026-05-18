@@ -136,6 +136,35 @@ function loadYamlFile(filename: string): YamlData {
 // Env-var helpers
 // ---------------------------------------------------------------------------
 
+/**
+ * Parse .env.local file to get explicit empty values (which disable providers).
+ * System env vars take precedence over .env.local in Next.js, so we need to
+ * read the file directly to detect user's intent to disable providers.
+ */
+function parseEnvLocalFile(): Map<string, string> {
+  const result = new Map<string, string>();
+  try {
+    const filePath = path.join(process.cwd(), '.env.local');
+    if (!fs.existsSync(filePath)) return result;
+    const raw = fs.readFileSync(filePath, 'utf-8');
+    for (const line of raw.split('\n')) {
+      const trimmed = line.trim();
+      if (!trimmed || trimmed.startsWith('#')) continue;
+      const eqIdx = trimmed.indexOf('=');
+      if (eqIdx <= 0) continue;
+      const key = trimmed.slice(0, eqIdx).trim();
+      const value = trimmed.slice(eqIdx + 1).trim();
+      result.set(key, value);
+    }
+  } catch {
+    /* ignore */
+  }
+  return result;
+}
+
+/** Cached .env.local values */
+const _envLocalCache = parseEnvLocalFile();
+
 function loadEnvSection(
   envMap: Record<string, string>,
   yamlSection: Record<string, Partial<ServerProviderEntry>> | undefined,
@@ -166,8 +195,19 @@ function loadEnvSection(
 
   // Then, apply env vars (env takes priority over YAML)
   for (const [prefix, providerId] of Object.entries(envMap)) {
-    const envApiKey = process.env[`${prefix}_API_KEY`] || undefined;
-    const envBaseUrl = process.env[`${prefix}_BASE_URL`] || undefined;
+    const apiKeyKey = `${prefix}_API_KEY`;
+    const baseUrlKey = `${prefix}_BASE_URL`;
+
+    // Check .env.local first for explicit empty values (disabling intent)
+    const envLocalApiKey = _envLocalCache.get(apiKeyKey);
+    const envLocalBaseUrl = _envLocalCache.get(baseUrlKey);
+
+    // Empty string in .env.local explicitly disables the provider
+    if (envLocalApiKey === '') continue;
+    if (envLocalBaseUrl === '') continue;
+
+    const envApiKey = envLocalApiKey ?? process.env[apiKeyKey];
+    const envBaseUrl = envLocalBaseUrl ?? process.env[baseUrlKey];
     const envModelsStr = process.env[`${prefix}_MODELS`];
     const envModels = envModelsStr
       ? envModelsStr
@@ -185,11 +225,9 @@ function loadEnvSection(
     }
 
     // Activate on API key, or base URL alone for keyless providers (e.g. Ollama)
-    if (
-      requiresBaseUrl
-        ? !envBaseUrl
-        : !(envApiKey || (envBaseUrl && keylessProviders.has(providerId)))
-    )
+    const hasKey = !!envApiKey;
+    const hasKeylessBaseUrl = envBaseUrl && keylessProviders.has(providerId);
+    if (requiresBaseUrl ? !envBaseUrl : !(hasKey || hasKeylessBaseUrl))
       continue;
     result[providerId] = {
       apiKey: envApiKey || '',

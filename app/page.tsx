@@ -1004,21 +1004,17 @@ function GreetingBar() {
               <Pencil className="size-[7px] text-muted-foreground/70" />
             </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <span className="leading-none select-none flex items-center gap-1">
-                  <span className="text-[13px] font-semibold text-foreground/85 group-hover:text-foreground transition-colors">
-                    {t('home.greetingWithName', { name: displayName })}
-                  </span>
-                  <ChevronDown className="size-3 text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-colors shrink-0" />
+          <div className="flex-1 min-w-0 flex flex-col">
+              <span className="leading-none select-none flex items-center gap-1">
+                <span className="text-[13px] font-semibold text-foreground/85 group-hover:text-foreground transition-colors">
+                  {t('home.greetingWithName', { name: displayName })}
                 </span>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" sideOffset={4}>
-                {t('profile.editTooltip')}
-              </TooltipContent>
-            </Tooltip>
-          </div>
+                <ChevronDown className="size-3 text-muted-foreground/30 group-hover:text-muted-foreground/60 transition-colors shrink-0" />
+              </span>
+              <span className="text-[11px] text-muted-foreground/50 group-hover:text-muted-foreground/70 transition-colors mt-0.5">
+                {t('profile.hintText')}
+              </span>
+            </div>
         </div>
       )}
 

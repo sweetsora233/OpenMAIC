@@ -216,3 +216,14 @@
     transform: scale(1.08);
   }
 }
+
+/* Breathing animation for profile hint speech bubble */
+@keyframes profile-hint-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}

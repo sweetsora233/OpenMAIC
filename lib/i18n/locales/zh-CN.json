@@ -986,6 +986,7 @@
     "fileTooLarge": "图片过大，请选择小于 5MB 的图片",
     "invalidFileType": "请选择图片文件",
     "editTooltip": "点击编辑个人资料",
+    "hintText": "点击可以设置个性化~",
     "personalityPresets": "选择学习风格",
     "presetSystematic": "系统学习者",
     "presetSystematicBio": "喜欢系统化学习，追求完整的知识体系",
