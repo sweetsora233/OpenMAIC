@@ -51,7 +51,15 @@
     "exportSuccess": "Export successful",
     "exportFailed": "Export failed",
     "classroomZip": "Export Classroom ZIP",
-    "classroomZipDesc": "Course structure + media files"
+    "classroomZipDesc": "Course structure + media files",
+    "share": "Share Course",
+    "uploading": "Uploading...",
+    "uploadSuccess": "Shared successfully",
+    "uploadFailed": "Upload failed",
+    "noData": "No course data to share",
+    "shareSuccess": "Course Shared",
+    "shareUrlDesc": "Copy the link below to share with others",
+    "urlCopied": "Link copied"
   },
   "import": {
     "classroom": "Import Classroom",
