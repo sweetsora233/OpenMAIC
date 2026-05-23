@@ -674,20 +674,26 @@ export const TTS_PROVIDERS: Record<BuiltInTTSProviderId, TTSProviderConfig> = {
     voices: [
       // 中文常用
       {
-        id: 'female-yujie',
-        name: '御姐音色',
-        language: 'zh-CN',
-        gender: 'female',
-      },
-      {
         id: 'male-qn-jingying',
         name: '精英青年',
         language: 'zh-CN',
         gender: 'male',
       },
       {
+        id: 'audiobook_male_1',
+        name: '有声书男声',
+        language: 'zh-CN',
+        gender: 'male',
+      },
+      {
         id: 'female-shaonv',
         name: '少女音色',
+        language: 'zh-CN',
+        gender: 'female',
+      },
+      {
+        id: 'female-yujie',
+        name: '御姐音色',
         language: 'zh-CN',
         gender: 'female',
       },
@@ -1168,7 +1174,7 @@ export const DEFAULT_TTS_VOICES: Record<BuiltInTTSProviderId, string> = {
   'voxcpm-tts': VOXCPM_AUTO_VOICE_ID,
   'doubao-tts': 'zh_female_vv_uranus_bigtts',
   'elevenlabs-tts': 'EXAVITQu4vr4xnSDxMaL',
-  'minimax-tts': 'female-yujie',
+  'minimax-tts': 'male-qn-jingying',
   'server-tts': 'default',
   'browser-native-tts': 'default',
 };
