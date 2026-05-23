@@ -990,6 +990,28 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
     icon: '/logos/aliyun.svg',
     models: [],
   },
+
+  lconai: {
+    id: 'lconai',
+    name: '智创聚合API',
+    type: 'openai',
+    defaultBaseUrl: 'https://s.lconai.com/v1',
+    requiresApiKey: true,
+    icon: 'https://api.lconai.com/logo.png',
+    models: [
+      {
+        id: 'gemini-3-flash-preview',
+        name: 'Gemini 3 Flash Preview',
+        contextWindow: 1048576,
+        outputWindow: 65536,
+        capabilities: {
+          streaming: true,
+          tools: true,
+          vision: true,
+        },
+      },
+    ],
+  },
 };
 
 applyModelMetadata(PROVIDERS);
