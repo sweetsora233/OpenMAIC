@@ -51,7 +51,15 @@
     "exportSuccess": "导出成功",
     "exportFailed": "导出失败",
     "classroomZip": "导出课堂 ZIP",
-    "classroomZipDesc": "课程结构 + 媒体文件"
+    "classroomZipDesc": "课程结构 + 媒体文件",
+    "share": "分享课程",
+    "uploading": "正在上传...",
+    "uploadSuccess": "分享成功",
+    "uploadFailed": "上传失败",
+    "noData": "没有可分享的课程数据",
+    "shareSuccess": "课程已分享",
+    "shareUrlDesc": "复制以下链接分享给他人",
+    "urlCopied": "链接已复制"
   },
   "import": {
     "classroom": "导入课堂",

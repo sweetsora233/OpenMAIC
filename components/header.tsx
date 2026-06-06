@@ -11,6 +11,10 @@ import {
   FileDown,
   Package,
   Archive,
+  Share2,
+  Copy,
+  Check,
+  X,
 } from 'lucide-react';
 import { useI18n } from '@/lib/hooks/use-i18n';
 import { useTheme } from '@/lib/hooks/use-theme';
@@ -23,6 +27,7 @@ import { useStageStore } from '@/lib/store/stage';
 import { useMediaGenerationStore } from '@/lib/store/media-generation';
 import { useExportPPTX } from '@/lib/export/use-export-pptx';
 import { useExportClassroom } from '@/lib/export/use-export-classroom';
+import { useUploadClassroom } from '@/lib/export/use-upload-classroom';
 
 interface HeaderProps {
   readonly currentSceneTitle: string;
@@ -38,7 +43,15 @@ export function Header({ currentSceneTitle }: HeaderProps) {
   // Export
   const { exporting: isExporting, exportPPTX, exportResourcePack } = useExportPPTX();
   const { exporting: isExportingZip, exportClassroomZip } = useExportClassroom();
+  const {
+    uploading: isUploading,
+    shareUrl,
+    uploadClassroom,
+    copyShareUrl,
+    clearShareUrl,
+  } = useUploadClassroom();
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
   const exportRef = useRef<HTMLDivElement>(null);
   const scenes = useStageStore((s) => s.scenes);
   const generatingOutlines = useStageStore((s) => s.generatingOutlines);
@@ -249,8 +262,75 @@ export function Header({ currentSceneTitle }: HeaderProps) {
             </div>
           )}
         </div>
+
+        {/* Share Button */}
+        <button
+          onClick={uploadClassroom}
+          disabled={!canExport || isUploading}
+          title={
+            canExport
+              ? isUploading
+                ? t('export.uploading')
+                : t('export.share')
+              : t('share.notReady')
+          }
+          className={cn(
+            'shrink-0 p-2 rounded-full transition-all',
+            canExport && !isUploading
+              ? 'text-gray-400 dark:text-gray-500 hover:bg-white dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-gray-200 hover:shadow-sm'
+              : 'text-gray-300 dark:text-gray-600 cursor-not-allowed opacity-50',
+          )}
+        >
+          {isUploading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Share2 className="w-4 h-4" />
+          )}
+        </button>
       </header>
       <SettingsDialog open={settingsOpen} onOpenChange={setSettingsOpen} />
+
+      {/* Share URL Modal */}
+      {shareUrl && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 max-w-md w-full mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold">{t('export.shareSuccess')}</h3>
+              <button
+                onClick={clearShareUrl}
+                className="p-1 rounded-lg text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
+              {t('export.shareUrlDesc')}
+            </p>
+            <div className="flex items-center gap-2 bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+              <input
+                type="text"
+                value={shareUrl}
+                readOnly
+                className="flex-1 bg-transparent text-sm text-gray-800 dark:text-gray-200 outline-none"
+              />
+              <button
+                onClick={() => {
+                  copyShareUrl();
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
+                }}
+                className="p-1.5 rounded-lg bg-gray-200 dark:bg-gray-600 hover:bg-gray-300 dark:hover:bg-gray-500 text-gray-600 dark:text-gray-300 transition-colors"
+              >
+                {copied ? (
+                  <Check className="w-4 h-4 text-green-500" />
+                ) : (
+                  <Copy className="w-4 h-4" />
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

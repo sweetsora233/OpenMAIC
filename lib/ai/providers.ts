@@ -994,8 +994,8 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
   lconai: {
     id: 'lconai',
     name: '智创聚合API',
-    type: 'openai',
-    defaultBaseUrl: 'https://s.lconai.com/v1',
+    type: 'google',
+    defaultBaseUrl: 'https://s.lconai.com/v1beta',
     requiresApiKey: true,
     icon: 'https://api.lconai.com/logo.png',
     models: [
@@ -1203,8 +1203,8 @@ export function isProviderKeyRequired(providerId: string): boolean {
  */
 export function getModel(config: ModelConfig): ModelWithInfo {
   // providerType can come from client for custom providers; fall back to registry.
-  let providerType = config.providerType;
   const provider = getProviderConfig(config.providerId);
+  let providerType = config.providerId === 'lconai' ? provider?.type : config.providerType;
   const requiresApiKey = provider?.requiresApiKey ?? true;
 
   if (!providerType) {
@@ -1224,10 +1224,13 @@ export function getModel(config: ModelConfig): ModelWithInfo {
   const effectiveApiKey = config.apiKey || '';
 
   // Resolve base URL: explicit > provider default > SDK default
-  const effectiveBaseUrl = normalizeMiniMaxAnthropicBaseUrl(
+  let effectiveBaseUrl = normalizeMiniMaxAnthropicBaseUrl(
     config.providerId,
     config.baseUrl || provider?.defaultBaseUrl || undefined,
   );
+  if (config.providerId === 'lconai' && effectiveBaseUrl) {
+    effectiveBaseUrl = effectiveBaseUrl.replace(/\/v1\/?$/, '/v1beta');
+  }
 
   let model: LanguageModel;
 
@@ -1287,6 +1290,11 @@ export function getModel(config: ModelConfig): ModelWithInfo {
         apiKey: effectiveApiKey,
         baseURL: effectiveBaseUrl,
       };
+      if (config.providerId === 'lconai') {
+        googleOptions.headers = {
+          Authorization: `Bearer ${effectiveApiKey}`,
+        };
+      }
       if (config.proxy) {
         const proxy = config.proxy;
         let agent: unknown;
