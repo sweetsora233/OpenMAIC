@@ -25,6 +25,10 @@ import {
   generateWithLemonadeImage,
   testLemonadeImageConnectivity,
 } from './adapters/lemonade-image-adapter';
+import {
+  generateWithTokenPlanImage,
+  testTokenPlanImageConnectivity,
+} from './adapters/token-plan-image-adapter';
 
 export const IMAGE_PROVIDERS: Record<ImageProviderId, ImageProviderConfig> = {
   seedream: {
@@ -133,6 +137,15 @@ export const IMAGE_PROVIDERS: Record<ImageProviderId, ImageProviderConfig> = {
     supportedAspectRatios: ['16:9', '4:3', '1:1', '9:16'],
     maxResolution: { width: 1024, height: 1024 },
   },
+  'aliyun_tp-image': {
+    id: 'aliyun_tp-image',
+    name: '阿里云TokenPlan图片',
+    requiresApiKey: true,
+    defaultBaseUrl: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
+    icon: '/logos/aliyun.svg',
+    models: [],
+    supportedAspectRatios: ['16:9', '4:3', '1:1', '9:16'],
+  },
 };
 
 export async function testImageConnectivity(
@@ -153,6 +166,8 @@ export async function testImageConnectivity(
       return testGrokImageConnectivity(config);
     case 'lemonade':
       return testLemonadeImageConnectivity(config);
+    case 'aliyun_tp-image':
+      return testTokenPlanImageConnectivity(config);
     default:
       return {
         success: false,
@@ -180,6 +195,8 @@ export async function generateImage(
       return generateWithGrokImage(config, options);
     case 'lemonade':
       return generateWithLemonadeImage(config, options);
+    case 'aliyun_tp-image':
+      return generateWithTokenPlanImage(config, options);
     default:
       throw new Error(`Unsupported image provider: ${config.providerId}`);
   }

@@ -45,6 +45,7 @@ export function SceneSidebar({
   const { scenes, currentSceneId, setCurrentSceneId, generatingOutlines, generationStatus } =
     useStageStore();
   const failedOutlines = useStageStore.use.failedOutlines();
+  const regeneratingSceneId = useStageStore.use.regeneratingSceneId();
   const viewportSize = useCanvasStore.use.viewportSize();
   const viewportRatio = useCanvasStore.use.viewportRatio();
 
@@ -328,6 +329,18 @@ export function SceneSidebar({
                             : 'group-hover:bg-black/5 dark:group-hover:bg-white/5',
                         )}
                       />
+                    )}
+
+                    {/* Regenerating overlay */}
+                    {regeneratingSceneId === scene.id && (
+                      <div className="absolute inset-0 bg-purple-50/90 dark:bg-purple-900/80 backdrop-blur-sm flex flex-col items-center justify-center gap-1.5 z-10">
+                        <RefreshCw className="w-4 h-4 text-purple-500 dark:text-purple-400 animate-spin" />
+                        <span className="text-[10px] font-medium text-purple-600 dark:text-purple-300">
+                          {t('generation.regenerating')}
+                        </span>
+                        {/* shimmer effect */}
+                        <div className="absolute inset-0 -translate-x-full animate-[shimmer_2s_infinite] bg-gradient-to-r from-transparent via-white/40 dark:via-white/10 to-transparent" />
+                      </div>
                     )}
                   </div>
                 </div>

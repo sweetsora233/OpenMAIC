@@ -254,7 +254,6 @@ export interface SettingsState {
   ) => void;
   setTTSEnabled: (enabled: boolean) => void;
   setASREnabled: (enabled: boolean) => void;
-
   // Custom audio provider actions
   addCustomTTSProvider: (
     id: TTSProviderId,
@@ -399,6 +398,7 @@ const getDefaultAudioConfig = () => ({
       modelId: 'kokoro-v1',
       enabled: false,
     },
+    'server-tts': { apiKey: '', baseUrl: '', enabled: true },
     'browser-native-tts': { apiKey: '', baseUrl: '', enabled: true },
   } as Record<
     TTSProviderId,
@@ -435,6 +435,7 @@ const getDefaultImageConfig = () => ({
     'minimax-image': { apiKey: '', baseUrl: '', enabled: false },
     'grok-image': { apiKey: '', baseUrl: '', enabled: false },
     lemonade: { apiKey: '', baseUrl: '', enabled: false },
+    'aliyun_tp-image': { apiKey: '', baseUrl: '', enabled: true },
   } as Record<ImageProviderId, { apiKey: string; baseUrl: string; enabled: boolean }>,
 });
 
@@ -1097,7 +1098,6 @@ export const useSettingsStore = create<SettingsState>()(
         setReviewOutlineEnabled: (enabled) => set({ reviewOutlineEnabled: enabled }),
         setTTSEnabled: (enabled) => set({ ttsEnabled: enabled }),
         setASREnabled: (enabled) => set({ asrEnabled: enabled }),
-
         // Custom audio provider actions
         addCustomTTSProvider: (id, name, baseUrl, requiresApiKey, defaultModel) =>
           set((state) => ({
@@ -1195,13 +1195,13 @@ export const useSettingsStore = create<SettingsState>()(
             // Managed providers expose only their allowed model list (LLM/image)
             // and presence (the "managed" flag) — never a base URL.
             const data = (await res.json()) as {
-              providers: Record<string, { models?: string[] }>;
-              tts: Record<string, Record<string, never>>;
-              asr: Record<string, Record<string, never>>;
-              pdf: Record<string, Record<string, never>>;
-              image: Record<string, { models?: string[] }>;
-              video: Record<string, Record<string, never>>;
-              webSearch: Record<string, Record<string, never>>;
+              providers: Record<string, { models?: string[]; baseUrl?: string }>;
+              tts: Record<string, { baseUrl?: string }>;
+              asr: Record<string, { baseUrl?: string }>;
+              pdf: Record<string, { baseUrl?: string }>;
+              image: Record<string, { baseUrl?: string; models?: string[] }>;
+              video: Record<string, { baseUrl?: string }>;
+              webSearch: Record<string, { baseUrl?: string }>;
             };
 
             set((state) => {
@@ -1309,15 +1309,19 @@ export const useSettingsStore = create<SettingsState>()(
                   newImageConfig[key] = {
                     ...newImageConfig[key],
                     isServerConfigured: false,
+                    customModels: undefined,
                   };
                 }
               }
               for (const pid of Object.keys(data.image)) {
                 const key = pid as ImageProviderId;
                 if (newImageConfig[key]) {
+                  const imageServerInfo = data.image[pid];
+                  const serverModels = imageServerInfo.models?.map((id) => ({ id, name: id }));
                   newImageConfig[key] = {
                     ...newImageConfig[key],
                     isServerConfigured: true,
+                    customModels: serverModels,
                   };
                 }
               }
@@ -1451,13 +1455,25 @@ export const useSettingsStore = create<SettingsState>()(
                 : '';
               const imageModels =
                 IMAGE_PROVIDERS[validImageProvider as ImageProviderId]?.models ?? [];
+              // Also include customModels from server config
+              const imageCustomModels =
+                newImageConfig[validImageProvider as ImageProviderId]?.customModels ?? [];
+              const allImageModels = [...imageModels, ...imageCustomModels];
               const validImageModel = validImageProvider
-                ? resolveSelectedModel(state.imageModelId, imageModels)
+                ? resolveSelectedModel(state.imageModelId, allImageModels) ||
+                  allImageModels[0]?.id ||
+                  ''
                 : '';
               const videoModels =
                 VIDEO_PROVIDERS[validVideoProvider as VideoProviderId]?.models ?? [];
+              // Also include customModels from server config
+              const videoCustomModels =
+                newVideoConfig[validVideoProvider as VideoProviderId]?.customModels ?? [];
+              const allVideoModels = [...videoModels, ...videoCustomModels];
               const validVideoModel = validVideoProvider
-                ? resolveSelectedModel(state.videoModelId, videoModels)
+                ? resolveSelectedModel(state.videoModelId, allVideoModels) ||
+                  allVideoModels[0]?.id ||
+                  ''
                 : '';
 
               const validTTSVoice =

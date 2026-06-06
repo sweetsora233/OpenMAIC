@@ -177,6 +177,8 @@ export async function generateTTS(
 
     case 'lemonade-tts':
       return await generateLemonadeTTS(config, text);
+    case 'server-tts':
+      return await generateOpenAITTS(config, text);
 
     case 'browser-native-tts':
       throw new Error(

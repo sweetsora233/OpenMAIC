@@ -17,28 +17,28 @@ export interface ClassroomManifest {
 }
 
 export interface ManifestStage {
+  id?: string; // stageId for sharing
   name: string;
   description?: string;
   language?: string;
   style?: string;
   createdAt: number;
   updatedAt: number;
-  // Note: Stage.interactiveMode is intentionally NOT exported — it reflects the
-  // original generation prompt branch, which imports can't faithfully reproduce.
 }
 
 export interface ManifestAgent {
+  id?: string; // agentId for sharing
   name: string;
   role: string;
   persona: string;
   avatar: string;
   color: string;
   priority: number;
-  /** Reserved for forward-compat. Not currently persisted in GeneratedAgentRecord DB schema. */
   voiceConfig?: { providerId: string; voiceId: string };
 }
 
 export interface ManifestScene {
+  id?: string; // sceneId for sharing
   type: SceneType;
   title: string;
   order: number;

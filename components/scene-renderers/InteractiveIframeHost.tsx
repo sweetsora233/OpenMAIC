@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
-import { useStageStore } from '@/lib/store';
 import { useWidgetIframeStore } from '@/lib/store/widget-iframe';
 import {
   useInteractiveIframePool,
@@ -32,7 +31,6 @@ export function InteractiveIframeHost() {
   const activeSceneId = useInteractiveIframePool((s) => s.activeSceneId);
   const reset = useInteractiveIframePool((s) => s.reset);
   const setActiveScene = useWidgetIframeStore((s) => s.setActiveScene);
-  const mode = useStageStore((s) => s.mode);
 
   // Portal into the fullscreen element when one is active (presentation mode
   // fullscreens the stage, and a body-portaled iframe would not be part of that
@@ -65,7 +63,7 @@ export function InteractiveIframeHost() {
           key={sceneId}
           sceneId={sceneId}
           entry={entry}
-          visible={mode !== 'edit' && entry.owner !== null && sceneId === activeSceneId}
+          visible={entry.owner !== null && sceneId === activeSceneId}
         />
       ))}
     </>,

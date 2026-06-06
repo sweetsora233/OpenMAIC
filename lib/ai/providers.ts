@@ -1101,6 +1101,38 @@ export const PROVIDERS: Record<ProviderId, ProviderConfig> = {
       },
     ],
   },
+
+  aliyun_tp: {
+    id: 'aliyun_tp',
+    name: '阿里云TokenPlan',
+    type: 'openai',
+    defaultBaseUrl: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
+    requiresApiKey: true,
+    icon: '/logos/aliyun.svg',
+    models: [],
+  },
+
+  lconai: {
+    id: 'lconai',
+    name: '智创聚合API',
+    type: 'google',
+    defaultBaseUrl: 'https://s.lconai.com/v1beta',
+    requiresApiKey: true,
+    icon: 'https://api.lconai.com/logo.png',
+    models: [
+      {
+        id: 'gemini-3-flash-preview',
+        name: 'Gemini 3 Flash Preview',
+        contextWindow: 1048576,
+        outputWindow: 65536,
+        capabilities: {
+          streaming: true,
+          tools: true,
+          vision: true,
+        },
+      },
+    ],
+  },
 };
 
 applyModelMetadata(PROVIDERS);
@@ -1305,8 +1337,8 @@ export function isProviderKeyRequired(providerId: string): boolean {
  */
 export function getModel(config: ModelConfig): ModelWithInfo {
   // providerType can come from client for custom providers; fall back to registry.
-  let providerType = config.providerType;
   const provider = getProviderConfig(config.providerId);
+  let providerType = config.providerId === 'lconai' ? provider?.type : config.providerType;
   const requiresApiKey = provider?.requiresApiKey ?? true;
 
   if (!providerType) {
@@ -1326,10 +1358,13 @@ export function getModel(config: ModelConfig): ModelWithInfo {
   const effectiveApiKey = config.apiKey || '';
 
   // Resolve base URL: explicit > provider default > SDK default
-  const effectiveBaseUrl = normalizeMiniMaxAnthropicBaseUrl(
+  let effectiveBaseUrl = normalizeMiniMaxAnthropicBaseUrl(
     config.providerId,
     config.baseUrl || provider?.defaultBaseUrl || undefined,
   );
+  if (config.providerId === 'lconai' && effectiveBaseUrl) {
+    effectiveBaseUrl = effectiveBaseUrl.replace(/\/v1\/?$/, '/v1beta');
+  }
 
   let model: LanguageModel;
 
@@ -1468,6 +1503,11 @@ export function getModel(config: ModelConfig): ModelWithInfo {
         apiKey: effectiveApiKey,
         baseURL: effectiveBaseUrl,
       };
+      if (config.providerId === 'lconai') {
+        googleOptions.headers = {
+          Authorization: `Bearer ${effectiveApiKey}`,
+        };
+      }
       if (config.proxy) {
         const proxy = config.proxy;
         let agent: unknown;

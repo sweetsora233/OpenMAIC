@@ -1,0 +1,12 @@
+[
+  {
+    "id": "computer-science",
+    "name": "计算机科学与技术",
+    "description": "北京邮电大学计算机科学与技术专业培养方案（2021版），培养具有深厚网络背景的计算机科学与技术人才",
+    "icon": "cpu",
+    "courseCount": 48,
+    "code": "CS",
+    "university": "北京邮电大学",
+    "year": "2021"
+  }
+]

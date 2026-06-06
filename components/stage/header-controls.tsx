@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Archive,
+  Copy,
+  Check,
   Download,
   FileDown,
   Loader2,
@@ -10,7 +12,9 @@ import {
   Moon,
   Package,
   Settings,
+  Share2,
   Sun,
+  X,
 } from 'lucide-react';
 import { Switch } from '@/components/ui/switch';
 import { useI18n } from '@/lib/hooks/use-i18n';
@@ -19,6 +23,7 @@ import { useStageStore } from '@/lib/store';
 import { useMediaGenerationStore } from '@/lib/store/media-generation';
 import { useExportPPTX } from '@/lib/export/use-export-pptx';
 import { useExportClassroom } from '@/lib/export/use-export-classroom';
+import { useUploadClassroom } from '@/lib/export/use-upload-classroom';
 import { LanguageSwitcher } from '../language-switcher';
 import { SettingsDialog } from '../settings';
 import {
@@ -77,6 +82,9 @@ export function HeaderControls({
   const mediaTasks = useMediaGenerationStore((s) => s.tasks);
   const { exporting: isExporting, exportPPTX, exportResourcePack } = useExportPPTX();
   const { exporting: isExportingZip, exportClassroomZip } = useExportClassroom();
+  const { uploading, shareUrl, uploadClassroom, copyShareUrl, clearShareUrl } =
+    useUploadClassroom();
+  const [shareCopied, setShareCopied] = useState(false);
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
   const exportRef = useRef<HTMLDivElement>(null);
 
@@ -299,6 +307,87 @@ export function HeaderControls({
                 </div>
               </div>
             </button>
+          </div>
+        )}
+      </div>
+
+      {/* Share — uploads to server, returns a shareable URL */}
+      <div className="relative">
+        <button
+          onClick={() => {
+            if (canExport && !uploading && !isExporting && !isExportingZip) {
+              uploadClassroom();
+            }
+          }}
+          disabled={!canExport || uploading || isExporting || isExportingZip}
+          title={
+            canExport
+              ? uploading
+                ? t('export.uploading')
+                : t('export.share')
+              : t('share.notReady')
+          }
+          className={cn(
+            'shrink-0 p-2 rounded-full transition-all',
+            canExport && !uploading && !isExporting && !isExportingZip
+              ? 'text-gray-400 dark:text-gray-500 hover:bg-white dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-gray-200 hover:shadow-sm'
+              : 'text-gray-300 dark:text-gray-600 cursor-not-allowed opacity-50',
+          )}
+          aria-label={t('export.share')}
+        >
+          {uploading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Share2 className="w-4 h-4" />
+          )}
+        </button>
+
+        {/* Share URL popup */}
+        {shareUrl && (
+          <div className="absolute top-full mt-2 right-0 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50 p-4 min-w-[320px]">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200">
+                {t('export.shareSuccess')}
+              </span>
+              <button
+                onClick={clearShareUrl}
+                className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+              {t('export.shareUrlDesc')}
+            </p>
+            <div className="flex gap-2">
+              <input
+                readOnly
+                value={shareUrl}
+                className="flex-1 px-3 py-2 text-sm bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 focus:outline-none"
+                onFocus={(e) => e.target.select()}
+              />
+              <button
+                onClick={() => {
+                  copyShareUrl();
+                  setShareCopied(true);
+                  setTimeout(() => setShareCopied(false), 2000);
+                }}
+                className="shrink-0 px-3 py-2 text-sm rounded-md bg-violet-600 hover:bg-violet-700 text-white transition-colors flex items-center gap-1.5"
+              >
+                {shareCopied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    {t('export.urlCopied')}
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    {t('export.share')}
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         )}
       </div>

@@ -56,6 +56,8 @@ const LLM_ENV_MAP: Record<string, string> = {
   MIMO: 'xiaomi',
   OLLAMA: 'ollama',
   LEMONADE: 'lemonade',
+  ALIYUN_TP: 'aliyun_tp',
+  LCONAI: 'lconai',
 };
 
 const TTS_ENV_MAP: Record<string, string> = {
@@ -68,6 +70,7 @@ const TTS_ENV_MAP: Record<string, string> = {
   TTS_ELEVENLABS: 'elevenlabs-tts',
   TTS_MINIMAX: 'minimax-tts',
   TTS_LEMONADE: 'lemonade-tts',
+  TTS_SERVER: 'server-tts',
 };
 
 const ASR_ENV_MAP: Record<string, string> = {
@@ -91,6 +94,7 @@ const IMAGE_ENV_MAP: Record<string, string> = {
   IMAGE_MINIMAX: 'minimax-image',
   IMAGE_GROK: 'grok-image',
   IMAGE_LEMONADE: 'lemonade',
+  IMAGE_ALIYUN_TP: 'aliyun_tp-image',
 };
 
 const VIDEO_ENV_MAP: Record<string, string> = {
@@ -251,7 +255,7 @@ function buildConfig(yamlData: YamlData): ServerConfig {
       keylessProviders: new Set(['ollama', 'lemonade']),
     }),
     tts: loadEnvSection(TTS_ENV_MAP, yamlData.tts, {
-      keylessProviders: new Set(['voxcpm-tts', 'lemonade-tts']),
+      keylessProviders: new Set(['voxcpm-tts', 'lemonade-tts', 'server-tts']),
     }),
     asr: loadEnvSection(ASR_ENV_MAP, yamlData.asr, {
       keylessProviders: new Set(['lemonade-asr']),
@@ -419,12 +423,12 @@ export function resolvePDFBaseUrl(providerId: string, clientBaseUrl?: string): s
 // Public API — Image Generation
 // ---------------------------------------------------------------------------
 
-/** Returns server-configured image providers (allowed models only, no base URLs). */
-export function getServerImageProviders(): Record<string, { models?: string[] }> {
+export function getServerImageProviders(): Record<string, { baseUrl?: string; models?: string[] }> {
   const cfg = getConfig();
-  const result: Record<string, { models?: string[] }> = {};
+  const result: Record<string, { baseUrl?: string; models?: string[] }> = {};
   for (const [id, entry] of Object.entries(cfg.image)) {
     result[id] = {};
+    if (entry.baseUrl) result[id].baseUrl = entry.baseUrl;
     if (entry.models && entry.models.length > 0) result[id].models = entry.models;
   }
   return result;

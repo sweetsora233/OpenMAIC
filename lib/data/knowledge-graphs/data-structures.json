@@ -1,0 +1,99 @@
+{
+  "id": "data-structures",
+  "name": "数据结构",
+  "description": "基于《数据结构(C语言版)》(严蔚敏、吴伟民编著)的知识体系，涵盖线性结构、树、图、查找与排序等核心内容",
+  "metadata": {
+    "totalNodes": 24,
+    "totalEdges": 37,
+    "maxLevel": 2,
+    "version": "2.0",
+    "source": "《数据结构(C语言版)》清华大学出版社",
+    "authors": "严蔚敏、吴伟民",
+    "isbn": "9787302147510"
+  },
+  "nodes": [
+    { "id": "basics", "label": "基础概念", "level": 1, "description": "数据结构的基本概念、抽象数据类型、算法复杂度分析" },
+
+    { "id": "linear-structure", "label": "线性结构", "level": 1, "description": "线性表、栈、队列等线性数据结构" },
+    { "id": "sequential-storage", "label": "顺序存储", "level": 2, "description": "数组、顺序表、循环队列的顺序存储方式" },
+    { "id": "linked-storage", "label": "链式存储", "level": 2, "description": "单链表、循环链表、双向链表的链式存储方式" },
+    { "id": "stack", "label": "栈", "level": 2, "description": "先进后出的受限线性表，递归实现的基础" },
+    { "id": "queue", "label": "队列", "level": 2, "description": "先进先出的受限线性表，广度优先搜索的基础" },
+
+    { "id": "string-array", "label": "串与数组", "level": 1, "description": "字符串处理、多维数组与矩阵压缩" },
+    { "id": "pattern-matching", "label": "模式匹配", "level": 2, "description": "KMP算法等字符串匹配方法" },
+    { "id": "sparse-matrix", "label": "稀疏矩阵", "level": 2, "description": "特殊矩阵与稀疏矩阵的压缩存储" },
+
+    { "id": "tree-structure", "label": "树形结构", "level": 1, "description": "树、二叉树、森林等层次化数据组织" },
+    { "id": "binary-tree", "label": "二叉树", "level": 2, "description": "二叉树的性质、遍历算法（先序、中序、后序）" },
+    { "id": "huffman-tree", "label": "哈夫曼树", "level": 2, "description": "最优二叉树与哈夫曼编码" },
+
+    { "id": "graph-structure", "label": "图结构", "level": 1, "description": "有向图、无向图，网络关系建模" },
+    { "id": "graph-storage", "label": "图的存储", "level": 2, "description": "邻接矩阵、邻接表等图的存储表示" },
+    { "id": "graph-traversal", "label": "图的遍历", "level": 2, "description": "深度优先搜索DFS、广度优先搜索BFS" },
+    { "id": "graph-applications", "label": "图的应用", "level": 2, "description": "最小生成树、拓扑排序、最短路径、关键路径" },
+
+    { "id": "search-techniques", "label": "查找技术", "level": 1, "description": "数据元素的定位与检索方法" },
+    { "id": "linear-search", "label": "线性查找", "level": 2, "description": "顺序查找、折半查找、分块查找" },
+    { "id": "tree-search", "label": "树表查找", "level": 2, "description": "二叉排序树、平衡二叉树、B树、B+树" },
+    { "id": "hash-table", "label": "哈希表", "level": 2, "description": "哈希函数、冲突处理、散列查找" },
+
+    { "id": "sorting-techniques", "label": "排序技术", "level": 1, "description": "内部排序与外部排序算法" },
+    { "id": "basic-sorting", "label": "基础排序", "level": 2, "description": "插入排序、冒泡排序、简单选择排序" },
+    { "id": "advanced-sorting", "label": "高级排序", "level": 2, "description": "快速排序、堆排序、归并排序、基数排序" },
+
+    { "id": "file-organization", "label": "文件组织", "level": 1, "description": "外存数据的组织与管理" }
+  ],
+  "edges": [
+    { "id": "e1", "source": "basics", "target": "linear-structure", "type": "prerequisite", "label": "理论基础" },
+    { "id": "e2", "source": "basics", "target": "sorting-techniques", "type": "prerequisite", "label": "复杂度分析" },
+
+    { "id": "e3", "source": "linear-structure", "target": "sequential-storage", "type": "prerequisite", "label": "存储方式" },
+    { "id": "e4", "source": "linear-structure", "target": "linked-storage", "type": "prerequisite", "label": "存储方式" },
+    { "id": "e5", "source": "linear-structure", "target": "stack", "type": "prerequisite", "label": "受限线性表" },
+    { "id": "e6", "source": "linear-structure", "target": "queue", "type": "prerequisite", "label": "受限线性表" },
+
+    { "id": "e7", "source": "sequential-storage", "target": "stack", "type": "related", "label": "顺序栈" },
+    { "id": "e8", "source": "linked-storage", "target": "queue", "type": "related", "label": "链队列" },
+    { "id": "e9", "source": "sequential-storage", "target": "string-array", "type": "related", "label": "顺序串" },
+    { "id": "e10", "source": "linked-storage", "target": "sparse-matrix", "type": "related", "label": "三元组链表" },
+
+    { "id": "e11", "source": "string-array", "target": "pattern-matching", "type": "prerequisite", "label": "字符串操作" },
+    { "id": "e12", "source": "string-array", "target": "sparse-matrix", "type": "prerequisite", "label": "数组存储" },
+
+    { "id": "e13", "source": "linked-storage", "target": "tree-structure", "type": "prerequisite", "label": "链式思想" },
+    { "id": "e14", "source": "tree-structure", "target": "binary-tree", "type": "prerequisite", "label": "树的基础" },
+    { "id": "e15", "source": "tree-structure", "target": "huffman-tree", "type": "prerequisite", "label": "树的应用" },
+    { "id": "e16", "source": "binary-tree", "target": "huffman-tree", "type": "related", "label": "最优二叉树" },
+
+    { "id": "e17", "source": "stack", "target": "tree-structure", "type": "related", "label": "递归遍历" },
+    { "id": "e18", "source": "queue", "target": "graph-traversal", "type": "prerequisite", "label": "BFS基础" },
+    { "id": "e19", "source": "stack", "target": "graph-traversal", "type": "prerequisite", "label": "DFS基础" },
+
+    { "id": "e20", "source": "tree-structure", "target": "graph-structure", "type": "related", "label": "图的特例" },
+    { "id": "e21", "source": "graph-structure", "target": "graph-storage", "type": "prerequisite", "label": "存储方式" },
+    { "id": "e22", "source": "graph-structure", "target": "graph-traversal", "type": "prerequisite", "label": "遍历方法" },
+    { "id": "e23", "source": "graph-structure", "target": "graph-applications", "type": "prerequisite", "label": "图的应用" },
+    { "id": "e24", "source": "graph-traversal", "target": "graph-applications", "type": "prerequisite", "label": "遍历基础" },
+    { "id": "e25", "source": "binary-tree", "target": "graph-applications", "type": "related", "label": "生成树" },
+
+    { "id": "e26", "source": "binary-tree", "target": "tree-search", "type": "prerequisite", "label": "二叉树基础" },
+    { "id": "e27", "source": "search-techniques", "target": "linear-search", "type": "prerequisite", "label": "查找概念" },
+    { "id": "e28", "source": "search-techniques", "target": "tree-search", "type": "prerequisite", "label": "查找概念" },
+    { "id": "e29", "source": "search-techniques", "target": "hash-table", "type": "prerequisite", "label": "查找概念" },
+    { "id": "e30", "source": "linear-search", "target": "hash-table", "type": "related", "label": "查找方法对比" },
+
+    { "id": "e31", "source": "sorting-techniques", "target": "basic-sorting", "type": "prerequisite", "label": "排序概念" },
+    { "id": "e32", "source": "sorting-techniques", "target": "advanced-sorting", "type": "prerequisite", "label": "排序概念" },
+    { "id": "e33", "source": "basic-sorting", "target": "advanced-sorting", "type": "prerequisite", "label": "排序思想" },
+    { "id": "e34", "source": "binary-tree", "target": "advanced-sorting", "type": "related", "label": "堆排序基础" },
+
+    { "id": "e35", "source": "advanced-sorting", "target": "file-organization", "type": "prerequisite", "label": "归并思想" },
+    { "id": "e36", "source": "tree-search", "target": "file-organization", "type": "related", "label": "B树索引" },
+    { "id": "e37", "source": "hash-table", "target": "file-organization", "type": "related", "label": "散列文件" }
+  ],
+  "relationTypes": {
+    "prerequisite": { "label": "前置知识", "description": "需要先学", "color": "#3b82f6" },
+    "related": { "label": "相关知识", "description": "知识关联", "color": "#6b7280" }
+  }
+}

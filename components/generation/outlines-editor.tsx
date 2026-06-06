@@ -16,6 +16,8 @@ import {
 } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
@@ -24,9 +26,19 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
 import { useI18n } from '@/lib/hooks/use-i18n';
 import { cn } from '@/lib/utils';
-import type { SceneOutline } from '@/lib/types/generation';
+import type { PdfImage, SceneOutline } from '@/lib/types/generation';
+import type { MediaGenerationRequest } from '@/lib/media/types';
+import type { WidgetType } from '@/lib/types/widgets';
 
 type SceneType = SceneOutline['type'];
 
@@ -42,9 +54,15 @@ interface OutlinesEditorProps {
   isStreaming?: boolean;
   /** Collapse the editor back to the preview surface (small streaming card / outline-ready). */
   onCollapse?: () => void;
+  pdfImages?: PdfImage[];
 }
 
 const SCENE_TYPES: SceneType[] = ['slide', 'quiz', 'interactive', 'pbl'];
+const WIDGET_TYPES: WidgetType[] = ['simulation', 'diagram', 'code', 'game', 'visualization3d'];
+const DIAGRAM_TYPES = ['flowchart', 'mindmap', 'hierarchy', 'system'] as const;
+const CODE_LANGUAGES = ['python', 'javascript', 'typescript', 'java', 'cpp'] as const;
+const GAME_TYPES = ['quiz', 'puzzle', 'strategy', 'card', 'action'] as const;
+const VIZ_TYPES = ['molecular', 'solar', 'anatomy', 'geometry', 'physics', 'custom'] as const;
 
 const TYPE_THEME: Record<
   SceneType,
@@ -88,6 +106,67 @@ function normalizeOrder(outlines: SceneOutline[]): SceneOutline[] {
   }));
 }
 
+function buildSceneTypeDefaults(type: SceneType): Partial<SceneOutline> {
+  if (type === 'quiz') {
+    return {
+      quizConfig: {
+        questionCount: 3,
+        difficulty: 'medium',
+        questionTypes: ['single'],
+      },
+      pblConfig: undefined,
+      widgetType: undefined,
+      widgetOutline: undefined,
+      interactiveConfig: undefined,
+    };
+  }
+
+  if (type === 'interactive') {
+    return {
+      quizConfig: undefined,
+      pblConfig: undefined,
+      widgetType: 'simulation',
+      widgetOutline: { concept: '' },
+      interactiveConfig: undefined,
+    };
+  }
+
+  if (type === 'pbl') {
+    return {
+      quizConfig: undefined,
+      pblConfig: {
+        projectTopic: '',
+        projectDescription: '',
+        targetSkills: [],
+        issueCount: 3,
+      },
+      widgetType: undefined,
+      widgetOutline: undefined,
+      interactiveConfig: undefined,
+    };
+  }
+
+  return {
+    quizConfig: undefined,
+    pblConfig: undefined,
+    widgetType: undefined,
+    widgetOutline: undefined,
+    interactiveConfig: undefined,
+  };
+}
+
+function createEmptyOutline(order: number): SceneOutline {
+  return {
+    id: nanoid(8),
+    type: 'slide',
+    title: '',
+    description: '',
+    keyPoints: [],
+    order,
+    ...buildSceneTypeDefaults('slide'),
+  };
+}
+
 function useSceneTypeLabel() {
   const { t } = useI18n();
   return (type: SceneType) => {
@@ -115,6 +194,7 @@ export function OutlinesEditor({
   isLoading = false,
   isStreaming = false,
   onCollapse,
+  pdfImages,
 }: OutlinesEditorProps) {
   const { t } = useI18n();
   const sceneTypeLabel = useSceneTypeLabel();
@@ -137,15 +217,7 @@ export function OutlinesEditor({
 
   const addOutline = () => {
     if (editingDisabled) return;
-    const newOutline: SceneOutline = {
-      id: nanoid(8),
-      type: 'slide',
-      title: '',
-      description: '',
-      keyPoints: [],
-      order: outlines.length + 1,
-    };
-    onChange(normalizeOrder([...outlines, newOutline]));
+    onChange(normalizeOrder([...outlines, createEmptyOutline(outlines.length + 1)]));
   };
 
   const updateOutline = (index: number, updates: Partial<SceneOutline>) => {
@@ -161,14 +233,7 @@ export function OutlinesEditor({
 
   const insertOutlineAt = (atIndex: number) => {
     if (editingDisabled) return;
-    const newOutline: SceneOutline = {
-      id: nanoid(8),
-      type: 'slide',
-      title: '',
-      description: '',
-      keyPoints: [],
-      order: atIndex + 1,
-    };
+    const newOutline = createEmptyOutline(atIndex + 1);
     const next = [...outlines];
     next.splice(atIndex, 0, newOutline);
     onChange(normalizeOrder(next));
@@ -291,6 +356,7 @@ export function OutlinesEditor({
                       canMoveDown={index < outlines.length - 1}
                       sceneTypeLabel={sceneTypeLabel}
                       disabled={editingDisabled}
+                      pdfImages={pdfImages}
                       isStreamingTip={isStreamingTip}
                       isDragging={draggingId === outline.id}
                       isDragTarget={dragOverId === outline.id && draggingId !== outline.id}
@@ -397,6 +463,7 @@ interface SceneRowProps {
   canMoveDown: boolean;
   sceneTypeLabel: (type: SceneType) => string;
   disabled: boolean;
+  pdfImages?: PdfImage[];
   isStreamingTip: boolean;
   isDragging: boolean;
   isDragTarget: boolean;
@@ -417,6 +484,7 @@ function SceneRow({
   canMoveDown,
   sceneTypeLabel,
   disabled,
+  pdfImages,
   isStreamingTip,
   isDragging,
   isDragTarget,
@@ -428,6 +496,8 @@ function SceneRow({
   const { t } = useI18n();
   const theme = TYPE_THEME[outline.type] ?? TYPE_THEME.slide;
   const [keyPointDraft, setKeyPointDraft] = useState('');
+  const [editingKpIdx, setEditingKpIdx] = useState<number | null>(null);
+  const [editingKpValue, setEditingKpValue] = useState('');
   const titleRef = useRef<HTMLTextAreaElement>(null);
   const descRef = useRef<HTMLTextAreaElement>(null);
 
@@ -446,6 +516,25 @@ function SceneRow({
   const removeKeyPoint = (idx: number) => {
     const next = (outline.keyPoints ?? []).filter((_, i) => i !== idx);
     onUpdate({ keyPoints: next });
+  };
+
+  const startEditKeyPoint = (idx: number) => {
+    setEditingKpIdx(idx);
+    setEditingKpValue((outline.keyPoints ?? [])[idx] ?? '');
+  };
+
+  const commitKeyPointEdit = () => {
+    if (editingKpIdx === null) return;
+    const trimmed = editingKpValue.trim();
+    if (!trimmed) {
+      removeKeyPoint(editingKpIdx);
+    } else {
+      const next = [...(outline.keyPoints ?? [])];
+      next[editingKpIdx] = trimmed;
+      onUpdate({ keyPoints: next });
+    }
+    setEditingKpIdx(null);
+    setEditingKpValue('');
   };
 
   const handleKeyPointKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -549,9 +638,9 @@ function SceneRow({
         </div>
 
         {/* Body */}
-        <div className="min-w-0 flex-1 space-y-1.5">
+        <div className="min-w-0 flex-1">
           {/* Title row */}
-          <div className="flex items-start justify-between gap-2">
+          <div className="flex items-start justify-between gap-2 pb-2.5">
             <textarea
               ref={titleRef}
               value={outline.title}
@@ -570,7 +659,7 @@ function SceneRow({
             <div className="flex shrink-0 items-center gap-1 pt-0.5">
               <TypePill
                 type={outline.type}
-                onChange={(type) => onUpdate({ type })}
+                onChange={(type) => onUpdate({ type, ...buildSceneTypeDefaults(type) })}
                 disabled={disabled}
                 label={sceneTypeLabel(outline.type)}
                 theme={theme}
@@ -579,65 +668,156 @@ function SceneRow({
             </div>
           </div>
 
-          {/* Description */}
-          <textarea
-            ref={descRef}
-            value={outline.description}
-            onChange={(event) => onUpdate({ description: event.target.value })}
-            placeholder={t('generation.sceneDescriptionPlaceholder')}
-            disabled={disabled}
-            rows={1}
-            className={cn(
-              'block w-full resize-none border-none bg-transparent p-0 text-sm leading-relaxed text-muted-foreground',
-              'placeholder:text-muted-foreground/40',
-              'focus:outline-none focus:ring-0 focus:text-foreground/90',
-              disabled && 'cursor-default',
-            )}
-          />
-
-          {/* Key points */}
-          <div className="flex flex-wrap items-center gap-1.5 pt-1">
-            <AnimatePresence initial={false}>
-              {(outline.keyPoints ?? []).filter(Boolean).map((point, idx) => (
-                <motion.span
-                  key={`${outline.id}-kp-${idx}-${point}`}
-                  layout
-                  initial={{ opacity: 0, scale: 0.85 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.85 }}
-                  transition={{ duration: 0.15 }}
-                  className={cn(
-                    'group/chip inline-flex max-w-[18rem] items-center gap-1 rounded-full px-2.5 py-1 text-xs',
-                    'bg-muted/70 text-foreground/80',
-                  )}
-                >
-                  <span className="truncate">{point}</span>
-                  {!disabled && (
-                    <button
-                      type="button"
-                      onClick={() => removeKeyPoint(idx)}
-                      aria-label={t('generation.removeKeyPoint')}
-                      className="ml-0.5 inline-flex size-3.5 shrink-0 items-center justify-center rounded-full text-muted-foreground/0 transition-colors hover:bg-muted-foreground/20 hover:text-muted-foreground group-hover/chip:text-muted-foreground/70"
-                    >
-                      <X className="size-2.5" />
-                    </button>
-                  )}
-                </motion.span>
-              ))}
-            </AnimatePresence>
-            {!disabled && (
-              <KeyPointInput
-                value={keyPointDraft}
-                onChange={setKeyPointDraft}
-                onKeyDown={handleKeyPointKeyDown}
-                placeholder={t('generation.addKeyPoint')}
+          <div className="border-t border-border pt-2.5">
+            <FieldDesc id={`${outline.id}-objective`} label={t('generation.teachingObjective')} hint={t('generation.teachingObjectiveDesc')}>
+              <Input
+                value={outline.teachingObjective ?? ''}
+                onChange={(event) => onUpdate({ teachingObjective: event.target.value })}
+                placeholder={t('generation.teachingObjectivePlaceholder')}
+                className="h-7"
               />
-            )}
+            </FieldDesc>
+          </div>
+
+          <div className="border-t border-border pt-2.5">
+            <FieldDesc id={`${outline.id}-duration`} label={t('generation.estimatedDuration')} hint={t('generation.estimatedDurationDesc')}>
+              <Input
+                type="number"
+                min={0}
+                value={outline.estimatedDuration ?? ''}
+                onChange={(event) => {
+                  const next = event.target.value.trim();
+                  onUpdate({ estimatedDuration: next ? Number(next) : undefined });
+                }}
+                placeholder={t('generation.estimatedDurationPlaceholder')}
+                className="h-7"
+              />
+            </FieldDesc>
+          </div>
+
+          <div className="border-t border-border pt-2.5">
+            <Label className="text-sm font-semibold">{t('generation.sceneDescriptionLabel')}</Label>
+            <p className="text-[11px] leading-relaxed text-muted-foreground/50">{t('generation.sceneDescriptionHint')}</p>
+            <textarea
+              ref={descRef}
+              value={outline.description}
+              onChange={(event) => onUpdate({ description: event.target.value })}
+              placeholder={t('generation.sceneDescriptionPlaceholder')}
+              disabled={disabled}
+              rows={1}
+              className={cn(
+                'mt-1 w-full resize-none overflow-hidden rounded-lg border border-input bg-background px-3 py-2 text-sm',
+                'placeholder:text-muted-foreground/50',
+                'focus:outline-none focus:ring-1 focus:ring-ring',
+                disabled && 'cursor-default opacity-50',
+              )}
+            />
+          </div>
+
+          <div className="border-t border-border pt-2.5">
+            <Label className="text-sm font-semibold">{t('generation.keyPointsLabel')}</Label>
+            <p className="text-[11px] leading-relaxed text-muted-foreground/50">{t('generation.keyPointsHint')}</p>
+            <div className="mt-1 flex flex-wrap items-center gap-1.5">
+              <AnimatePresence initial={false}>
+                {(outline.keyPoints ?? []).filter(Boolean).map((point, idx) =>
+                  editingKpIdx === idx ? (
+                    <motion.span
+                      key={`${outline.id}-kp-${idx}-editing`}
+                      layout
+                      initial={{ opacity: 0, scale: 0.85 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.85 }}
+                      transition={{ duration: 0.15 }}
+                      className="block w-full"
+                    >
+                      <textarea
+                        autoFocus
+                        ref={(el) => {
+                          if (el) {
+                            el.style.height = 'auto';
+                            el.style.height = el.scrollHeight + 'px';
+                          }
+                        }}
+                        value={editingKpValue}
+                        onChange={(event) => {
+                          setEditingKpValue(event.target.value);
+                          const el = event.currentTarget;
+                          el.style.height = 'auto';
+                          el.style.height = el.scrollHeight + 'px';
+                        }}
+                        onKeyDown={(event) => {
+                          if (event.key === 'Enter' && !event.shiftKey) {
+                            event.preventDefault();
+                            commitKeyPointEdit();
+                          }
+                          if (event.key === 'Escape') {
+                            setEditingKpIdx(null);
+                            setEditingKpValue('');
+                          }
+                        }}
+                        onBlur={commitKeyPointEdit}
+                        rows={1}
+                        className={cn(
+                          'w-full resize-none overflow-hidden rounded-lg bg-background px-3 py-2 text-sm',
+                          'border border-blue-400/50 ring-1 ring-blue-400/20',
+                          'focus:outline-none',
+                        )}
+                      />
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key={`${outline.id}-kp-${idx}-${point}`}
+                      layout
+                      initial={{ opacity: 0, scale: 0.85 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.85 }}
+                      transition={{ duration: 0.15 }}
+                      className={cn(
+                        'group/chip inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-xs',
+                        'bg-muted/70 text-foreground/80',
+                        !disabled && 'cursor-pointer hover:bg-muted',
+                      )}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => startEditKeyPoint(idx)}
+                        disabled={disabled}
+                        className="text-left focus:outline-none"
+                      >
+                        {point}
+                      </button>
+                      {!disabled && (
+                        <button
+                          type="button"
+                          onClick={() => removeKeyPoint(idx)}
+                          aria-label={t('generation.removeKeyPoint')}
+                          className="ml-0.5 inline-flex size-3.5 shrink-0 items-center justify-center rounded-full text-muted-foreground/0 transition-colors hover:bg-muted-foreground/20 hover:text-muted-foreground group-hover/chip:text-muted-foreground/70"
+                        >
+                          <X className="size-2.5" />
+                        </button>
+                      )}
+                    </motion.span>
+                  ),
+                )}
+              </AnimatePresence>
+              {!disabled && (
+                <KeyPointInput
+                  value={keyPointDraft}
+                  onChange={setKeyPointDraft}
+                  onKeyDown={handleKeyPointKeyDown}
+                  placeholder={t('generation.addKeyPoint')}
+                />
+              )}
+            </div>
           </div>
 
           {/* Quiz config (popover) */}
           {outline.type === 'quiz' && !disabled && (
             <QuizConfigDisclosure outline={outline} onUpdate={onUpdate} />
+          )}
+
+          {!disabled && (
+            <SceneDetailsEditor outline={outline} onUpdate={onUpdate} pdfImages={pdfImages} />
           )}
         </div>
       </div>
@@ -982,7 +1162,7 @@ function QuizConfigDisclosure({
       <PopoverContent align="start" sideOffset={6} className="w-64 space-y-2.5 p-3">
         {/* Count: label left, stepper right */}
         <div className="flex items-center justify-between gap-3">
-          <span className="text-xs font-medium text-muted-foreground">
+          <span className="text-sm font-semibold text-muted-foreground">
             {t('generation.quizQuestionCount')}
           </span>
           <Stepper
@@ -994,7 +1174,7 @@ function QuizConfigDisclosure({
         </div>
         {/* Difficulty: label left, segmented right */}
         <div className="flex items-center justify-between gap-3">
-          <span className="text-xs font-medium text-muted-foreground">
+          <span className="text-sm font-semibold text-muted-foreground">
             {t('generation.quizDifficulty')}
           </span>
           <SegmentedControl
@@ -1009,7 +1189,7 @@ function QuizConfigDisclosure({
         </div>
         {/* Type: label above, multi-select pills below */}
         <div className="space-y-1.5">
-          <span className="text-xs font-medium text-muted-foreground">
+          <span className="text-sm font-semibold text-muted-foreground">
             {t('generation.quizType')}
           </span>
           <div className="flex gap-1">
@@ -1053,6 +1233,408 @@ function QuizConfigDisclosure({
         </div>
       </PopoverContent>
     </Popover>
+  );
+}
+
+function SceneDetailsEditor({
+  outline,
+  onUpdate,
+  pdfImages,
+}: {
+  outline: SceneOutline;
+  onUpdate: (updates: Partial<SceneOutline>) => void;
+  pdfImages?: PdfImage[];
+}) {
+  const { t } = useI18n();
+
+  const updateWidgetOutline = (updates: Partial<NonNullable<SceneOutline['widgetOutline']>>) => {
+    onUpdate({
+      widgetOutline: {
+        ...(outline.widgetOutline ?? {}),
+        ...updates,
+      },
+    });
+  };
+
+  const updatePblConfig = (updates: Partial<NonNullable<SceneOutline['pblConfig']>>) => {
+    onUpdate({
+      pblConfig: {
+        projectTopic: outline.pblConfig?.projectTopic ?? '',
+        projectDescription: outline.pblConfig?.projectDescription ?? '',
+        targetSkills: outline.pblConfig?.targetSkills ?? [],
+        issueCount: outline.pblConfig?.issueCount ?? 3,
+        ...updates,
+      },
+    });
+  };
+
+  const updateMediaGeneration = (index: number, updates: Partial<MediaGenerationRequest>) => {
+    const current = outline.mediaGenerations ?? [];
+    onUpdate({
+      mediaGenerations: current.map((item, itemIndex) =>
+        itemIndex === index ? { ...item, ...updates } : item,
+      ),
+    });
+  };
+
+  const addMediaGeneration = (type: 'image' | 'video') => {
+    const next: MediaGenerationRequest = {
+      type,
+      prompt: '',
+      elementId: `gen_${type}_${nanoid(4)}`,
+    };
+    onUpdate({ mediaGenerations: [...(outline.mediaGenerations ?? []), next] });
+  };
+
+  const removeMediaGeneration = (index: number) => {
+    onUpdate({
+      mediaGenerations: (outline.mediaGenerations ?? []).filter(
+        (_, itemIndex) => itemIndex !== index,
+      ),
+    });
+  };
+
+  const selectedImageIds = new Set(outline.suggestedImageIds ?? []);
+
+  return (
+    <div className="space-y-0">
+      {outline.type === 'interactive' && (
+        <div className="border-t border-border pt-2.5">
+          <div className="space-y-2.5">
+            <FieldDesc id="widgetType" label={t('generation.widgetType')} hint={t('generation.widgetTypeDesc')}>
+              <Select
+                value={outline.widgetType ?? 'simulation'}
+                onValueChange={(value) =>
+                  onUpdate({
+                    widgetType: value as WidgetType,
+                    widgetOutline: { concept: outline.widgetOutline?.concept ?? '' },
+                  })
+                }
+              >
+                <SelectTrigger className="h-7">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {WIDGET_TYPES.map((type) => (
+                    <SelectItem key={type} value={type}>
+                      {type}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </FieldDesc>
+
+            <FieldDesc id="concept" label={t('generation.concept')} hint={t('generation.conceptDesc')}>
+              <Input
+                value={outline.widgetOutline?.concept ?? ''}
+                onChange={(event) => updateWidgetOutline({ concept: event.target.value })}
+                placeholder={t('generation.conceptPlaceholder')}
+                className="h-7"
+              />
+            </FieldDesc>
+          </div>
+
+          {outline.widgetType === 'simulation' && (
+            <div className="mt-2.5 border-t border-border pt-2.5">
+              <DetailTextarea
+                label={t('generation.keyVariables')}
+                hint={t('generation.keyVariablesDesc')}
+                value={(outline.widgetOutline?.keyVariables ?? []).join('\n')}
+                placeholder={t('generation.keyVariablesPlaceholder')}
+                onChange={(value) => updateWidgetOutline({ keyVariables: splitLines(value) })}
+              />
+            </div>
+          )}
+
+          {outline.widgetType === 'diagram' && (
+            <div className="mt-2.5 space-y-2.5 border-t border-border pt-2.5">
+              <FieldDesc id="diagramType" label={t('generation.diagramType')} hint={t('generation.diagramTypeDesc')}>
+                <Select
+                  value={outline.widgetOutline?.diagramType ?? 'flowchart'}
+                  onValueChange={(value) =>
+                    updateWidgetOutline({
+                      diagramType: value as (typeof DIAGRAM_TYPES)[number],
+                    })
+                  }
+                >
+                  <SelectTrigger className="h-7">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {DIAGRAM_TYPES.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FieldDesc>
+              <FieldDesc id="nodeCount" label={t('generation.nodeCount')} hint={t('generation.nodeCountDesc')}>
+                <Input
+                  type="number"
+                  min={0}
+                  value={outline.widgetOutline?.nodeCount ?? ''}
+                  onChange={(event) => {
+                    const next = event.target.value.trim();
+                    updateWidgetOutline({ nodeCount: next ? Number(next) : undefined });
+                  }}
+                  placeholder={t('generation.nodeCountPlaceholder')}
+                  className="h-7"
+                />
+              </FieldDesc>
+            </div>
+          )}
+
+          {outline.widgetType === 'code' && (
+            <div className="mt-2.5 space-y-2.5 border-t border-border pt-2.5">
+              <FieldDesc id="language" label={t('generation.language')} hint={t('generation.languageDesc')}>
+                <Select
+                  value={outline.widgetOutline?.language ?? 'python'}
+                  onValueChange={(value) =>
+                    updateWidgetOutline({
+                      language: value as (typeof CODE_LANGUAGES)[number],
+                    })
+                  }
+                >
+                  <SelectTrigger className="h-7">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CODE_LANGUAGES.map((language) => (
+                      <SelectItem key={language} value={language}>
+                        {language}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FieldDesc>
+              <FieldDesc id="challengeType" label={t('generation.challengeType')} hint={t('generation.challengeTypeDesc')}>
+                <Input
+                  value={outline.widgetOutline?.challengeType ?? ''}
+                  onChange={(event) => updateWidgetOutline({ challengeType: event.target.value })}
+                  placeholder={t('generation.challengeTypePlaceholder')}
+                  className="h-7"
+                />
+              </FieldDesc>
+            </div>
+          )}
+
+          {outline.widgetType === 'game' && (
+            <div className="mt-2.5 space-y-2.5 border-t border-border pt-2.5">
+              <FieldDesc id="gameType" label={t('generation.gameType')} hint={t('generation.gameTypeDesc')}>
+                <Select
+                  value={outline.widgetOutline?.gameType ?? 'quiz'}
+                  onValueChange={(value) =>
+                    updateWidgetOutline({
+                      gameType: value as (typeof GAME_TYPES)[number],
+                    })
+                  }
+                >
+                  <SelectTrigger className="h-7">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {GAME_TYPES.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FieldDesc>
+              <DetailTextarea
+                label={t('generation.challenge')}
+                hint={t('generation.challengeDesc')}
+                value={outline.widgetOutline?.challenge ?? ''}
+                placeholder={t('generation.challengePlaceholder')}
+                onChange={(value) => updateWidgetOutline({ challenge: value })}
+              />
+              <DetailTextarea
+                label={t('generation.playerControls')}
+                hint={t('generation.playerControlsDesc')}
+                value={(outline.widgetOutline?.playerControls ?? []).join('\n')}
+                placeholder={t('generation.playerControlsPlaceholder')}
+                onChange={(value) => updateWidgetOutline({ playerControls: splitLines(value) })}
+              />
+            </div>
+          )}
+
+          {outline.widgetType === 'visualization3d' && (
+            <div className="mt-2.5 space-y-2.5 border-t border-border pt-2.5">
+              <FieldDesc id="visualizationType" label={t('generation.visualizationType')} hint={t('generation.visualizationTypeDesc')}>
+                <Select
+                  value={outline.widgetOutline?.visualizationType ?? 'geometry'}
+                  onValueChange={(value) =>
+                    updateWidgetOutline({
+                      visualizationType: value as (typeof VIZ_TYPES)[number],
+                    })
+                  }
+                >
+                  <SelectTrigger className="h-7">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {VIZ_TYPES.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FieldDesc>
+              <DetailTextarea
+                label={t('generation.objects')}
+                hint={t('generation.objectsDesc')}
+                value={(outline.widgetOutline?.objects ?? []).join('\n')}
+                placeholder={t('generation.objectsPlaceholder')}
+                onChange={(value) => updateWidgetOutline({ objects: splitLines(value) })}
+              />
+              <DetailTextarea
+                label={t('generation.interactions')}
+                hint={t('generation.interactionsDesc')}
+                value={(outline.widgetOutline?.interactions ?? []).join('\n')}
+                placeholder={t('generation.interactionsPlaceholder')}
+                onChange={(value) => updateWidgetOutline({ interactions: splitLines(value) })}
+              />
+            </div>
+          )}
+        </div>
+      )}
+
+      {outline.type === 'pbl' && (
+        <div className="space-y-2.5 border-t border-border pt-2.5">
+          <FieldDesc id="projectTopic" label={t('generation.projectTopic')} hint={t('generation.projectTopicDesc')}>
+            <Input
+              value={outline.pblConfig?.projectTopic ?? ''}
+              onChange={(event) => updatePblConfig({ projectTopic: event.target.value })}
+              placeholder={t('generation.projectTopicPlaceholder')}
+              className="h-8"
+            />
+          </FieldDesc>
+          <FieldDesc id="issueCount" label={t('generation.issueCount')} hint={t('generation.issueCountDesc')}>
+            <Input
+              type="number"
+              min={1}
+              value={outline.pblConfig?.issueCount ?? 3}
+              onChange={(event) =>
+                updatePblConfig({ issueCount: Math.max(1, Number(event.target.value) || 1) })
+              }
+              className="h-8"
+            />
+          </FieldDesc>
+          <DetailTextarea
+            label={t('generation.projectDescription')}
+            hint={t('generation.projectDescriptionDesc')}
+            value={outline.pblConfig?.projectDescription ?? ''}
+            placeholder={t('generation.projectDescriptionPlaceholder')}
+            onChange={(value) => updatePblConfig({ projectDescription: value })}
+          />
+          <DetailTextarea
+            label={t('generation.targetSkills')}
+            hint={t('generation.targetSkillsDesc')}
+            value={(outline.pblConfig?.targetSkills ?? []).join('\n')}
+            placeholder={t('generation.targetSkillsPlaceholder')}
+            onChange={(value) => updatePblConfig({ targetSkills: splitLines(value) })}
+          />
+        </div>
+      )}
+
+      {/* Media Generations */}
+      <div className="space-y-2 border-t border-border pt-2.5">
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <Label className="text-sm font-semibold">{t('generation.mediaGenerations')}</Label>
+            <p className="text-[11px] leading-relaxed text-muted-foreground/50">{t('generation.mediaGenerationsDesc')}</p>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => addMediaGeneration('image')}
+              className="h-7 text-xs"
+            >
+              {t('generation.addImage')}
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => addMediaGeneration('video')}
+              className="h-7 text-xs"
+            >
+              {t('generation.addVideo')}
+            </Button>
+          </div>
+        </div>
+        {(outline.mediaGenerations ?? []).length === 0 ? (
+          <p className="text-xs text-muted-foreground">{t('generation.noMediaPrompts')}</p>
+        ) : (
+          <div className="space-y-2">
+            {(outline.mediaGenerations ?? []).map((generation, index) => (
+              <div
+                key={generation.elementId}
+                className="rounded-xl border border-border/50 bg-muted/20 p-3"
+              >
+                <div className="mb-2 flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium text-foreground/80">
+                    {generation.type} · {generation.elementId}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => removeMediaGeneration(index)}
+                    className="text-xs text-muted-foreground transition-colors hover:text-destructive"
+                  >
+                    {t('generation.remove')}
+                  </button>
+                </div>
+                <Textarea
+                  value={generation.prompt}
+                  onChange={(event) => updateMediaGeneration(index, { prompt: event.target.value })}
+                  placeholder={t('generation.mediaPromptPlaceholder')}
+                  rows={3}
+                  className="min-h-[72px]"
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {pdfImages && pdfImages.length > 0 && (
+        <div className="space-y-2 border-t border-border pt-2.5">
+          <div>
+            <Label className="text-sm font-semibold">{t('generation.suggestedImages')}</Label>
+            <p className="text-[11px] leading-relaxed text-muted-foreground/50">{t('generation.suggestedImagesDesc')}</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {pdfImages.map((image) => {
+              const selected = selectedImageIds.has(image.id);
+              return (
+                <button
+                  key={image.id}
+                  type="button"
+                  onClick={() => {
+                    const next = selected
+                      ? (outline.suggestedImageIds ?? []).filter((id) => id !== image.id)
+                      : [...(outline.suggestedImageIds ?? []), image.id];
+                    onUpdate({ suggestedImageIds: next });
+                  }}
+                  className={cn(
+                    'rounded-full border px-2.5 py-1 text-xs transition-colors',
+                    selected
+                      ? 'border-blue-500/50 bg-blue-500/10 text-blue-700 dark:text-blue-200'
+                      : 'border-border/60 bg-muted/40 text-muted-foreground hover:text-foreground',
+                  )}
+                >
+                  {image.id} · P{image.pageNumber}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -1128,6 +1710,54 @@ function SegmentedControl({
   );
 }
 
+function FieldDesc({
+  id,
+  label,
+  hint,
+  children,
+}: {
+  id?: string;
+  label: string;
+  hint: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="space-y-1">
+      <Label htmlFor={id} className="text-sm font-semibold">{label}</Label>
+      <p className="text-[11px] leading-relaxed text-muted-foreground/50">{hint}</p>
+      {children}
+    </div>
+  );
+}
+
+function DetailTextarea({
+  label,
+  hint,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  hint?: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <Label className="text-sm font-semibold">{label}</Label>
+      {hint && <p className="text-[11px] leading-relaxed text-muted-foreground/50">{hint}</p>}
+      <Textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        rows={3}
+        className="min-h-[72px]"
+      />
+    </div>
+  );
+}
+
 // ────────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ────────────────────────────────────────────────────────────────────────────────
@@ -1136,17 +1766,31 @@ function useAutoResize(ref: React.RefObject<HTMLTextAreaElement | null>, value: 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-    // Defer measurement+write to a frame so a burst of edits doesn't thrash
-    // layout (read scrollHeight ≡ forced reflow). Cancel any prior frame so
-    // we only run once per render.
-    const frame = requestAnimationFrame(() => {
+    let frame1 = 0;
+    let frame2 = 0;
+    // Double rAF: the first schedules before the next paint, the second
+    // guarantees the browser has finished layout after height reset so
+    // scrollHeight accurately reflects the full text content.
+    frame1 = requestAnimationFrame(() => {
       node.style.height = 'auto';
-      node.style.height = `${node.scrollHeight}px`;
+      frame2 = requestAnimationFrame(() => {
+        node.style.height = `${node.scrollHeight}px`;
+      });
     });
-    return () => cancelAnimationFrame(frame);
+    return () => {
+      cancelAnimationFrame(frame1);
+      cancelAnimationFrame(frame2);
+    };
   }, [ref, value]);
 }
 
 function capitalize(input: string): string {
   return input.charAt(0).toUpperCase() + input.slice(1);
+}
+
+function splitLines(value: string): string[] {
+  return value
+    .split('\n')
+    .map((item) => item.trim())
+    .filter(Boolean);
 }

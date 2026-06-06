@@ -1205,6 +1205,7 @@ function GenerationPreviewContent() {
               isLoading={isConfirmingOutlines}
               isStreaming={isOutlineStreaming}
               onCollapse={handleCollapseEditor}
+              pdfImages={session.pdfImages}
             />
           </motion.div>
         </div>

@@ -1,4 +1,5 @@
 import { useSettingsStore } from '@/lib/store/settings';
+import { getModelInfo } from '@/lib/ai/providers';
 import {
   getThinkingConfigKey,
   normalizeThinkingConfig,
@@ -20,6 +21,16 @@ export function getCurrentModelConfig() {
     ? normalizeThinkingConfig(thinking, thinkingConfigs[getThinkingConfigKey(providerId, modelId)])
     : undefined;
 
+  // Get custom model config from user settings (may override outputWindow/contextWindow)
+  const customModelConfig = providerConfig?.models?.find((m) => m.id === modelId);
+
+  // Get built-in model info as fallback
+  const builtInModelInfo = getModelInfo(providerId, modelId);
+
+  // Use custom values if set, otherwise use built-in defaults
+  const outputWindow = customModelConfig?.outputWindow ?? builtInModelInfo?.outputWindow;
+  const contextWindow = customModelConfig?.contextWindow ?? builtInModelInfo?.contextWindow;
+
   return {
     providerId,
     modelId,
@@ -29,6 +40,8 @@ export function getCurrentModelConfig() {
     providerType: providerConfig?.type,
     requiresApiKey: providerConfig?.requiresApiKey,
     isServerConfigured: providerConfig?.isServerConfigured,
+    outputWindow,
+    contextWindow,
     thinkingConfig,
   };
 }

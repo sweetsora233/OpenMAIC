@@ -186,6 +186,15 @@
       "imageUrlPlaceholder": "https://…",
       "imageInsert": "Inserir"
     },
+    "interactive": {
+      "optimize": "Otimizar página",
+      "optimizeTooltip": "Refazer esta página interativa com base no feedback",
+      "optimizeDialogTitle": "Otimizar página interativa",
+      "optimizeDialogDesc": "Descreva o que deve melhorar na interação. O sistema vai regenerar a página interativa atual com base no seu feedback.",
+      "optimizeSubmit": "Otimizar",
+      "optimizeFailed": "Falha ao otimizar a página interativa",
+      "optimizeUnavailable": "Esta cena interativa não tem HTML reutilizável, então o modo Pro ainda não consegue otimizá-la."
+    },
     "nav": {
       "addSlide": "Adicionar slide",
       "duplicate": "Duplicar",

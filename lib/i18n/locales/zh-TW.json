@@ -200,6 +200,15 @@
       "imageUrlPlaceholder": "https://…",
       "imageInsert": "插入"
     },
+    "interactive": {
+      "optimize": "優化頁面",
+      "optimizeTooltip": "根據回饋重做這張互動頁",
+      "optimizeDialogTitle": "優化互動頁",
+      "optimizeDialogDesc": "描述你希望改進的互動體驗，系統會根據目前頁面與你的回饋重新生成這張互動頁。",
+      "optimizeSubmit": "開始優化",
+      "optimizeFailed": "優化互動頁失敗",
+      "optimizeUnavailable": "目前互動頁缺少可重生成的 HTML 內容，因此暫時無法在專業模式下優化。"
+    },
     "nav": {
       "addSlide": "新增投影片",
       "duplicate": "複製",

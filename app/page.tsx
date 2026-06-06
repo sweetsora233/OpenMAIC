@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef, useDeferredValue } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useMemo, useRef, useDeferredValue, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   ArrowUp,
@@ -17,11 +18,13 @@ import {
   Sun,
   Moon,
   Monitor,
+  BotOff,
   ChevronUp,
   Upload,
   Sparkles,
   Atom,
   X,
+  Network,
 } from 'lucide-react';
 import { useI18n } from '@/lib/hooks/use-i18n';
 import { LanguageSwitcher } from '@/components/language-switcher';
@@ -38,7 +41,6 @@ import { nanoid } from 'nanoid';
 import { storePdfBlob } from '@/lib/utils/image-storage';
 import type { UserRequirements } from '@/lib/types/generation';
 import { useSettingsStore } from '@/lib/store/settings';
-import { hasUsableLLMProvider } from '@/lib/store/settings-validation';
 import { useUserProfileStore, AVATAR_OPTIONS } from '@/lib/store/user-profile';
 import {
   StageListItem,
@@ -46,7 +48,6 @@ import {
   deleteStageData,
   renameStage,
   getFirstSlideByStages,
-  revokeThumbnailSlideMediaUrls,
 } from '@/lib/utils/stage-storage';
 import { ThumbnailSlide } from '@/components/slide-renderer/components/ThumbnailSlide';
 import type { Slide } from '@/lib/types/slides';
@@ -56,6 +57,38 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { useDraftCache } from '@/lib/hooks/use-draft-cache';
 import { SpeechButton } from '@/components/audio/speech-button';
 import { useImportClassroom } from '@/lib/import/use-import-classroom';
+
+// ─── Personality Presets ─────────────────────────────────────────────────────
+const PERSONALITY_PRESETS = [
+  {
+    id: 'systematic',
+    emoji: '🎯',
+    labelKey: 'profile.presetSystematic',
+    bioKey: 'profile.presetSystematicBio',
+    gradient: 'bg-gradient-to-br from-indigo-500 to-purple-600',
+  },
+  {
+    id: 'practical',
+    emoji: '🔧',
+    labelKey: 'profile.presetPractical',
+    bioKey: 'profile.presetPracticalBio',
+    gradient: 'bg-gradient-to-br from-emerald-500 to-teal-600',
+  },
+  {
+    id: 'explorer',
+    emoji: '🌊',
+    labelKey: 'profile.presetExplorer',
+    bioKey: 'profile.presetExplorerBio',
+    gradient: 'bg-gradient-to-br from-violet-500 to-fuchsia-600',
+  },
+  {
+    id: 'deep',
+    emoji: '🔍',
+    labelKey: 'profile.presetDeep',
+    bioKey: 'profile.presetDeepBio',
+    gradient: 'bg-gradient-to-br from-orange-500 to-amber-600',
+  },
+] as const;
 
 const log = createLogger('Home');
 
@@ -81,6 +114,7 @@ function HomePage() {
   const { t } = useI18n();
   const { theme, setTheme } = useTheme();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [form, setForm] = useState<FormState>(initialFormState);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settingsSection, setSettingsSection] = useState<
@@ -91,11 +125,8 @@ function HomePage() {
   const { cachedValue: cachedRequirement, updateCache: updateRequirementCache } =
     useDraftCache<string>({ key: 'requirementDraft' });
 
-  // A usable LLM provider exists ⇒ a concrete model is always selected (#580
-  // invariant). Gate generation on this single condition (state A vs B)
-  // instead of inspecting modelId directly.
-  const providersConfig = useSettingsStore((s) => s.providersConfig);
-  const hasUsableProvider = hasUsableLLMProvider(providersConfig);
+  // Model setup state
+  const currentModelId = useSettingsStore((s) => s.modelId);
   const [recentOpen, setRecentOpen] = useState(true);
   const persistRecentOpen = (next: boolean) => {
     setRecentOpen(next);
@@ -130,19 +161,23 @@ function HomePage() {
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
 
-  // Restore requirement draft from localStorage on mount. The previous derived-state
-  // pattern initialised `prev` from the cached value itself, so on the first client
-  // render the comparison was always equal and the restore never fired. Use an effect
-  // so the cache is hydrated into the form once we know the live requirement is empty.
-  const draftRestoredRef = useRef(false);
-  /* eslint-disable react-hooks/set-state-in-effect -- Hydration from localStorage must happen in effect */
+  // Handle requirement from URL params (e.g., from knowledge graph)
   useEffect(() => {
-    if (draftRestoredRef.current) return;
-    if (!cachedRequirement) return;
-    draftRestoredRef.current = true;
-    setForm((prev) => (prev.requirement ? prev : { ...prev, requirement: cachedRequirement }));
-  }, [cachedRequirement]);
-  /* eslint-enable react-hooks/set-state-in-effect */
+    const requirementFromUrl = searchParams.get('requirement');
+    if (requirementFromUrl) {
+      setForm((prev) => ({ ...prev, requirement: requirementFromUrl }));
+      updateRequirementCache(requirementFromUrl);
+    }
+  }, [searchParams, updateRequirementCache]);
+
+  // Restore requirement draft from cache (derived state pattern — no effect needed)
+  const [prevCachedRequirement, setPrevCachedRequirement] = useState(cachedRequirement);
+  if (cachedRequirement !== prevCachedRequirement) {
+    setPrevCachedRequirement(cachedRequirement);
+    if (cachedRequirement) {
+      setForm((prev) => ({ ...prev, requirement: cachedRequirement }));
+    }
+  }
 
   const [themeOpen, setThemeOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -155,14 +190,6 @@ function HomePage() {
   const searchButtonRef = useRef<HTMLButtonElement>(null);
   const toolbarRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const thumbnailsRef = useRef<Record<string, Slide>>({});
-
-  const replaceThumbnails = (slides: Record<string, Slide>) => {
-    const previous = thumbnailsRef.current;
-    thumbnailsRef.current = slides;
-    setThumbnails(slides);
-    window.setTimeout(() => revokeThumbnailSlideMediaUrls(previous), 0);
-  };
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -183,9 +210,7 @@ function HomePage() {
       // Load first slide thumbnails
       if (list.length > 0) {
         const slides = await getFirstSlideByStages(list.map((c) => c.id));
-        replaceThumbnails(slides);
-      } else {
-        replaceThumbnails({});
+        setThumbnails(slides);
       }
     } catch (err) {
       log.error('Failed to load classrooms:', err);
@@ -207,11 +232,6 @@ function HomePage() {
 
     // eslint-disable-next-line react-hooks/set-state-in-effect -- Store hydration on mount
     loadClassrooms();
-
-    return () => {
-      revokeThumbnailSlideMediaUrls(thumbnailsRef.current);
-      thumbnailsRef.current = {};
-    };
   }, []);
 
   const handleDelete = (id: string, e: React.MouseEvent) => {
@@ -263,11 +283,48 @@ function HomePage() {
     }
   };
 
+  const showSetupToast = (icon: React.ReactNode, title: string, desc: string) => {
+    toast.custom(
+      (id) => (
+        <div
+          className="w-[356px] rounded-xl border border-amber-200/60 dark:border-amber-800/40 bg-gradient-to-r from-amber-50 via-white to-amber-50 dark:from-amber-950/60 dark:via-slate-900 dark:to-amber-950/60 shadow-lg shadow-amber-500/8 dark:shadow-amber-900/20 p-4 flex items-start gap-3 cursor-pointer"
+          onClick={() => {
+            toast.dismiss(id);
+            setSettingsOpen(true);
+          }}
+        >
+          <div className="shrink-0 mt-0.5 size-9 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center ring-1 ring-amber-200/50 dark:ring-amber-800/30">
+            {icon}
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-amber-900 dark:text-amber-200 leading-tight">
+              {title}
+            </p>
+            <p className="text-xs text-amber-700/80 dark:text-amber-400/70 mt-0.5 leading-relaxed">
+              {desc}
+            </p>
+          </div>
+          <div className="shrink-0 mt-1 text-[10px] font-medium text-amber-500 dark:text-amber-500/70 tracking-wide">
+            <Settings className="size-3.5 animate-[spin_3s_linear_infinite]" />
+          </div>
+        </div>
+      ),
+      { duration: 4000 },
+    );
+  };
+
   const handleGenerate = async () => {
-    // No model/provider guard here: generation is gated by `canGenerate`
-    // (requires a usable provider), and under the #580 invariant a usable
-    // provider always has a concrete model. State A (no usable provider)
-    // surfaces through the toolbar's single Configure-Provider affordance.
+    // Validate setup before proceeding
+    if (!currentModelId) {
+      showSetupToast(
+        <BotOff className="size-4.5 text-amber-600 dark:text-amber-400" />,
+        t('settings.modelNotConfigured'),
+        t('settings.setupNeeded'),
+      );
+      setSettingsOpen(true);
+      return;
+    }
+
     if (!form.requirement.trim()) {
       setError(t('upload.requirementRequired'));
       return;
@@ -339,7 +396,7 @@ function HomePage() {
     return date.toLocaleDateString();
   };
 
-  const canGenerate = !!form.requirement.trim() && hasUsableProvider;
+  const canGenerate = !!form.requirement.trim();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
@@ -428,6 +485,15 @@ function HomePage() {
         </div>
 
         <div className="w-[1px] h-4 bg-gray-200 dark:bg-gray-700" />
+
+        {/* Knowledge Graph Link */}
+        <Link
+          href="/knowledge-graph"
+          className="p-2 rounded-full text-gray-400 dark:text-gray-500 hover:bg-white dark:hover:bg-gray-700 hover:text-gray-800 dark:hover:text-gray-200 hover:shadow-sm transition-all"
+          title="知识图谱"
+        >
+          <Network className="w-4 h-4" />
+        </Link>
 
         {/* Settings Button */}
         <div className="relative">
@@ -825,6 +891,7 @@ function GreetingBar() {
   const [editingName, setEditingName] = useState(false);
   const [nameDraft, setNameDraft] = useState('');
   const [avatarPickerOpen, setAvatarPickerOpen] = useState(false);
+  const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -1072,6 +1139,47 @@ function GreetingBar() {
                   )}
                 </AnimatePresence>
 
+                {/* Personality Presets */}
+                <div className="py-2">
+                  <div className="text-[11px] text-muted-foreground/70 mb-1.5">
+                    {t('profile.personalityPresets')}
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5">
+                    {PERSONALITY_PRESETS.map((preset) => (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedPreset(preset.id);
+                          setBio(t(preset.bioKey));
+                        }}
+                        className={cn(
+                          'relative rounded-lg p-2 text-left transition-all cursor-pointer',
+                          preset.gradient,
+                          selectedPreset === preset.id
+                            ? 'ring-2 ring-white/80 scale-[1.02]'
+                            : 'hover:scale-[1.01] hover:ring-1 ring-white/40'
+                        )}
+                      >
+                        <div className="flex items-center gap-1.5 mb-1">
+                          <span className="text-sm">{preset.emoji}</span>
+                          <span className="text-[11px] font-medium text-white">
+                            {t(preset.labelKey)}
+                          </span>
+                        </div>
+                        <p className="text-[10px] text-white/70 line-clamp-2">
+                          {t(preset.bioKey)}
+                        </p>
+                        {selectedPreset === preset.id && (
+                          <div className="absolute top-1 right-1 size-4 rounded-full bg-white flex items-center justify-center">
+                            <Check className="size-2.5 text-violet-600" />
+                          </div>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Bio */}
                 <UITextarea
                   value={bio}
@@ -1318,5 +1426,9 @@ function ClassroomCard({
 }
 
 export default function Page() {
-  return <HomePage />;
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-zinc-950" />}>
+      <HomePage />
+    </Suspense>
+  );
 }

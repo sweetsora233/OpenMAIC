@@ -1,0 +1,1849 @@
+{
+  "id": "math-analysis-2",
+  "name": "工科数学分析（下）",
+  "description": "涵盖多元函数微分学、多元函数积分学、无穷级数等内容",
+  "metadata": {
+    "totalNodes": 69,
+    "totalEdges": 178,
+    "maxLevel": 2,
+    "version": "1.0",
+    "source": "工科数学分析课程知识图谱审核内容"
+  },
+  "nodes": [
+    {
+      "id": "module-多元函数微分学",
+      "label": "多元函数微分学",
+      "level": 1,
+      "description": "多元函数微分学模块"
+    },
+    {
+      "id": "module-多元函数积分学",
+      "label": "多元函数积分学",
+      "level": 1,
+      "description": "多元函数积分学模块"
+    },
+    {
+      "id": "module-无穷级数",
+      "label": "无穷级数",
+      "level": 1,
+      "description": "无穷级数模块"
+    },
+    {
+      "id": "邻域-区域",
+      "label": "邻域，区域",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "邻域，区域",
+      "cognitiveGoal": "理解邻域、区域、*n 维空间的概念"
+    },
+    {
+      "id": "多元函数的概念",
+      "label": "多元函数的概念",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "多元函数的定义、多元函数几何表示",
+      "cognitiveGoal": "理解多元函数的概念"
+    },
+    {
+      "id": "多元函数的极限",
+      "label": "多元函数的极限",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "多元函数极限的概念、求多元函数极限的方法",
+      "cognitiveGoal": "能够掌握求极限的方法并进行计算"
+    },
+    {
+      "id": "多元函数的连续性",
+      "label": "多元函数的连续性",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "多元连续函数的概念、多元函数的连续性、有界闭域上多元连续函数的性质",
+      "cognitiveGoal": "多元函数的连续性"
+    },
+    {
+      "id": "偏导数",
+      "label": "偏导数",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "偏导数的概念、偏导数的几何意义、可偏导与连续的关系、高阶偏导数",
+      "cognitiveGoal": "能掌握偏导数计算程序并说明其几何意义（切线斜率）"
+    },
+    {
+      "id": "全微分",
+      "label": "全微分",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "全微分的概念、多元函数可微，可偏导，连续的关系",
+      "cognitiveGoal": "能解释可微、可偏导、连续三者间的蕴含关系并举例说明"
+    },
+    {
+      "id": "方向导数",
+      "label": "方向导数",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "方向导数的定义、方向导数的几何意义、方向导数的计算、方向导数与偏导数的关系",
+      "cognitiveGoal": "能掌握方向导数计算公式并解释其与梯度的关系"
+    },
+    {
+      "id": "梯度",
+      "label": "梯度",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "梯度的定义、梯度的几何意义、梯度的基本运算公式",
+      "cognitiveGoal": "能解释梯度方向与等值面（线）法向的关系并举例说明"
+    },
+    {
+      "id": "多元复合函数求导的链式法则",
+      "label": "多元复合函数求导的链式法则",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "多元复合函数求导的链式法则",
+      "cognitiveGoal": "能掌握多层链式法则程序求复合函数偏导"
+    },
+    {
+      "id": "一阶全微分形式的不变性",
+      "label": "一阶全微分形式的不变性",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "一阶全微分形式的不变性",
+      "cognitiveGoal": "能解释“一阶全微分形式不变性”在换元时的便利性并举例"
+    },
+    {
+      "id": "一个方程确定的隐函数情形",
+      "label": "一个方程确定的隐函数情形",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "一个方程确定的隐函数情形",
+      "cognitiveGoal": "能理解一个方程确定的隐函数情形"
+    },
+    {
+      "id": "方程组确定的隐函数情形",
+      "label": "方程组确定的隐函数情形",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "方程组确定的隐函数情形",
+      "cognitiveGoal": "能理解方程组确定的隐函数情形"
+    },
+    {
+      "id": "空间曲线的切线与法平面",
+      "label": "空间曲线的切线与法平面",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "空间曲线的切线与法平面",
+      "cognitiveGoal": "能写出由参数方程给出曲线的切线与法平面方程"
+    },
+    {
+      "id": "空间曲面的切平面与法线",
+      "label": "空间曲面的切平面与法线",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "空间曲面的切平面与法线",
+      "cognitiveGoal": "能写出由显式或隐式方程给出曲面的切平面与法线方程"
+    },
+    {
+      "id": "多元函数的极值",
+      "label": "多元函数的极值",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "多元函数极值的概念、极值存在的必要条件、极值存在的充分条件",
+      "cognitiveGoal": "能掌握Hesse矩阵法判别二元函数极值类型"
+    },
+    {
+      "id": "多元函数的最值",
+      "label": "多元函数的最值",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "多元函数的最值",
+      "cognitiveGoal": "能在闭区域上掌握“驻点+边界”程序求最值"
+    },
+    {
+      "id": "条件极值及拉格朗日乘数法",
+      "label": "条件极值及拉格朗日乘数法",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "条件极值、拉格朗日乘数法",
+      "cognitiveGoal": "能掌握拉格朗日乘数法程序解决1-2个约束的条件极值问题"
+    },
+    {
+      "id": "多元函数的-Taylor-公式",
+      "label": "多元函数的 Taylor 公式",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "多元函数的Taylor公式、Taylor公式的应用",
+      "cognitiveGoal": "能写出二元函数带Peano余项的二阶Taylor展开并说明其局部逼近意义"
+    },
+    {
+      "id": "一元向量值函数的导数与微分",
+      "label": "一元向量值函数的导数与微分",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "一元向量值函数的导数、一元向量值函数的微分",
+      "cognitiveGoal": "能掌握向量值函数导数计算并解释其速度向量意义"
+    },
+    {
+      "id": "二元向量值函数的导数与微分",
+      "label": "二元向量值函数的导数与微分",
+      "level": 2,
+      "module": "多元函数微分学",
+      "description": "二元向量值函数导数与微分的概念、向量值函数的偏导数、向量值函数微分的运算",
+      "cognitiveGoal": "能掌握Jacobian矩阵计算并解释其局部线性化意义"
+    },
+    {
+      "id": "二重积分的概念与性质",
+      "label": "二重积分的概念与性质",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "实际意义：曲顶柱体的体积和平面薄片的质量、二重积分的定义、二重积分的性质",
+      "cognitiveGoal": "能解释“曲顶柱体体积”与二重积分定义间的对应关系"
+    },
+    {
+      "id": "利用直角坐标计算二重积分",
+      "label": "利用直角坐标计算二重积分",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "利用直角坐标计算二重积分",
+      "cognitiveGoal": "能掌握X-型、Y-型区域下二次积分顺序的确定与计算"
+    },
+    {
+      "id": "利用极坐标计算二重积分",
+      "label": "利用极坐标计算二重积分",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "利用极坐标计算二重积分",
+      "cognitiveGoal": "能在圆、环等区域上掌握极坐标换元并计算积分"
+    },
+    {
+      "id": "二重积分的换元法",
+      "label": "二重积分的换元法",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "二重积分的换元法",
+      "cognitiveGoal": "能掌握一般换元公式（含雅可比行列式）计算椭圆等区域上的积分"
+    },
+    {
+      "id": "三重积分的概念",
+      "label": "三重积分的概念",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "实际意义：有限闭区域内物质的质量、三重积分的定义、三重积分的性质",
+      "cognitiveGoal": "能解释“空间区域质量”与三重积分定义间的对应关系"
+    },
+    {
+      "id": "利用直角坐标计算三重积分",
+      "label": "利用直角坐标计算三重积分",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "利用直角坐标计算三重积分",
+      "cognitiveGoal": "能掌握“先一后二”或“先二后一”程序计算三重积分"
+    },
+    {
+      "id": "利用柱坐标计算三重积分补球面坐标系计算三重积分",
+      "label": "利用柱坐标计算三重积分补球面坐标系计算三重积分",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "利用柱坐标计算三重积分补球面坐标系计算三重积分",
+      "cognitiveGoal": "能掌握柱/球坐标换元并计算旋转体或球壳积分"
+    },
+    {
+      "id": "重积分的几何应用——求立体体积",
+      "label": "重积分的几何应用——求立体体积",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "重积分的几何应用——求立体体积",
+      "cognitiveGoal": "能建立积分区域并掌握三重积分计算立体体积"
+    },
+    {
+      "id": "重积分的几何应用——求曲面的面积",
+      "label": "重积分的几何应用——求曲面的面积",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "重积分的几何应用——求曲面的面积",
+      "cognitiveGoal": "能掌握第一型曲面积分程序计算给定曲面面积"
+    },
+    {
+      "id": "重积分的物理应用——求物体的质心",
+      "label": "重积分的物理应用——求物体的质心",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "重积分的物理应用——求物体的质心",
+      "cognitiveGoal": "能掌握“矩/质量”程序求均匀或非均匀物体的质心坐标"
+    },
+    {
+      "id": "重积分的物理应用——求物体的转动惯量",
+      "label": "重积分的物理应用——求物体的转动惯量",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "重积分的物理应用——求物体的转动惯量",
+      "cognitiveGoal": "能掌握“微元惯量积分”程序求物体对指定轴的转动惯量"
+    },
+    {
+      "id": "重积分的物理应用——求物体的引力",
+      "label": "重积分的物理应用——求物体的引力",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "重积分的物理应用——求物体的引力",
+      "cognitiveGoal": "能建立引力积分微元并掌握三重积分计算物体间引力"
+    },
+    {
+      "id": "对弧长的曲线积分的概念与性质",
+      "label": "对弧长的曲线积分的概念与性质",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "实际意义：曲线形构件的质量、对弧长的曲线积分的定义、对弧长的曲线积分的几何意义、对弧长的曲线积分的性质",
+      "cognitiveGoal": "能解释“曲线形构件质量”与第一型曲线积分定义间的对应关系"
+    },
+    {
+      "id": "对弧长的曲线积分的计算法",
+      "label": "对弧长的曲线积分的计算法",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "对弧长的曲线积分的计算法",
+      "cognitiveGoal": "能掌握参数化法把第一型曲线积分化为定积分并计算"
+    },
+    {
+      "id": "对坐标的曲线积分的概念与性质",
+      "label": "对坐标的曲线积分的概念与性质",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "实际意义：变力沿曲线所作的功、对坐标的曲线积分的定义、对坐标的曲线积分的性质",
+      "cognitiveGoal": "能解释“变力做功”与第二型曲线积分定义间的对应关系"
+    },
+    {
+      "id": "对坐标的曲线积分的计算法",
+      "label": "对坐标的曲线积分的计算法",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "对坐标的曲线积分的计算法",
+      "cognitiveGoal": "能掌握参数化法把第二型曲线积分化为定积分并计算"
+    },
+    {
+      "id": "两类曲线积分之间的联系",
+      "label": "两类曲线积分之间的联系",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "两类曲线积分之间的联系",
+      "cognitiveGoal": "能写出两类曲线积分的转换公式并说明其几何意义"
+    },
+    {
+      "id": "单连通区域和多连通区域",
+      "label": "单连通区域和多连通区域",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "单连通区域和多连通区域",
+      "cognitiveGoal": "能举例说明单连通与多连通区域的区别并画图"
+    },
+    {
+      "id": "格林定理",
+      "label": "格林定理",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "格林定理",
+      "cognitiveGoal": "能掌握格林公式把平面闭曲线第二型积分化为二重积分并计算"
+    },
+    {
+      "id": "平面上曲线积分与路径无关的等价条件",
+      "label": "平面上曲线积分与路径无关的等价条件",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "平面上曲线积分与路径无关的等价条件",
+      "cognitiveGoal": "能解释“原函数存在”与“积分与路径无关”间的等价性并举例"
+    },
+    {
+      "id": "全微分方程",
+      "label": "全微分方程",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "全微分方程",
+      "cognitiveGoal": "能掌握全微分方程的计算"
+    },
+    {
+      "id": "对面积的曲面积分的概念与性质",
+      "label": "对面积的曲面积分的概念与性质",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "实际意义：曲面的质量、对面积的曲面积分的定义、对面积的曲面积分的性质",
+      "cognitiveGoal": "能解释“曲面薄片质量”与第一型曲面积分定义间的对应关系"
+    },
+    {
+      "id": "对面积的曲面积分的计算法",
+      "label": "对面积的曲面积分的计算法",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "对面积的曲面积分的计算法",
+      "cognitiveGoal": "能掌握曲面参数化法把第一型曲面积分化作二重积分并计算"
+    },
+    {
+      "id": "有向曲面及曲面元素的投影",
+      "label": "有向曲面及曲面元素的投影",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "有向曲面及曲面元素的投影",
+      "cognitiveGoal": "能说明“有向曲面”与“投影正负”关系并举例"
+    },
+    {
+      "id": "对坐标的曲面积分的概念与性质-",
+      "label": "对坐标的曲面积分的概念与性质 ",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "实际意义：流向曲面一侧的流量\n对坐标的曲面积分的定义\n对坐标的曲面积分的性质",
+      "cognitiveGoal": "能解释“流量”与第二型曲面积分定义间的对应关系"
+    },
+    {
+      "id": "对坐标的曲面积分的计算法",
+      "label": "对坐标的曲面积分的计算法",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "对坐标的曲面积分的计算法",
+      "cognitiveGoal": "能掌握对坐标的曲面积分的计算法并进行计算"
+    },
+    {
+      "id": "两类曲面积分之间的联系",
+      "label": "两类曲面积分之间的联系",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "两类曲面积分之间的联系",
+      "cognitiveGoal": "能写出两类曲面积分的转换公式并说明其几何意义"
+    },
+    {
+      "id": "高斯定理",
+      "label": "高斯定理",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "高斯公式、数学家-高斯",
+      "cognitiveGoal": "能掌握高斯公式把封闭曲面第二型积分化为三重积分并计算"
+    },
+    {
+      "id": "通量与散度",
+      "label": "通量与散度",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "通量与散度",
+      "cognitiveGoal": "能解释散度的“源强度”物理意义并计算给定向量场的散度"
+    },
+    {
+      "id": "斯托克斯定理",
+      "label": "斯托克斯定理",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "斯托克斯定理",
+      "cognitiveGoal": "能掌握斯托克斯公式把空间曲线第二型积分化为曲面积分并计算"
+    },
+    {
+      "id": "环流量与旋度",
+      "label": "环流量与旋度",
+      "level": 2,
+      "module": "多元函数积分学",
+      "description": "环流量与旋度",
+      "cognitiveGoal": "能解释旋度的“旋转强度”物理意义并计算给定向量场的旋度"
+    },
+    {
+      "id": "无穷级数的概念",
+      "label": "无穷级数的概念",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "无穷级数的概念",
+      "cognitiveGoal": "能解释无穷级数的概念"
+    },
+    {
+      "id": "无穷级数的基本性质",
+      "label": "无穷级数的基本性质",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "无穷级数的基本性质",
+      "cognitiveGoal": "能理解无穷级数的基本性质"
+    },
+    {
+      "id": "柯西审敛原理",
+      "label": "*柯西审敛原理",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "柯西审敛定理、数学家-柯西",
+      "cognitiveGoal": "能写出级数收敛的Cauchy准则并解释其“尾部任意小”含义"
+    },
+    {
+      "id": "正项级数及其审敛法",
+      "label": "正项级数及其审敛法",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "正项级数的定义、有界判别法、比较审敛法、比较审敛法的极限形式、积分审敛法、比值审敛法 ( D’alembert 判别法）、根值审敛法 ( Cauchy判别法）、Stirling（斯特林）公式的极限形式及其应用",
+      "cognitiveGoal": "能掌握比较、比值、根值、积分等判别法判断正项级数敛散"
+    },
+    {
+      "id": "交错级数及其审敛法",
+      "label": "交错级数及其审敛法",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "交错级数的定义、Leibnitz判别法",
+      "cognitiveGoal": "能掌握Leibniz判别法判断交错级数收敛性"
+    },
+    {
+      "id": "绝对收敛与条件收敛",
+      "label": "绝对收敛与条件收敛",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "绝对收敛的定义、条件收敛的定义、绝对收敛级数与条件收敛级数的区别",
+      "cognitiveGoal": "能举例说明绝对收敛与条件收敛的区别并判断给定级数类型"
+    },
+    {
+      "id": "函数项级数的概念",
+      "label": "函数项级数的概念",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "函数项级数的概念",
+      "cognitiveGoal": "能解释“函数列极限”与“函数项级数和函数”间的关系"
+    },
+    {
+      "id": "函数项级数的收敛域",
+      "label": "函数项级数的收敛域",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "借助于定义求敛散性、一般函数项级数收敛域",
+      "cognitiveGoal": "能掌握定义法或比较法求简单函数项级数的收敛域"
+    },
+    {
+      "id": "幂级数及其收敛性",
+      "label": "幂级数及其收敛性",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "幂级数的定义、幂级数敛散性",
+      "cognitiveGoal": "能掌握比值法求幂级数收敛半径并写出收敛区间"
+    },
+    {
+      "id": "函数项级数的一致收敛性及判别法",
+      "label": "函数项级数的一致收敛性及判别法",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "函数项级数的一致收敛性及判别法",
+      "cognitiveGoal": "能掌握Weierstrass M-判别法判断一致收敛性"
+    },
+    {
+      "id": "幂级数的性质",
+      "label": "幂级数的性质",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "幂级数的四则运算性质、幂级数的和函数的分析性质",
+      "cognitiveGoal": "能解释“逐项求导、积分不改变收敛半径”的原因并举例"
+    },
+    {
+      "id": "函数展开成幂级数",
+      "label": "函数展开成幂级数",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "泰勒 ( Taylor ) 级数、直接和间接展开法",
+      "cognitiveGoal": "能用间接展开法将简单函数展成Taylor级数并指出收敛域"
+    },
+    {
+      "id": "函数的幂级数展开式的应用",
+      "label": "函数的幂级数展开式的应用",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "函数的幂级数展开式的应用",
+      "cognitiveGoal": "能掌握幂级数展开进行近似计算并估计误差"
+    },
+    {
+      "id": "三角级数及三角函数系的正交性",
+      "label": "三角级数及三角函数系的正交性",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "三角级数的定义、三角函数系的正交性",
+      "cognitiveGoal": "能写出三角函数系并验证其在[−π,π]上的正交性"
+    },
+    {
+      "id": "函数展开成傅里叶级数",
+      "label": "函数展开成傅里叶级数",
+      "level": 2,
+      "module": "无穷级数",
+      "description": "周期为2l的周期函数的傅里叶级数、狄利克雷定理、有限区间上有定义函数的展开",
+      "cognitiveGoal": "能掌握Euler-Fourier公式计算2π周期函数的Fourier系数"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-module-邻域-区域",
+      "source": "module-多元函数微分学",
+      "target": "邻域-区域",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-多元函数的概念",
+      "source": "module-多元函数微分学",
+      "target": "多元函数的概念",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-多元函数的极限",
+      "source": "module-多元函数微分学",
+      "target": "多元函数的极限",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-多元函数的连续性",
+      "source": "module-多元函数微分学",
+      "target": "多元函数的连续性",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-偏导数",
+      "source": "module-多元函数微分学",
+      "target": "偏导数",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-全微分",
+      "source": "module-多元函数微分学",
+      "target": "全微分",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-方向导数",
+      "source": "module-多元函数微分学",
+      "target": "方向导数",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-梯度",
+      "source": "module-多元函数微分学",
+      "target": "梯度",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-多元复合函数求导的链式法则",
+      "source": "module-多元函数微分学",
+      "target": "多元复合函数求导的链式法则",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-一阶全微分形式的不变性",
+      "source": "module-多元函数微分学",
+      "target": "一阶全微分形式的不变性",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-一个方程确定的隐函数情形",
+      "source": "module-多元函数微分学",
+      "target": "一个方程确定的隐函数情形",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-方程组确定的隐函数情形",
+      "source": "module-多元函数微分学",
+      "target": "方程组确定的隐函数情形",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-空间曲线的切线与法平面",
+      "source": "module-多元函数微分学",
+      "target": "空间曲线的切线与法平面",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-空间曲面的切平面与法线",
+      "source": "module-多元函数微分学",
+      "target": "空间曲面的切平面与法线",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-多元函数的极值",
+      "source": "module-多元函数微分学",
+      "target": "多元函数的极值",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-多元函数的最值",
+      "source": "module-多元函数微分学",
+      "target": "多元函数的最值",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-条件极值及拉格朗日乘数法",
+      "source": "module-多元函数微分学",
+      "target": "条件极值及拉格朗日乘数法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-多元函数的-Taylor-公式",
+      "source": "module-多元函数微分学",
+      "target": "多元函数的-Taylor-公式",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-一元向量值函数的导数与微分",
+      "source": "module-多元函数微分学",
+      "target": "一元向量值函数的导数与微分",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-二元向量值函数的导数与微分",
+      "source": "module-多元函数微分学",
+      "target": "二元向量值函数的导数与微分",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-二重积分的概念与性质",
+      "source": "module-多元函数积分学",
+      "target": "二重积分的概念与性质",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-利用直角坐标计算二重积分",
+      "source": "module-多元函数积分学",
+      "target": "利用直角坐标计算二重积分",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-利用极坐标计算二重积分",
+      "source": "module-多元函数积分学",
+      "target": "利用极坐标计算二重积分",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-二重积分的换元法",
+      "source": "module-多元函数积分学",
+      "target": "二重积分的换元法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-三重积分的概念",
+      "source": "module-多元函数积分学",
+      "target": "三重积分的概念",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-利用直角坐标计算三重积分",
+      "source": "module-多元函数积分学",
+      "target": "利用直角坐标计算三重积分",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-利用柱坐标计算三重积分补球面坐标系计算三重积分",
+      "source": "module-多元函数积分学",
+      "target": "利用柱坐标计算三重积分补球面坐标系计算三重积分",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-重积分的几何应用——求立体体积",
+      "source": "module-多元函数积分学",
+      "target": "重积分的几何应用——求立体体积",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-重积分的几何应用——求曲面的面积",
+      "source": "module-多元函数积分学",
+      "target": "重积分的几何应用——求曲面的面积",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-重积分的物理应用——求物体的质心",
+      "source": "module-多元函数积分学",
+      "target": "重积分的物理应用——求物体的质心",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-重积分的物理应用——求物体的转动惯量",
+      "source": "module-多元函数积分学",
+      "target": "重积分的物理应用——求物体的转动惯量",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-重积分的物理应用——求物体的引力",
+      "source": "module-多元函数积分学",
+      "target": "重积分的物理应用——求物体的引力",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-对弧长的曲线积分的概念与性质",
+      "source": "module-多元函数积分学",
+      "target": "对弧长的曲线积分的概念与性质",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-对弧长的曲线积分的计算法",
+      "source": "module-多元函数积分学",
+      "target": "对弧长的曲线积分的计算法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-对坐标的曲线积分的概念与性质",
+      "source": "module-多元函数积分学",
+      "target": "对坐标的曲线积分的概念与性质",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-对坐标的曲线积分的计算法",
+      "source": "module-多元函数积分学",
+      "target": "对坐标的曲线积分的计算法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-两类曲线积分之间的联系",
+      "source": "module-多元函数积分学",
+      "target": "两类曲线积分之间的联系",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-单连通区域和多连通区域",
+      "source": "module-多元函数积分学",
+      "target": "单连通区域和多连通区域",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-格林定理",
+      "source": "module-多元函数积分学",
+      "target": "格林定理",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-平面上曲线积分与路径无关的等价条件",
+      "source": "module-多元函数积分学",
+      "target": "平面上曲线积分与路径无关的等价条件",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-全微分方程",
+      "source": "module-多元函数积分学",
+      "target": "全微分方程",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-对面积的曲面积分的概念与性质",
+      "source": "module-多元函数积分学",
+      "target": "对面积的曲面积分的概念与性质",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-对面积的曲面积分的计算法",
+      "source": "module-多元函数积分学",
+      "target": "对面积的曲面积分的计算法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-有向曲面及曲面元素的投影",
+      "source": "module-多元函数积分学",
+      "target": "有向曲面及曲面元素的投影",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-对坐标的曲面积分的概念与性质-",
+      "source": "module-多元函数积分学",
+      "target": "对坐标的曲面积分的概念与性质-",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-对坐标的曲面积分的计算法",
+      "source": "module-多元函数积分学",
+      "target": "对坐标的曲面积分的计算法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-两类曲面积分之间的联系",
+      "source": "module-多元函数积分学",
+      "target": "两类曲面积分之间的联系",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-高斯定理",
+      "source": "module-多元函数积分学",
+      "target": "高斯定理",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-通量与散度",
+      "source": "module-多元函数积分学",
+      "target": "通量与散度",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-斯托克斯定理",
+      "source": "module-多元函数积分学",
+      "target": "斯托克斯定理",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-环流量与旋度",
+      "source": "module-多元函数积分学",
+      "target": "环流量与旋度",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-无穷级数的概念",
+      "source": "module-无穷级数",
+      "target": "无穷级数的概念",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-无穷级数的基本性质",
+      "source": "module-无穷级数",
+      "target": "无穷级数的基本性质",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-柯西审敛原理",
+      "source": "module-无穷级数",
+      "target": "柯西审敛原理",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-正项级数及其审敛法",
+      "source": "module-无穷级数",
+      "target": "正项级数及其审敛法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-交错级数及其审敛法",
+      "source": "module-无穷级数",
+      "target": "交错级数及其审敛法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-绝对收敛与条件收敛",
+      "source": "module-无穷级数",
+      "target": "绝对收敛与条件收敛",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-函数项级数的概念",
+      "source": "module-无穷级数",
+      "target": "函数项级数的概念",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-函数项级数的收敛域",
+      "source": "module-无穷级数",
+      "target": "函数项级数的收敛域",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-幂级数及其收敛性",
+      "source": "module-无穷级数",
+      "target": "幂级数及其收敛性",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-函数项级数的一致收敛性及判别法",
+      "source": "module-无穷级数",
+      "target": "函数项级数的一致收敛性及判别法",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-幂级数的性质",
+      "source": "module-无穷级数",
+      "target": "幂级数的性质",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-函数展开成幂级数",
+      "source": "module-无穷级数",
+      "target": "函数展开成幂级数",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-函数的幂级数展开式的应用",
+      "source": "module-无穷级数",
+      "target": "函数的幂级数展开式的应用",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-三角级数及三角函数系的正交性",
+      "source": "module-无穷级数",
+      "target": "三角级数及三角函数系的正交性",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e-module-函数展开成傅里叶级数",
+      "source": "module-无穷级数",
+      "target": "函数展开成傅里叶级数",
+      "type": "contains",
+      "label": "包含"
+    },
+    {
+      "id": "e1",
+      "source": "邻域-区域",
+      "target": "多元函数的概念",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e2",
+      "source": "多元函数的概念",
+      "target": "多元函数的极限",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e3",
+      "source": "多元函数的概念",
+      "target": "多元函数的连续性",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e4",
+      "source": "多元函数的概念",
+      "target": "偏导数",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e5",
+      "source": "多元函数的概念",
+      "target": "全微分",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e6",
+      "source": "多元函数的概念",
+      "target": "多元复合函数求导的链式法则",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e7",
+      "source": "多元函数的概念",
+      "target": "多元函数的极值",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e8",
+      "source": "多元函数的概念",
+      "target": "多元函数的最值",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e9",
+      "source": "多元函数的概念",
+      "target": "多元函数的-Taylor-公式",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e10",
+      "source": "多元函数的极限",
+      "target": "多元函数的连续性",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e11",
+      "source": "多元函数的极限",
+      "target": "偏导数",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e12",
+      "source": "偏导数",
+      "target": "全微分",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e13",
+      "source": "偏导数",
+      "target": "方向导数",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e14",
+      "source": "偏导数",
+      "target": "梯度",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e15",
+      "source": "偏导数",
+      "target": "多元复合函数求导的链式法则",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e16",
+      "source": "偏导数",
+      "target": "一阶全微分形式的不变性",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e17",
+      "source": "偏导数",
+      "target": "一个方程确定的隐函数情形",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e18",
+      "source": "偏导数",
+      "target": "方程组确定的隐函数情形",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e19",
+      "source": "偏导数",
+      "target": "多元函数的极值",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e20",
+      "source": "偏导数",
+      "target": "条件极值及拉格朗日乘数法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e21",
+      "source": "偏导数",
+      "target": "多元函数的-Taylor-公式",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e22",
+      "source": "方向导数",
+      "target": "梯度",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e23",
+      "source": "多元复合函数求导的链式法则",
+      "target": "一阶全微分形式的不变性",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e24",
+      "source": "多元复合函数求导的链式法则",
+      "target": "多元函数的极值",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e25",
+      "source": "多元复合函数求导的链式法则",
+      "target": "多元函数的最值",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e26",
+      "source": "一阶全微分形式的不变性",
+      "target": "全微分",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e27",
+      "source": "一个方程确定的隐函数情形",
+      "target": "方程组确定的隐函数情形",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e28",
+      "source": "空间曲线的切线与法平面",
+      "target": "空间曲面的切平面与法线",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e29",
+      "source": "多元函数的极值",
+      "target": "条件极值及拉格朗日乘数法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e30",
+      "source": "条件极值及拉格朗日乘数法",
+      "target": "多元函数的-Taylor-公式",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e31",
+      "source": "一元向量值函数的导数与微分",
+      "target": "二元向量值函数的导数与微分",
+      "type": "extends",
+      "label": "推广"
+    },
+    {
+      "id": "e32",
+      "source": "二重积分的概念与性质",
+      "target": "多元函数的概念",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e33",
+      "source": "二重积分的概念与性质",
+      "target": "利用直角坐标计算二重积分",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e34",
+      "source": "二重积分的概念与性质",
+      "target": "利用极坐标计算二重积分",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e35",
+      "source": "二重积分的概念与性质",
+      "target": "二重积分的换元法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e36",
+      "source": "二重积分的概念与性质",
+      "target": "三重积分的概念",
+      "type": "extends",
+      "label": "推广"
+    },
+    {
+      "id": "e37",
+      "source": "利用直角坐标计算二重积分",
+      "target": "利用极坐标计算二重积分",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e38",
+      "source": "利用直角坐标计算二重积分",
+      "target": "二重积分的换元法",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e39",
+      "source": "利用直角坐标计算二重积分",
+      "target": "利用直角坐标计算三重积分",
+      "type": "extends",
+      "label": "推广"
+    },
+    {
+      "id": "e40",
+      "source": "利用直角坐标计算二重积分",
+      "target": "重积分的几何应用——求曲面的面积",
+      "type": "related",
+      "label": "应用"
+    },
+    {
+      "id": "e41",
+      "source": "利用极坐标计算二重积分",
+      "target": "二重积分的换元法",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e42",
+      "source": "三重积分的概念",
+      "target": "多元函数的概念",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e43",
+      "source": "三重积分的概念",
+      "target": "利用直角坐标计算三重积分",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e44",
+      "source": "三重积分的概念",
+      "target": "利用柱坐标计算三重积分补球面坐标系计算三重积分",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e45",
+      "source": "利用直角坐标计算三重积分",
+      "target": "利用柱坐标计算三重积分补球面坐标系计算三重积分",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e46",
+      "source": "利用直角坐标计算三重积分",
+      "target": "重积分的几何应用——求立体体积",
+      "type": "related",
+      "label": "应用"
+    },
+    {
+      "id": "e47",
+      "source": "利用直角坐标计算三重积分",
+      "target": "重积分的物理应用——求物体的质心",
+      "type": "related",
+      "label": "应用"
+    },
+    {
+      "id": "e48",
+      "source": "利用直角坐标计算三重积分",
+      "target": "重积分的物理应用——求物体的转动惯量",
+      "type": "related",
+      "label": "应用"
+    },
+    {
+      "id": "e49",
+      "source": "利用直角坐标计算三重积分",
+      "target": "重积分的物理应用——求物体的引力",
+      "type": "related",
+      "label": "应用"
+    },
+    {
+      "id": "e50",
+      "source": "重积分的几何应用——求立体体积",
+      "target": "重积分的几何应用——求曲面的面积",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e51",
+      "source": "重积分的物理应用——求物体的质心",
+      "target": "重积分的物理应用——求物体的转动惯量",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e52",
+      "source": "重积分的物理应用——求物体的质心",
+      "target": "重积分的物理应用——求物体的引力",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e53",
+      "source": "重积分的物理应用——求物体的转动惯量",
+      "target": "重积分的物理应用——求物体的引力",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e54",
+      "source": "对弧长的曲线积分的概念与性质",
+      "target": "二重积分的概念与性质",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e55",
+      "source": "对弧长的曲线积分的概念与性质",
+      "target": "对弧长的曲线积分的计算法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e56",
+      "source": "对弧长的曲线积分的概念与性质",
+      "target": "对坐标的曲线积分的概念与性质",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e57",
+      "source": "对弧长的曲线积分的概念与性质",
+      "target": "两类曲线积分之间的联系",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e58",
+      "source": "对弧长的曲线积分的计算法",
+      "target": "对坐标的曲线积分的计算法",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e59",
+      "source": "对弧长的曲线积分的计算法",
+      "target": "两类曲线积分之间的联系",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e60",
+      "source": "对坐标的曲线积分的概念与性质",
+      "target": "对坐标的曲线积分的计算法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e61",
+      "source": "对坐标的曲线积分的概念与性质",
+      "target": "两类曲线积分之间的联系",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e62",
+      "source": "对坐标的曲线积分的概念与性质",
+      "target": "格林定理",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e63",
+      "source": "对坐标的曲线积分的概念与性质",
+      "target": "平面上曲线积分与路径无关的等价条件",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e64",
+      "source": "对坐标的曲线积分的计算法",
+      "target": "两类曲线积分之间的联系",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e65",
+      "source": "对坐标的曲线积分的计算法",
+      "target": "格林定理",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e66",
+      "source": "对坐标的曲线积分的计算法",
+      "target": "平面上曲线积分与路径无关的等价条件",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e67",
+      "source": "单连通区域和多连通区域",
+      "target": "格林定理",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e68",
+      "source": "格林定理",
+      "target": "偏导数",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e69",
+      "source": "格林定理",
+      "target": "二重积分的概念与性质",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e70",
+      "source": "格林定理",
+      "target": "利用直角坐标计算二重积分",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e71",
+      "source": "格林定理",
+      "target": "利用极坐标计算二重积分",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e72",
+      "source": "格林定理",
+      "target": "二重积分的换元法",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e73",
+      "source": "格林定理",
+      "target": "斯托克斯定理",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e74",
+      "source": "全微分方程",
+      "target": "全微分",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e75",
+      "source": "对面积的曲面积分的概念与性质",
+      "target": "对面积的曲面积分的计算法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e76",
+      "source": "对面积的曲面积分的概念与性质",
+      "target": "对坐标的曲面积分的概念与性质-",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e77",
+      "source": "对面积的曲面积分的概念与性质",
+      "target": "两类曲面积分之间的联系",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e78",
+      "source": "对面积的曲面积分的计算法",
+      "target": "对坐标的曲面积分的计算法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e79",
+      "source": "对面积的曲面积分的计算法",
+      "target": "两类曲面积分之间的联系",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e80",
+      "source": "有向曲面及曲面元素的投影",
+      "target": "对坐标的曲面积分的概念与性质-",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e81",
+      "source": "对坐标的曲面积分的概念与性质-",
+      "target": "对坐标的曲面积分的计算法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e82",
+      "source": "对坐标的曲面积分的概念与性质-",
+      "target": "两类曲面积分之间的联系",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e83",
+      "source": "高斯定理",
+      "target": "三重积分的概念",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e84",
+      "source": "高斯定理",
+      "target": "利用直角坐标计算三重积分",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e85",
+      "source": "高斯定理",
+      "target": "利用柱坐标计算三重积分补球面坐标系计算三重积分",
+      "type": "depends",
+      "label": "依赖"
+    },
+    {
+      "id": "e86",
+      "source": "高斯定理",
+      "target": "通量与散度",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e87",
+      "source": "斯托克斯定理",
+      "target": "环流量与旋度",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e88",
+      "source": "无穷级数的概念",
+      "target": "无穷级数的基本性质",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e89",
+      "source": "无穷级数的概念",
+      "target": "柯西审敛原理",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e90",
+      "source": "无穷级数的概念",
+      "target": "正项级数及其审敛法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e91",
+      "source": "无穷级数的概念",
+      "target": "交错级数及其审敛法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e92",
+      "source": "无穷级数的概念",
+      "target": "绝对收敛与条件收敛",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e93",
+      "source": "无穷级数的概念",
+      "target": "函数展开成傅里叶级数",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e94",
+      "source": "无穷级数的基本性质",
+      "target": "柯西审敛原理",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e95",
+      "source": "无穷级数的基本性质",
+      "target": "正项级数及其审敛法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e96",
+      "source": "无穷级数的基本性质",
+      "target": "交错级数及其审敛法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e97",
+      "source": "无穷级数的基本性质",
+      "target": "绝对收敛与条件收敛",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e98",
+      "source": "柯西审敛原理",
+      "target": "正项级数及其审敛法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e99",
+      "source": "柯西审敛原理",
+      "target": "交错级数及其审敛法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e100",
+      "source": "柯西审敛原理",
+      "target": "绝对收敛与条件收敛",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e101",
+      "source": "正项级数及其审敛法",
+      "target": "交错级数及其审敛法",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e102",
+      "source": "正项级数及其审敛法",
+      "target": "绝对收敛与条件收敛",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e103",
+      "source": "交错级数及其审敛法",
+      "target": "绝对收敛与条件收敛",
+      "type": "related",
+      "label": "并列"
+    },
+    {
+      "id": "e104",
+      "source": "函数项级数的概念",
+      "target": "函数项级数的收敛域",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e105",
+      "source": "函数项级数的概念",
+      "target": "幂级数及其收敛性",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e106",
+      "source": "函数项级数的概念",
+      "target": "函数项级数的一致收敛性及判别法",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e107",
+      "source": "函数项级数的概念",
+      "target": "三角级数及三角函数系的正交性",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e108",
+      "source": "函数项级数的概念",
+      "target": "函数展开成傅里叶级数",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e109",
+      "source": "幂级数及其收敛性",
+      "target": "幂级数的性质",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e110",
+      "source": "幂级数及其收敛性",
+      "target": "函数展开成幂级数",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e111",
+      "source": "幂级数的性质",
+      "target": "函数展开成幂级数",
+      "type": "prerequisite",
+      "label": "递进"
+    },
+    {
+      "id": "e112",
+      "source": "函数展开成幂级数",
+      "target": "函数的幂级数展开式的应用",
+      "type": "related",
+      "label": "应用"
+    }
+  ],
+  "modules": [
+    {
+      "id": "module-多元函数微分学",
+      "name": "多元函数微分学"
+    },
+    {
+      "id": "module-多元函数积分学",
+      "name": "多元函数积分学"
+    },
+    {
+      "id": "module-无穷级数",
+      "name": "无穷级数"
+    }
+  ],
+  "relationTypes": {
+    "contains": {
+      "label": "包含",
+      "description": "模块包含知识点",
+      "color": "#10b981"
+    },
+    "prerequisite": {
+      "label": "递进",
+      "description": "较前一知识，后一知识的程度或范围更进一层",
+      "color": "#3b82f6"
+    },
+    "depends": {
+      "label": "依赖",
+      "description": "前一知识的形成依赖后一知识，后一知识是学习前一知识的条件",
+      "color": "#f59e0b"
+    },
+    "extends": {
+      "label": "推广",
+      "description": "后一知识是前一知识的推广",
+      "color": "#8b5cf6"
+    },
+    "related": {
+      "label": "相关",
+      "description": "两个知识都是对同一个主题的不同方面进行介绍",
+      "color": "#6b7280"
+    }
+  }
+}

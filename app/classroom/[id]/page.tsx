@@ -12,10 +12,186 @@ import { useWhiteboardHistoryStore } from '@/lib/store/whiteboard-history';
 import { createLogger } from '@/lib/logger';
 import { MediaStageProvider } from '@/lib/contexts/media-stage-context';
 import { generateMediaForOutlines } from '@/lib/media/media-orchestrator';
-import { migrateScene } from '@/lib/edit/slide-schema';
+import { db, mediaFileKey } from '@/lib/utils/database';
+import { rewriteAudioRefsToIds } from '@/lib/export/classroom-zip-utils';
+import type { ClassroomManifest } from '@/lib/export/classroom-zip-types';
 import type { Scene } from '@/lib/types/stage';
+import { migrateScene } from '@/lib/edit/slide-schema';
 
 const log = createLogger('Classroom');
+
+// Import shared classroom ZIP - use original IDs, no new generation
+async function importSharedClassroomZip(zipBlob: Blob, shareId: string): Promise<boolean> {
+  try {
+    const JSZip = (await import('jszip')).default;
+    const zip = await JSZip.loadAsync(zipBlob);
+
+    const manifestFile = zip.file('manifest.json');
+    if (!manifestFile) {
+      log.error('Invalid ZIP: missing manifest.json');
+      return false;
+    }
+
+    const manifestText = await manifestFile.async('text');
+    const manifest: ClassroomManifest = JSON.parse(manifestText);
+
+    if (!manifest.stage || !manifest.scenes) {
+      log.error('Invalid manifest: missing stage or scenes');
+      return false;
+    }
+
+    // Use original stageId from manifest (shareId should match)
+    const stageId = manifest.stage.id || shareId;
+    const now = Date.now();
+
+    // Audio ref → ID mapping (keep original)
+    const audioRefToId: Record<string, string> = {};
+    for (const [zipPath, entry] of Object.entries(manifest.mediaIndex ?? {})) {
+      if (entry.type === 'audio' && !entry.missing) {
+        const filename = zipPath.split('/').pop() ?? '';
+        audioRefToId[zipPath] = filename.replace(/\.\w+$/, '');
+      }
+    }
+
+    // Media ref → ID mapping (keep original elementId)
+    const mediaRefToId: Record<string, string> = {};
+    for (const [zipPath, entry] of Object.entries(manifest.mediaIndex ?? {})) {
+      if ((entry.type === 'generated' || entry.type === 'image') && !entry.missing) {
+        const filename = zipPath.split('/').pop() ?? '';
+        const elementId = filename.replace(/\.\w+$/, '');
+        mediaRefToId[zipPath] = mediaFileKey(stageId, elementId);
+      }
+    }
+
+    // Write audio files to IndexedDB
+    for (const [zipPath, audioId] of Object.entries(audioRefToId)) {
+      const zipEntry = zip.file(zipPath);
+      if (!zipEntry) continue;
+      const blob = await zipEntry.async('blob');
+      const meta = manifest.mediaIndex[zipPath];
+      await db.audioFiles.put({
+        id: audioId,
+        blob,
+        format: meta?.format || 'mp3',
+        duration: meta?.duration,
+        voice: meta?.voice,
+        createdAt: now,
+      });
+    }
+
+    // Write media files to IndexedDB (these are the actual images/videos)
+    for (const [zipPath, mediaId] of Object.entries(mediaRefToId)) {
+      const zipEntry = zip.file(zipPath);
+      if (!zipEntry) continue;
+      const blob = await zipEntry.async('blob');
+      const meta = manifest.mediaIndex[zipPath];
+
+      const record: any = {
+        id: mediaId,
+        stageId: stageId,
+        type: meta?.mimeType?.startsWith('video/') ? 'video' : 'image',
+        blob,
+        mimeType: meta?.mimeType || 'image/jpeg',
+        size: meta?.size || blob.size,
+        prompt: meta?.prompt || '',
+        params: '',
+        createdAt: now,
+      };
+
+      const posterPath = zipPath.replace(/\.\w+$/, '.poster.jpg');
+      const posterEntry = zip.file(posterPath);
+      if (posterEntry) {
+        record.poster = await posterEntry.async('blob');
+      }
+
+      await db.mediaFiles.put(record);
+    }
+
+    // Write stage (use original ID)
+    await db.stages.put({
+      id: stageId,
+      name: manifest.stage.name || 'Shared Classroom',
+      description: manifest.stage.description,
+      languageDirective: manifest.stage.language,
+      style: manifest.stage.style,
+      createdAt: manifest.stage.createdAt || now,
+      updatedAt: now,
+      agentIds: manifest.agents?.map((a: any) => a.id) ?? undefined,
+    });
+
+    // Write agents (use original IDs)
+    if (manifest.agents?.length) {
+      const agentRecords = manifest.agents.map((a: any) => ({
+        id: a.id,
+        stageId: stageId,
+        name: a.name,
+        role: a.role,
+        persona: a.persona,
+        avatar: a.avatar,
+        color: a.color,
+        priority: a.priority,
+        createdAt: now,
+      }));
+      await db.generatedAgents.bulkPut(agentRecords);
+    }
+
+    // Write scenes (keep original IDs)
+    const sceneRecords = manifest.scenes.map((mScene: any, index: number) => {
+      const sceneId = mScene.id || `scene_${index}`;
+      const actions = mScene.actions
+        ? rewriteAudioRefsToIds(mScene.actions, audioRefToId)
+        : undefined;
+
+      let multiAgent = undefined;
+      if (mScene.multiAgent?.enabled) {
+        multiAgent = {
+          enabled: true,
+          agentIds: (mScene.multiAgent.agentIndices ?? [])
+            .map((idx: number) => manifest.agents?.[idx]?.id)
+            .filter(Boolean),
+          directorPrompt: mScene.multiAgent.directorPrompt,
+        };
+      }
+
+      return {
+        id: sceneId,
+        stageId: stageId,
+        type: mScene.type,
+        title: mScene.title,
+        order: mScene.order ?? index,
+        content: mScene.content,
+        actions,
+        whiteboard: mScene.whiteboards,
+        multiAgent,
+        createdAt: now,
+        updatedAt: now,
+      };
+    });
+    await db.scenes.bulkPut(sceneRecords);
+
+    // Update store with imported data
+    useStageStore.getState().setStage({
+      id: stageId,
+      name: manifest.stage.name || 'Shared Classroom',
+      description: manifest.stage.description,
+      languageDirective: manifest.stage.language,
+      style: manifest.stage.style,
+      createdAt: manifest.stage.createdAt || now,
+      updatedAt: now,
+      agentIds: manifest.agents?.map((a: any) => a.id) ?? undefined,
+    });
+    useStageStore.setState({
+      scenes: sceneRecords,
+      currentSceneId: sceneRecords[0]?.id ?? null,
+    });
+
+    log.info('Shared classroom imported:', shareId, '=', stageId);
+    return true;
+  } catch (error) {
+    log.error('Failed to import shared classroom:', error);
+    return false;
+  }
+}
 
 export default function ClassroomDetailPage() {
   const params = useParams();
@@ -48,24 +224,18 @@ export default function ClassroomDetailPage() {
             if (json.success && json.classroom) {
               const { stage, scenes } = json.classroom;
               useStageStore.getState().setStage(stage);
-              // Normalize legacy slide content (missing schemaVersion) on the
-              // way in, same as the store's setScenes/loadFromStorage paths —
-              // server snapshots predate the schema field.
+              // Normalize legacy slide content (missing schemaVersion)
               const migrated = (scenes as Scene[]).map(migrateScene);
               useStageStore.setState({
                 scenes: migrated,
                 currentSceneId: migrated[0]?.id ?? null,
-                // Match `loadFromStorage` semantics: mode is transient UI
-                // state, not persisted with the stage. Reset on every
-                // classroom load so SPA navigation doesn't carry Pro
-                // mode across.
-                mode: 'playback',
+                // Reset mode on classroom load so SPA navigation
+                // doesn't carry Pro mode across.
+                mode: 'playback' as const,
               });
               log.info('Loaded from server-side storage:', classroomId);
 
               // Hydrate server-generated agents into IndexedDB + registry.
-              // Don't set selectedAgentIds here — the general agent
-              // restoration logic below (Path 2) handles it uniformly.
               if (stage.generatedAgentConfigs?.length) {
                 const { saveGeneratedAgents } = await import('@/lib/orchestration/registry/store');
                 await saveGeneratedAgents(stage.id, stage.generatedAgentConfigs);
@@ -78,12 +248,44 @@ export default function ClassroomDetailPage() {
         }
       }
 
+      // If still no data, try shared classroom API
+      if (!useStageStore.getState().stage) {
+        log.info('No server-side data, trying shared classroom for:', classroomId);
+        try {
+          const shareRes = await fetch(
+            `/api/classroom-share?id=${encodeURIComponent(classroomId)}`,
+          );
+          if (shareRes.ok) {
+            const shareJson = await shareRes.json();
+            if (shareJson.success && shareJson.zipData) {
+              // Convert base64 to blob and import
+              const zipBlob = await fetch(`data:application/zip;base64,${shareJson.zipData}`).then(
+                (r) => r.blob(),
+              );
+              const success = await importSharedClassroomZip(zipBlob, classroomId);
+              if (success) {
+                log.info('Loaded from shared classroom:', classroomId);
+              }
+            }
+          }
+        } catch (shareErr) {
+          log.warn('Shared classroom fetch failed:', shareErr);
+        }
+      }
+
+      // If still no data after all attempts, show error
+      if (!useStageStore.getState().stage) {
+        setError('Classroom not found');
+        return;
+      }
+
       // Restore completed media generation tasks from IndexedDB
-      await useMediaGenerationStore.getState().restoreFromDB(classroomId);
+      const stageId = useStageStore.getState().stage?.id || classroomId;
+      await useMediaGenerationStore.getState().restoreFromDB(stageId);
       // Restore agents for this stage
       const { loadGeneratedAgentsForStage, useAgentRegistry } =
         await import('@/lib/orchestration/registry/store');
-      const generatedAgentIds = await loadGeneratedAgentsForStage(classroomId);
+      const generatedAgentIds = await loadGeneratedAgentsForStage(stageId);
       const { useSettingsStore } = await import('@/lib/store/settings');
       if (generatedAgentIds.length > 0) {
         // Auto mode — use generated agents from IndexedDB

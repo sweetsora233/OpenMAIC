@@ -200,6 +200,15 @@
       "imageUrlPlaceholder": "https://…",
       "imageInsert": "挿入"
     },
+    "interactive": {
+      "optimize": "ページを改善",
+      "optimizeTooltip": "フィードバックをもとにこのインタラクティブページを作り直す",
+      "optimizeDialogTitle": "インタラクティブページを改善",
+      "optimizeDialogDesc": "改善したい体験を記述してください。現在のインタラクティブページをフィードバックに基づいて再生成します。",
+      "optimizeSubmit": "改善を開始",
+      "optimizeFailed": "インタラクティブページの改善に失敗しました",
+      "optimizeUnavailable": "このインタラクティブシーンには再生成に使える HTML がないため、Pro モードではまだ改善できません。"
+    },
     "nav": {
       "addSlide": "スライドを追加",
       "duplicate": "複製",
@@ -471,7 +480,13 @@
     "generatingInProgress": "生成中...",
     "webSearching": "ウェブ検索",
     "webSearchingDesc": "ウェブで最新情報を検索しています",
-    "webSearchFailed": "ウェブ検索に失敗しました"
+    "webSearchFailed": "ウェブ検索に失敗しました",
+    "regenerateScene": "再生成",
+    "regenerateSceneDesc": "現在のページの問題を説明してください。AIがフィードバックに基づいて改善します",
+    "describeIssue": "問題を説明",
+    "feedbackPlaceholder": "例：ボタンがクリックしても反応しない、またはアニメーションが速すぎて見えない...",
+    "quickFeedback": "クイックフィードバック",
+    "regenerating": "再生成中..."
   },
   "settings": {
     "title": "設定",

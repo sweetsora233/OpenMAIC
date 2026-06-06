@@ -200,6 +200,15 @@
       "imageUrlPlaceholder": "https://…",
       "imageInsert": "إدراج"
     },
+    "interactive": {
+      "optimize": "تحسين الصفحة",
+      "optimizeTooltip": "إعادة بناء هذه الصفحة التفاعلية بناءً على الملاحظات",
+      "optimizeDialogTitle": "تحسين الصفحة التفاعلية",
+      "optimizeDialogDesc": "صف ما الذي تريد تحسينه في التجربة التفاعلية. سيعيد النظام توليد الصفحة الحالية بناءً على ملاحظاتك.",
+      "optimizeSubmit": "ابدأ التحسين",
+      "optimizeFailed": "فشل تحسين الصفحة التفاعلية",
+      "optimizeUnavailable": "لا تحتوي هذه الصفحة التفاعلية على HTML قابل لإعادة الاستخدام، لذلك لا يمكن تحسينها من وضع Pro حالياً."
+    },
     "nav": {
       "addSlide": "إضافة شريحة",
       "duplicate": "تكرار",
@@ -471,7 +480,13 @@
     "generatingInProgress": "جارٍ التوليد...",
     "webSearching": "بحث في الإنترنت",
     "webSearchingDesc": "جارٍ البحث في الإنترنت عن معلومات محدّثة",
-    "webSearchFailed": "فشل البحث في الإنترنت"
+    "webSearchFailed": "فشل البحث في الإنترنت",
+    "regenerateScene": "إعادة التوليد",
+    "regenerateSceneDesc": "صف مشاكل الصفحة الحالية، سيقوم AI بتحسينها بناءً على ملاحظاتك",
+    "describeIssue": "وصف المشكلة",
+    "feedbackPlaceholder": "مثال: الأزرار لا تستجيب عند النقر، أو الرسوم المتحركة سريعة جدًا...",
+    "quickFeedback": "ملاحظة سريعة",
+    "regenerating": "جارٍ إعادة التوليد..."
   },
   "settings": {
     "title": "الإعدادات",

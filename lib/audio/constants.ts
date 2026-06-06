@@ -674,20 +674,26 @@ export const TTS_PROVIDERS: Record<BuiltInTTSProviderId, TTSProviderConfig> = {
     voices: [
       // 中文常用
       {
-        id: 'female-yujie',
-        name: '御姐音色',
-        language: 'zh-CN',
-        gender: 'female',
-      },
-      {
         id: 'male-qn-jingying',
         name: '精英青年',
         language: 'zh-CN',
         gender: 'male',
       },
       {
+        id: 'audiobook_male_1',
+        name: '有声书男声',
+        language: 'zh-CN',
+        gender: 'male',
+      },
+      {
         id: 'female-shaonv',
         name: '少女音色',
+        language: 'zh-CN',
+        gender: 'female',
+      },
+      {
+        id: 'female-yujie',
+        name: '御姐音色',
         language: 'zh-CN',
         gender: 'female',
       },
@@ -926,6 +932,18 @@ export const TTS_PROVIDERS: Record<BuiltInTTSProviderId, TTSProviderConfig> = {
     ],
     supportedFormats: ['mp3', 'opus', 'pcm', 'wav', 'ulaw', 'alaw'],
     speedRange: { min: 0.7, max: 1.2, default: 1.0 },
+  },
+
+  'server-tts': {
+    id: 'server-tts',
+    name: '服务器TTS',
+    requiresApiKey: false,
+    icon: '/logos/server.svg',
+    models: [],
+    defaultModelId: '',
+    voices: [{ id: 'default', name: '默认', language: 'zh-CN', gender: 'neutral' }],
+    supportedFormats: ['mp3', 'wav'],
+    speedRange: { min: 0.5, max: 2.0, default: 1.0 },
   },
 
   'browser-native-tts': {
@@ -1283,6 +1301,7 @@ export const DEFAULT_TTS_VOICES: Record<BuiltInTTSProviderId, string> = {
   'elevenlabs-tts': 'EXAVITQu4vr4xnSDxMaL',
   'minimax-tts': 'female-yujie',
   'lemonade-tts': 'af_heart',
+  'server-tts': 'default',
   'browser-native-tts': 'default',
 };
 
@@ -1296,6 +1315,7 @@ export const DEFAULT_TTS_MODELS: Record<BuiltInTTSProviderId, string> = {
   'elevenlabs-tts': 'eleven_multilingual_v2',
   'minimax-tts': 'speech-2.8-hd',
   'lemonade-tts': 'kokoro-v1',
+  'server-tts': '',
   'browser-native-tts': '',
 };
 

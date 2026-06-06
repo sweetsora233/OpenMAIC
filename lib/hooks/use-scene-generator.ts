@@ -14,6 +14,7 @@ import { splitLongSpeechActions } from '@/lib/audio/tts-utils';
 import { getVoxCPMProviderOptions } from '@/lib/audio/voxcpm-voices';
 import { generateMediaForOutlines } from '@/lib/media/media-orchestrator';
 import { createLogger } from '@/lib/logger';
+import { regenerateSceneWithFeedback } from '@/lib/generation/regenerate-scene-client';
 
 const log = createLogger('SceneGenerator');
 
@@ -588,5 +589,10 @@ export function useSceneGenerator(options: UseSceneGeneratorOptions = {}) {
     [store],
   );
 
-  return { generateRemaining, retrySingleOutline, stop, isGenerating };
+  /** Regenerate a completed scene based on user feedback. */
+  const regenerateScene = useCallback(async (sceneId: string, userFeedback: string) => {
+    await regenerateSceneWithFeedback(sceneId, userFeedback);
+  }, []);
+
+  return { generateRemaining, retrySingleOutline, regenerateScene, stop, isGenerating };
 }
