@@ -53,11 +53,14 @@ export function RegenerateDialog({
 
   const defaultQuickFeedbacks = locale.startsWith('zh') ? QUICK_FEEDBACKS_ZH : QUICK_FEEDBACKS_EN;
   const feedbackOptions = quickFeedbacks ?? defaultQuickFeedbacks;
+  const fallbackFeedback = locale.startsWith('zh')
+    ? '请整体优化当前页面，重点提升交互逻辑、可用性和反馈表现。'
+    : 'Please improve the current page overall, especially interaction clarity, usability, and visible feedback.';
 
   const handleSubmit = async () => {
-    if (!feedback.trim()) return;
+    const finalFeedback = feedback.trim() || fallbackFeedback;
     try {
-      await onRegenerate(feedback.trim());
+      await onRegenerate(finalFeedback);
       setFeedback('');
     } catch {
       // Caller owns error presentation; keep dialog state intact for retry.
@@ -65,7 +68,7 @@ export function RegenerateDialog({
   };
 
   const handleQuickFeedback = (text: string) => {
-    setFeedback(feedback ? `${feedback}, ${text}` : text);
+    setFeedback((current) => (current ? `${current}, ${text}` : text));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -122,7 +125,7 @@ export function RegenerateDialog({
           <Button variant="ghost" onClick={onCancel} disabled={isRegenerating}>
             {t('common.cancel')}
           </Button>
-          <Button onClick={handleSubmit} disabled={isRegenerating || !feedback.trim()}>
+          <Button onClick={handleSubmit} disabled={isRegenerating}>
             {isRegenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {isRegenerating
               ? t('generation.regenerating')

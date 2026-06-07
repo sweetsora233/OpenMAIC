@@ -3,17 +3,14 @@
 import { create } from 'zustand';
 import { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, Loader2 } from 'lucide-react';
 import { useStageStore } from '@/lib/store/stage';
 import { useI18n } from '@/lib/hooks/use-i18n';
 import { InteractiveRenderer } from '@/components/scene-renderers/interactive-renderer';
 import { RegenerateDialog } from '@/components/ui/regenerate-dialog';
 import { regenerateSceneWithFeedback } from '@/lib/generation/regenerate-scene-client';
 import { CHROME_EASE } from '@/lib/edit/transitions';
-import type {
-  SceneEditorSurface,
-  SurfaceState,
-} from '@/lib/edit/scene-editor-surface';
+import type { SceneEditorSurface, SurfaceState } from '@/lib/edit/scene-editor-surface';
 import type { InteractiveContent, Scene } from '@/lib/types/stage';
 
 interface InteractiveSurfaceUiState {
@@ -34,6 +31,7 @@ function InteractiveCanvas() {
   const currentSceneId = useStageStore.use.currentSceneId();
   const regeneratingSceneId = useStageStore.use.regeneratingSceneId();
   const dialogOpen = useInteractiveSurfaceUiStore((s) => s.dialogOpen);
+  const openDialog = useInteractiveSurfaceUiStore((s) => s.openDialog);
   const closeDialog = useInteractiveSurfaceUiStore((s) => s.closeDialog);
   const [collapsed, setCollapsed] = useState(false);
   const [errorState, setErrorState] = useState<{ sceneId: string; message: string } | null>(null);
@@ -52,17 +50,17 @@ function InteractiveCanvas() {
   }
 
   const canOptimize = Boolean(scene.content.html);
-  const openDialog = useInteractiveSurfaceUiStore((s) => s.openDialog);
+  const isRegenerating = regeneratingSceneId === scene.id;
 
   const handleRegenerate = async (feedback: string) => {
     setErrorState(null);
+    closeDialog();
     const result = await regenerateSceneWithFeedback(scene.id, feedback);
     if (!result.success) {
       const message = result.error || t('edit.interactive.optimizeFailed');
       setErrorState({ sceneId: scene.id, message });
       throw new Error(message);
     }
-    closeDialog();
   };
 
   const quickFeedbacks = locale.startsWith('zh')
@@ -78,6 +76,21 @@ function InteractiveCanvas() {
   return (
     <>
       <InteractiveRenderer content={scene.content} sceneId={scene.id} />
+      {isRegenerating && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-background/72 backdrop-blur-sm">
+          <div className="flex min-w-[220px] flex-col items-center gap-3 rounded-2xl border border-border/60 bg-background/92 px-6 py-5 shadow-xl">
+            <Loader2 className="h-6 w-6 animate-spin text-violet-500" />
+            <div className="text-center">
+              <div className="text-sm font-semibold text-foreground">
+                {t('edit.interactive.optimizing')}
+              </div>
+              <div className="mt-1 text-xs text-muted-foreground">
+                {t('edit.interactive.optimizeDialogDesc')}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {errorState?.sceneId === scene.id && (
         <div className="absolute top-4 left-1/2 z-20 -translate-x-1/2">
           <div className="rounded-full bg-destructive px-3 py-1.5 text-xs font-medium text-destructive-foreground shadow-md">
@@ -116,10 +129,10 @@ function InteractiveCanvas() {
                 <button
                   type="button"
                   onClick={openDialog}
-                  disabled={regeneratingSceneId === scene.id}
+                  disabled={isRegenerating}
                   className="flex h-9 items-center rounded-xl px-3 text-xs font-medium text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-400 dark:hover:bg-zinc-800 dark:hover:text-zinc-100 transition-colors disabled:pointer-events-none disabled:opacity-40"
                 >
-                  {regeneratingSceneId === scene.id
+                  {isRegenerating
                     ? t('edit.interactive.optimizing')
                     : t('edit.interactive.optimize')}
                 </button>
@@ -143,7 +156,7 @@ function InteractiveCanvas() {
         sceneTitle={scene.title}
         onRegenerate={handleRegenerate}
         onCancel={closeDialog}
-        isRegenerating={regeneratingSceneId === scene.id}
+        isRegenerating={isRegenerating}
         title={t('edit.interactive.optimizeDialogTitle')}
         description={t('edit.interactive.optimizeDialogDesc')}
         submitLabel={t('edit.interactive.optimizeSubmit')}

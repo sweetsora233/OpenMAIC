@@ -4,8 +4,26 @@ import { createLogger } from '@/lib/logger';
 import { useStageStore } from '@/lib/store/stage';
 import { useSettingsStore } from '@/lib/store/settings';
 import { getCurrentModelConfig } from '@/lib/utils/model-config';
+import type { SceneOutline } from '@/lib/types/generation';
+import type { Scene } from '@/lib/types/stage';
 
 const log = createLogger('SceneRegeneration');
+
+function buildFallbackOutline(scene: Scene): SceneOutline {
+  return {
+    id: `regenerate-${scene.id}`,
+    type: scene.type,
+    title: scene.title,
+    description: scene.title,
+    keyPoints: [],
+    order: scene.order,
+    ...(scene.type === 'interactive' &&
+    scene.content?.type === 'interactive' &&
+    scene.content.widgetType
+      ? { widgetType: scene.content.widgetType }
+      : {}),
+  };
+}
 
 function getApiHeaders(): HeadersInit {
   const config = getCurrentModelConfig();
@@ -42,10 +60,8 @@ export async function regenerateSceneWithFeedback(
     return { success: false, error: 'Scene not found' };
   }
 
-  const outline = stageStore.outlines.find((item) => item.order === scene.order);
-  if (!outline) {
-    return { success: false, error: 'Outline not found' };
-  }
+  const outline =
+    stageStore.outlines.find((item) => item.order === scene.order) ?? buildFallbackOutline(scene);
 
   const languageDirective = stageStore.stage.languageDirective || 'zh-CN';
 
