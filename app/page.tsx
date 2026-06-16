@@ -23,7 +23,6 @@ import {
   Upload,
   Sparkles,
   Atom,
-  Eye,
   X,
   Network,
 } from 'lucide-react';
@@ -128,8 +127,6 @@ function HomePage() {
 
   // Model setup state
   const currentModelId = useSettingsStore((s) => s.modelId);
-  const outlinePreviewEnabled = useSettingsStore((s) => s.outlinePreviewEnabled);
-  const setOutlinePreviewEnabled = useSettingsStore((s) => s.setOutlinePreviewEnabled);
   const [recentOpen, setRecentOpen] = useState(true);
   const persistRecentOpen = (next: boolean) => {
     setRecentOpen(next);
@@ -635,29 +632,6 @@ function HomePage() {
                 </TooltipTrigger>
                 <TooltipContent side="top" className="text-xs">
                   {t('toolbar.interactiveModeHint')}
-                </TooltipContent>
-              </Tooltip>
-
-              {/* Outline preview toggle */}
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-                    onClick={() => setOutlinePreviewEnabled(!outlinePreviewEnabled)}
-                    className={cn(
-                      'relative inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-all cursor-pointer select-none whitespace-nowrap border shrink-0 h-8',
-                      outlinePreviewEnabled
-                        ? 'bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 border-violet-500 shadow-[0_0_12px_rgba(139,92,246,0.35)] dark:shadow-[0_0_12px_rgba(139,92,246,0.25)]'
-                        : 'border-border/50 text-muted-foreground/70 hover:text-foreground hover:bg-muted/60',
-                    )}
-                  >
-                    <Eye className="size-3.5 relative z-10" />
-                    <span className="relative z-10">{t('toolbar.outlinePreviewLabel')}</span>
-                  </motion.button>
-                </TooltipTrigger>
-                <TooltipContent side="top" className="text-xs">
-                  {t('toolbar.outlinePreviewHint')}
                 </TooltipContent>
               </Tooltip>
 

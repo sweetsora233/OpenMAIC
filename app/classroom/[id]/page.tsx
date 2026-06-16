@@ -15,6 +15,8 @@ import { generateMediaForOutlines } from '@/lib/media/media-orchestrator';
 import { db, mediaFileKey } from '@/lib/utils/database';
 import { rewriteAudioRefsToIds } from '@/lib/export/classroom-zip-utils';
 import type { ClassroomManifest } from '@/lib/export/classroom-zip-types';
+import type { Scene } from '@/lib/types/stage';
+import { migrateScene } from '@/lib/edit/slide-schema';
 
 const log = createLogger('Classroom');
 
@@ -202,7 +204,7 @@ export default function ClassroomDetailPage() {
 
   const generationStartedRef = useRef(false);
 
-  const { generateRemaining, retrySingleOutline, regenerateScene, stop } = useSceneGenerator({
+  const { generateRemaining, retrySingleOutline, stop } = useSceneGenerator({
     onComplete: () => {
       log.info('[Classroom] All scenes generated');
     },
@@ -222,9 +224,14 @@ export default function ClassroomDetailPage() {
             if (json.success && json.classroom) {
               const { stage, scenes } = json.classroom;
               useStageStore.getState().setStage(stage);
+              // Normalize legacy slide content (missing schemaVersion)
+              const migrated = (scenes as Scene[]).map(migrateScene);
               useStageStore.setState({
-                scenes,
-                currentSceneId: scenes[0]?.id ?? null,
+                scenes: migrated,
+                currentSceneId: migrated[0]?.id ?? null,
+                // Reset mode on classroom load so SPA navigation
+                // doesn't carry Pro mode across.
+                mode: 'playback' as const,
               });
               log.info('Loaded from server-side storage:', classroomId);
 
@@ -410,7 +417,7 @@ export default function ClassroomDetailPage() {
               </div>
             </div>
           ) : (
-            <Stage onRetryOutline={retrySingleOutline} onRegenerateScene={regenerateScene} />
+            <Stage onRetryOutline={retrySingleOutline} />
           )}
         </div>
       </MediaStageProvider>

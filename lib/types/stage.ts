@@ -6,9 +6,17 @@ import type { WidgetType, WidgetConfig, TeacherAction } from '@/lib/types/widget
 
 export type SceneType = 'slide' | 'quiz' | 'interactive' | 'pbl';
 
-export type StageMode = 'autonomous' | 'playback';
+export type StageMode = 'autonomous' | 'playback' | 'edit';
 
 export type Whiteboard = Omit<Slide, 'theme' | 'turningMode' | 'sectionTag' | 'type'>;
+
+export interface VideoManifestEntry {
+  type: 'video';
+  prompt: string;
+  aspectRatio?: string;
+}
+
+export type VideoManifest = Record<string, VideoManifestEntry>;
 
 /**
  * Stage - Represents the entire classroom/course
@@ -24,6 +32,9 @@ export interface Stage {
   style?: string;
   // Whiteboard data
   whiteboard?: Whiteboard[];
+  // Generated video requests keyed by the mediaRef used by PPTVideoElement.
+  // Runtime media state lives in the media task store / persisted media files.
+  videoManifest?: VideoManifest;
   // Agent IDs selected when this classroom was created
   agentIds?: string[];
   /**
@@ -86,10 +97,16 @@ export interface Scene {
 export type SceneContent = SlideContent | QuizContent | InteractiveContent | PBLContent;
 
 /**
- * Slide content - PPTist Canvas data
+ * Slide content - PPTist Canvas data.
+ *
+ * `schemaVersion` tags the on-disk shape of this content so future schema
+ * changes can ship behind a migration step (see `migrateSlideContent`).
+ * Optional for backward compatibility — legacy / pre-versioning data
+ * lacks the field and `migrateSlideContent` normalizes it.
  */
 export interface SlideContent {
   type: 'slide';
+  schemaVersion?: number;
   // PPTist slide data structure
   canvas: Slide;
 }

@@ -48,6 +48,8 @@ const ENV_PREFIXES_TO_CLEAR = [
   'VIDEO_SORA',
   'VIDEO_MINIMAX',
   'VIDEO_GROK',
+  'BOCHA',
+  'WEB_SEARCH_MINIMAX',
 ];
 
 function clearProviderEnv() {
@@ -57,6 +59,8 @@ function clearProviderEnv() {
     delete process.env[`${prefix}_MODELS`];
   }
   delete process.env.TAVILY_API_KEY;
+  delete process.env.BOCHA_API_KEY;
+  delete process.env.BOCHA_BASE_URL;
 }
 
 vi.mock('fs', async (importOriginal) => {
@@ -103,8 +107,15 @@ describe('provider-config', () => {
       expect(resolveApiKey('openai')).toBe('');
     });
 
-    it('prefers client key over server key', async () => {
+    it('ignores client key for a server-managed provider (server is authoritative)', async () => {
       vi.stubEnv('OPENAI_API_KEY', 'sk-server');
+      const { resolveApiKey } = await import('@/lib/server/provider-config');
+      // openai is server-configured ⇒ managed ⇒ client override is ignored.
+      expect(resolveApiKey('openai', 'sk-client')).toBe('sk-server');
+    });
+
+    it('uses the client key for an unmanaged provider', async () => {
+      // No env key for openai ⇒ not managed ⇒ client key flows through.
       const { resolveApiKey } = await import('@/lib/server/provider-config');
       expect(resolveApiKey('openai', 'sk-client')).toBe('sk-client');
     });
@@ -122,9 +133,19 @@ describe('provider-config', () => {
   });
 
   describe('resolveBaseUrl', () => {
-    it('returns client URL when provided', async () => {
+    it('returns client URL for an unmanaged provider', async () => {
       const { resolveBaseUrl } = await import('@/lib/server/provider-config');
       expect(resolveBaseUrl('openai', 'https://custom.api.com')).toBe('https://custom.api.com');
+    });
+
+    it('ignores client URL for a server-managed provider', async () => {
+      vi.stubEnv('OPENAI_API_KEY', 'sk-server');
+      vi.stubEnv('OPENAI_BASE_URL', 'https://proxy.example.com/v1');
+      const { resolveBaseUrl } = await import('@/lib/server/provider-config');
+      // Managed ⇒ server URL wins, client override is dropped.
+      expect(resolveBaseUrl('openai', 'https://client.example.com')).toBe(
+        'https://proxy.example.com/v1',
+      );
     });
 
     it('returns server URL from env when no client URL', async () => {
@@ -164,7 +185,7 @@ providers:
       expect(getServerProviders()).toEqual({});
     });
 
-    it('returns provider metadata without API keys', async () => {
+    it('returns allowed models but never the API key or base URL', async () => {
       vi.stubEnv('OPENAI_API_KEY', 'sk-secret');
       vi.stubEnv('OPENAI_BASE_URL', 'https://proxy.com/v1');
       vi.stubEnv('OPENAI_MODELS', 'gpt-4o,gpt-4o-mini');
@@ -173,9 +194,9 @@ providers:
 
       expect(providers.openai).toBeDefined();
       expect(providers.openai.models).toEqual(['gpt-4o', 'gpt-4o-mini']);
-      expect(providers.openai.baseUrl).toBe('https://proxy.com/v1');
-      // API key must NOT be exposed
+      // Neither the API key nor the base URL may leak to the client.
       expect((providers.openai as Record<string, unknown>).apiKey).toBeUndefined();
+      expect((providers.openai as Record<string, unknown>).baseUrl).toBeUndefined();
     });
 
     it('lists multiple providers', async () => {
@@ -256,6 +277,42 @@ providers:
       const { resolveWebSearchApiKey } = await import('@/lib/server/provider-config');
       expect(resolveWebSearchApiKey()).toBe('tvly-bare-env');
     });
+
+    it('resolves Bocha API key and base URL from env vars (managed flag only, no URL exposed)', async () => {
+      vi.stubEnv('BOCHA_API_KEY', 'bocha-env-key');
+      vi.stubEnv('BOCHA_BASE_URL', 'https://proxy.example.com/bocha');
+      const { getServerWebSearchProviders, resolveWebSearchApiKey, resolveWebSearchBaseUrl } =
+        await import('@/lib/server/provider-config');
+
+      expect(resolveWebSearchApiKey('bocha', undefined)).toBe('bocha-env-key');
+      expect(resolveWebSearchBaseUrl('bocha')).toBe('https://proxy.example.com/bocha');
+      // The map exposes only the managed flag (presence) — not the base URL.
+      expect(getServerWebSearchProviders().bocha).toEqual({});
+    });
+
+    it('ignores client key and base URL for a server-managed Bocha provider', async () => {
+      vi.stubEnv('BOCHA_API_KEY', 'bocha-env-key');
+      vi.stubEnv('BOCHA_BASE_URL', 'https://proxy.example.com/bocha');
+      const { resolveWebSearchApiKey, resolveWebSearchBaseUrl } =
+        await import('@/lib/server/provider-config');
+
+      // Managed ⇒ server config is authoritative, client overrides dropped.
+      expect(resolveWebSearchApiKey('bocha', 'bocha-client-key')).toBe('bocha-env-key');
+      expect(resolveWebSearchBaseUrl('bocha', 'https://client.example.com')).toBe(
+        'https://proxy.example.com/bocha',
+      );
+    });
+
+    it('resolves MiniMax web search API key and base URL from dedicated env vars', async () => {
+      vi.stubEnv('WEB_SEARCH_MINIMAX_API_KEY', 'minimax-env-key');
+      vi.stubEnv('WEB_SEARCH_MINIMAX_BASE_URL', 'https://proxy.example.com/minimax');
+      const { getServerWebSearchProviders, resolveWebSearchApiKey, resolveWebSearchBaseUrl } =
+        await import('@/lib/server/provider-config');
+
+      expect(resolveWebSearchApiKey('minimax', undefined)).toBe('minimax-env-key');
+      expect(resolveWebSearchBaseUrl('minimax')).toBe('https://proxy.example.com/minimax');
+      expect(getServerWebSearchProviders().minimax).toEqual({});
+    });
   });
 
   describe('baseUrl-only providers (e.g. mineru)', () => {
@@ -265,20 +322,22 @@ pdf:
   mineru:
     baseUrl: http://localhost:8888
 `;
-      const { getServerPDFProviders } = await import('@/lib/server/provider-config');
+      const { getServerPDFProviders, resolvePDFBaseUrl } =
+        await import('@/lib/server/provider-config');
       const providers = getServerPDFProviders();
 
       expect(providers.mineru).toBeDefined();
-      expect(providers.mineru.baseUrl).toBe('http://localhost:8888');
+      expect(resolvePDFBaseUrl('mineru')).toBe('http://localhost:8888');
     });
 
     it('includes provider from env when only BASE_URL is set (no API_KEY)', async () => {
       vi.stubEnv('PDF_MINERU_BASE_URL', 'http://localhost:8888');
-      const { getServerPDFProviders } = await import('@/lib/server/provider-config');
+      const { getServerPDFProviders, resolvePDFBaseUrl } =
+        await import('@/lib/server/provider-config');
       const providers = getServerPDFProviders();
 
       expect(providers.mineru).toBeDefined();
-      expect(providers.mineru.baseUrl).toBe('http://localhost:8888');
+      expect(resolvePDFBaseUrl('mineru')).toBe('http://localhost:8888');
     });
 
     it('excludes PDF provider when only apiKey is configured (no baseUrl)', async () => {
@@ -295,6 +354,19 @@ pdf:
   });
 
   describe('image and video provider metadata', () => {
+    it('uses standard OpenAI env vars for OpenAI image generation fallback', async () => {
+      vi.stubEnv('OPENAI_API_KEY', 'sk-openai');
+      vi.stubEnv('OPENAI_BASE_URL', 'https://proxy.example.com/v1');
+      const { getServerImageProviders, resolveImageApiKey, resolveImageBaseUrl } =
+        await import('@/lib/server/provider-config');
+
+      const providers = getServerImageProviders();
+      // No base URL exposed; resolution still works server-side.
+      expect(providers['openai-image']).toEqual({});
+      expect(resolveImageApiKey('openai-image')).toBe('sk-openai');
+      expect(resolveImageBaseUrl('openai-image')).toBe('https://proxy.example.com/v1');
+    });
+
     it('maps IMAGE_OPENAI and exposes image baseUrl', async () => {
       vi.stubEnv('IMAGE_OPENAI_API_KEY', 'sk-openai-image');
       vi.stubEnv('IMAGE_OPENAI_BASE_URL', 'https://proxy.example.com/v1');
@@ -302,7 +374,7 @@ pdf:
         await import('@/lib/server/provider-config');
 
       const providers = getServerImageProviders();
-      expect(providers['openai-image']).toEqual({ baseUrl: 'https://proxy.example.com/v1' });
+      expect(providers['openai-image']).toEqual({});
       expect(resolveImageBaseUrl('openai-image')).toBe('https://proxy.example.com/v1');
     });
 
@@ -313,8 +385,22 @@ pdf:
         await import('@/lib/server/provider-config');
 
       const providers = getServerVideoProviders();
-      expect(providers['grok-video']).toEqual({ baseUrl: 'https://proxy.example.com/video' });
+      expect(providers['grok-video']).toEqual({});
       expect(resolveVideoBaseUrl('grok-video')).toBe('https://proxy.example.com/video');
+    });
+  });
+
+  describe('isServerConfiguredProvider', () => {
+    it('is true only for operator-configured providers, per section', async () => {
+      vi.stubEnv('OPENAI_API_KEY', 'sk-openai');
+      vi.stubEnv('VIDEO_GROK_API_KEY', 'xai-secret');
+      const { isServerConfiguredProvider } = await import('@/lib/server/provider-config');
+
+      expect(isServerConfiguredProvider('providers', 'openai')).toBe(true);
+      expect(isServerConfiguredProvider('providers', 'anthropic')).toBe(false);
+      expect(isServerConfiguredProvider('video', 'grok-video')).toBe(true);
+      // section-scoped: an LLM provider id is not a video provider
+      expect(isServerConfiguredProvider('video', 'openai')).toBe(false);
     });
   });
 });

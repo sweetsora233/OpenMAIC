@@ -2,6 +2,7 @@
 
 import { useCallback, useRef } from 'react';
 import { useStageStore } from '@/lib/store/stage';
+import { isSceneEditLocked } from '@/lib/edit/regen-lock';
 import { getCurrentModelConfig } from '@/lib/utils/model-config';
 import { useSettingsStore } from '@/lib/store/settings';
 import { db } from '@/lib/utils/database';
@@ -13,6 +14,7 @@ import { splitLongSpeechActions } from '@/lib/audio/tts-utils';
 import { getVoxCPMProviderOptions } from '@/lib/audio/voxcpm-voices';
 import { generateMediaForOutlines } from '@/lib/media/media-orchestrator';
 import { createLogger } from '@/lib/logger';
+import { regenerateSceneWithFeedback } from '@/lib/generation/regenerate-scene-client';
 
 const log = createLogger('SceneGenerator');
 
@@ -42,9 +44,6 @@ function getApiHeaders(): HeadersInit {
     'x-api-key': config.apiKey || '',
     'x-base-url': config.baseUrl || '',
     'x-provider-type': config.providerType || '',
-    // User-configured window sizes (override server defaults)
-    'x-output-window': config.outputWindow ? String(config.outputWindow) : '',
-    'x-context-window': config.contextWindow ? String(config.contextWindow) : '',
     // Image generation provider
     'x-image-provider': settings.imageProviderId || '',
     'x-image-model': settings.imageModelId || '',
@@ -158,11 +157,10 @@ export async function generateAndStoreTTS(
       ttsVoice: settings.ttsVoice,
       ttsSpeed: settings.ttsSpeed,
       ttsApiKey: ttsProviderConfig?.apiKey || undefined,
+      // Managed providers resolve their base URL server-side; only send the
+      // client's own base URL (custom providers).
       ttsBaseUrl:
-        ttsProviderConfig?.serverBaseUrl ||
-        ttsProviderConfig?.baseUrl ||
-        ttsProviderConfig?.customDefaultBaseUrl ||
-        undefined,
+        ttsProviderConfig?.baseUrl || ttsProviderConfig?.customDefaultBaseUrl || undefined,
       ttsProviderOptions: providerOptions,
     }),
     signal,
@@ -269,7 +267,6 @@ export function useSceneGenerator(options: UseSceneGeneratorOptions = {}) {
   const lastParamsRef = useRef<GenerationParams | null>(null);
   const generateRemainingRef = useRef<((params: GenerationParams) => Promise<void>) | null>(null);
 
-  // ==================== Generation Lock (prevents concurrent scene mutations) ====================
   const store = useStageStore;
 
   const generateRemaining = useCallback(
@@ -480,6 +477,22 @@ export function useSceneGenerator(options: UseSceneGeneratorOptions = {}) {
       const params = lastParamsRef.current;
       if (!outline || !state.stage || !params) return;
 
+      // Regen-lock (#571): never silently replace a scene that is open in
+      // edit mode. Failed outlines have no completed scene yet so this is
+      // structurally a no-op today, but the guard is in place for the
+      // moment a "regenerate a successful scene" path routes through here.
+      const lockedScene = state.scenes.find((s) => s.order === outline.order);
+      if (
+        lockedScene &&
+        isSceneEditLocked({
+          sceneId: lockedScene.id,
+          mode: state.mode,
+          currentSceneId: state.currentSceneId,
+        })
+      ) {
+        return;
+      }
+
       const removeGeneratingOutline = () => {
         const current = store.getState().generatingOutlines;
         if (!current.some((o) => o.id === outlineId)) return;
@@ -576,78 +589,10 @@ export function useSceneGenerator(options: UseSceneGeneratorOptions = {}) {
     [store],
   );
 
-  /** Regenerate a scene based on user feedback. */
-  const regenerateScene = useCallback(
-    async (sceneId: string, userFeedback: string) => {
-      const state = store.getState();
-      const scene = state.scenes.find((s) => s.id === sceneId);
-      if (!scene || !state.stage) {
-        log.warn('Scene not found for regeneration:', sceneId);
-        return;
-      }
-
-      const outline = state.outlines.find((o) => o.order === scene.order);
-      if (!outline) {
-        log.warn('Outline not found for scene:', sceneId);
-        return;
-      }
-
-      // Get languageDirective from stage (persisted) or params (current generation)
-      const languageDirective = state.stage?.languageDirective || lastParamsRef.current?.languageDirective;
-
-      // Mark this scene as regenerating (per-scene state)
-      store.getState().setRegeneratingSceneId(sceneId);
-
-      try {
-        log.info('Regenerating scene:', sceneId, 'with feedback:', userFeedback.substring(0, 50));
-
-        // Call regenerate API
-        const response = await fetch('/api/regenerate-scene', {
-          method: 'POST',
-          headers: getApiHeaders(),
-          body: JSON.stringify({
-            sceneId,
-            sceneType: scene.type,
-            currentContent: scene.content,
-            currentActions: scene.actions,
-            outline,
-            userFeedback,
-            languageDirective: languageDirective || 'zh-CN',
-            widgetType:
-              scene.type === 'interactive' && scene.content?.type === 'interactive'
-                ? scene.content.widgetType
-                : undefined,
-            widgetConfig:
-              scene.type === 'interactive' && scene.content?.type === 'interactive'
-                ? scene.content.widgetConfig
-                : undefined,
-          }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok || !data.success) {
-          log.error('Regenerate API failed:', data.error || `HTTP ${response.status}`);
-          return;
-        }
-
-        // Update scene with new content
-        store.getState().updateScene(sceneId, {
-          content: data.content,
-          actions: data.actions || scene.actions,
-        });
-
-        log.info('Scene regenerated successfully:', sceneId);
-
-      } catch (err) {
-        log.error('Scene regeneration error:', err);
-      } finally {
-        // Clear regenerating state
-        store.getState().setRegeneratingSceneId(null);
-      }
-    },
-    [store],
-  );
+  /** Regenerate a completed scene based on user feedback. */
+  const regenerateScene = useCallback(async (sceneId: string, userFeedback: string) => {
+    await regenerateSceneWithFeedback(sceneId, userFeedback);
+  }, []);
 
   return { generateRemaining, retrySingleOutline, regenerateScene, stop, isGenerating };
 }

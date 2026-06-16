@@ -18,7 +18,6 @@ import { ThumbnailSlide } from '@/components/slide-renderer/components/Thumbnail
 import { ThumbnailInteractive } from '@/components/slide-renderer/components/ThumbnailInteractive';
 import { useStageStore, useCanvasStore } from '@/lib/store';
 import { useI18n } from '@/lib/hooks/use-i18n';
-import { RegenerateDialog } from '@/components/ui/regenerate-dialog';
 import type { SceneType, SlideContent, InteractiveContent } from '@/lib/types/stage';
 import { PENDING_SCENE_ID } from '@/lib/store/stage';
 
@@ -27,7 +26,6 @@ interface SceneSidebarProps {
   readonly onCollapseChange: (collapsed: boolean) => void;
   readonly onSceneSelect?: (sceneId: string) => void;
   readonly onRetryOutline?: (outlineId: string) => Promise<void>;
-  readonly onRegenerateScene?: (sceneId: string, feedback: string) => Promise<void>;
   readonly isCourseComplete?: boolean;
 }
 
@@ -40,7 +38,6 @@ export function SceneSidebar({
   onCollapseChange,
   onSceneSelect,
   onRetryOutline,
-  onRegenerateScene,
   isCourseComplete,
 }: SceneSidebarProps) {
   const { t } = useI18n();
@@ -53,11 +50,6 @@ export function SceneSidebar({
   const viewportRatio = useCanvasStore.use.viewportRatio();
 
   const [retryingOutlineId, setRetryingOutlineId] = useState<string | null>(null);
-  const [regenerateDialogOpen, setRegenerateDialogOpen] = useState(false);
-  const [regeneratingScene, setRegeneratingScene] = useState<{
-    id: string;
-    title: string;
-  } | null>(null);
 
   const handleRetryOutline = async (outlineId: string) => {
     if (!onRetryOutline) return;
@@ -67,30 +59,6 @@ export function SceneSidebar({
     } finally {
       setRetryingOutlineId(null);
     }
-  };
-
-  const openRegenerateDialog = (sceneId: string, sceneTitle: string) => {
-    setRegeneratingScene({ id: sceneId, title: sceneTitle });
-    setRegenerateDialogOpen(true);
-  };
-
-  const handleRegenerate = async (feedback: string) => {
-    if (!onRegenerateScene || !regeneratingScene) return;
-    // Close dialog immediately, show loading animation on scene card
-    setRegenerateDialogOpen(false);
-    try {
-      await onRegenerateScene(regeneratingScene.id, feedback);
-    } catch (error) {
-      // Error is handled by the parent component
-      console.error('Regenerate failed:', error);
-    } finally {
-      setRegeneratingScene(null);
-    }
-  };
-
-  const handleRegenerateCancel = () => {
-    setRegenerateDialogOpen(false);
-    setRegeneratingScene(null);
   };
 
   const [sidebarWidth, setSidebarWidth] = useState(DEFAULT_WIDTH);
@@ -229,31 +197,6 @@ export function SceneSidebar({
                       {scene.title}
                     </span>
                   </div>
-                  {/* Regenerate button for interactive scenes */}
-                  {isInteractive && interactiveContent?.html && onRegenerateScene && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        openRegenerateDialog(scene.id, scene.title);
-                      }}
-                      disabled={regeneratingSceneId === scene.id}
-                      className={cn(
-                        'shrink-0 w-5 h-5 rounded flex items-center justify-center transition-all',
-                        'opacity-0 group-hover:opacity-100',
-                        regeneratingSceneId === scene.id
-                          ? 'bg-purple-100 dark:bg-purple-800 cursor-wait'
-                          : 'hover:bg-gray-100 dark:hover:bg-gray-700 active:scale-90',
-                      )}
-                      title={t('generation.regenerateScene')}
-                    >
-                      <RefreshCw
-                        className={cn(
-                          'w-3 h-3 text-gray-500 dark:text-gray-400',
-                          regeneratingSceneId === scene.id && 'animate-spin',
-                        )}
-                      />
-                    </button>
-                  )}
                 </div>
 
                 {/* Thumbnail */}
@@ -624,15 +567,6 @@ export function SceneSidebar({
         {/* Spacer to push toggle button area */}
         <div className="mt-auto" />
       </div>
-
-      {/* Regenerate Dialog */}
-      <RegenerateDialog
-        open={regenerateDialogOpen}
-        sceneTitle={regeneratingScene?.title || ''}
-        onRegenerate={handleRegenerate}
-        onCancel={handleRegenerateCancel}
-        isRegenerating={regeneratingSceneId === regeneratingScene?.id}
-      />
     </div>
   );
 }

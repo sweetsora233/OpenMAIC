@@ -20,16 +20,14 @@ interface RegenerateDialogProps {
   readonly onRegenerate: (feedback: string) => Promise<void>;
   readonly onCancel: () => void;
   readonly isRegenerating: boolean;
+  readonly title?: string;
+  readonly description?: string;
+  readonly submitLabel?: string;
+  readonly quickFeedbacks?: string[];
 }
 
 // Quick feedback options for common issues
-const QUICK_FEEDBACKS_ZH = [
-  '按钮不好用',
-  '动画太快',
-  '看不清',
-  '布局不对',
-  '手机上看不了',
-];
+const QUICK_FEEDBACKS_ZH = ['按钮不好用', '动画太快', '看不清', '布局不对', '手机上看不了'];
 
 const QUICK_FEEDBACKS_EN = [
   'Buttons not working',
@@ -45,20 +43,32 @@ export function RegenerateDialog({
   onRegenerate,
   onCancel,
   isRegenerating,
+  title,
+  description,
+  submitLabel,
+  quickFeedbacks,
 }: RegenerateDialogProps) {
   const { t, locale } = useI18n();
   const [feedback, setFeedback] = useState('');
 
-  const quickFeedbacks = locale === 'zh-CN' ? QUICK_FEEDBACKS_ZH : QUICK_FEEDBACKS_EN;
+  const defaultQuickFeedbacks = locale.startsWith('zh') ? QUICK_FEEDBACKS_ZH : QUICK_FEEDBACKS_EN;
+  const feedbackOptions = quickFeedbacks ?? defaultQuickFeedbacks;
+  const fallbackFeedback = locale.startsWith('zh')
+    ? '请整体优化当前页面，重点提升交互逻辑、可用性和反馈表现。'
+    : 'Please improve the current page overall, especially interaction clarity, usability, and visible feedback.';
 
   const handleSubmit = async () => {
-    if (!feedback.trim()) return;
-    await onRegenerate(feedback.trim());
-    setFeedback('');
+    const finalFeedback = feedback.trim() || fallbackFeedback;
+    try {
+      await onRegenerate(finalFeedback);
+      setFeedback('');
+    } catch {
+      // Caller owns error presentation; keep dialog state intact for retry.
+    }
   };
 
   const handleQuickFeedback = (text: string) => {
-    setFeedback(feedback ? `${feedback}, ${text}` : text);
+    setFeedback((current) => (current ? `${current}, ${text}` : text));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -71,11 +81,9 @@ export function RegenerateDialog({
     <Dialog open={open} onOpenChange={(v) => !v && !isRegenerating && onCancel()}>
       <DialogContent className="sm:max-w-md">
         <DialogTitle>
-          {t('generation.regenerateScene')}: {sceneTitle}
+          {title ?? t('generation.regenerateScene')}: {sceneTitle}
         </DialogTitle>
-        <DialogDescription>
-          {t('generation.regenerateSceneDesc')}
-        </DialogDescription>
+        <DialogDescription>{description ?? t('generation.regenerateSceneDesc')}</DialogDescription>
 
         <div className="space-y-4 py-4">
           {/* Feedback input */}
@@ -97,7 +105,7 @@ export function RegenerateDialog({
           <div className="space-y-2">
             <Label className="text-xs text-muted-foreground">{t('generation.quickFeedback')}</Label>
             <div className="flex flex-wrap gap-2">
-              {quickFeedbacks.map((fb) => (
+              {feedbackOptions.map((fb) => (
                 <Button
                   key={fb}
                   variant="outline"
@@ -117,12 +125,11 @@ export function RegenerateDialog({
           <Button variant="ghost" onClick={onCancel} disabled={isRegenerating}>
             {t('common.cancel')}
           </Button>
-          <Button
-            onClick={handleSubmit}
-            disabled={isRegenerating || !feedback.trim()}
-          >
+          <Button onClick={handleSubmit} disabled={isRegenerating}>
             {isRegenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isRegenerating ? t('generation.regenerating') : t('generation.regenerateScene')}
+            {isRegenerating
+              ? t('generation.regenerating')
+              : (submitLabel ?? t('generation.regenerateScene'))}
           </Button>
         </DialogFooter>
       </DialogContent>

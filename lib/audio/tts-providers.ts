@@ -128,6 +128,17 @@ export class TTSRateLimitError extends Error {
 }
 
 /**
+ * Map an upstream HTTP 429 to a typed {@link TTSRateLimitError} so the API route
+ * can surface it as 429 instead of a generic 500. Call right after an
+ * `!response.ok` check, before building the provider-specific error message.
+ */
+export function throwIfTtsRateLimited(provider: string, status: number): void {
+  if (status === 429) {
+    throw new TTSRateLimitError(provider, `${provider} TTS rate limit exceeded (HTTP 429)`);
+  }
+}
+
+/**
  * Generate speech using specified TTS provider
  */
 export async function generateTTS(
@@ -164,6 +175,8 @@ export async function generateTTS(
     case 'elevenlabs-tts':
       return await generateElevenLabsTTS(config, text);
 
+    case 'lemonade-tts':
+      return await generateLemonadeTTS(config, text);
     case 'server-tts':
       return await generateOpenAITTS(config, text);
 
@@ -205,6 +218,7 @@ async function generateOpenAITTS(
   });
 
   if (!response.ok) {
+    throwIfTtsRateLimited('OpenAI', response.status);
     const error = await response.json().catch(() => ({ error: response.statusText }));
     throw new Error(`OpenAI TTS API error: ${error.error?.message || response.statusText}`);
   }
@@ -215,6 +229,48 @@ async function generateOpenAITTS(
   return {
     audio: new Uint8Array(arrayBuffer),
     format,
+  };
+}
+
+/**
+ * Lemonade TTS implementation (OpenAI-compatible /v1/audio/speech).
+ */
+async function generateLemonadeTTS(
+  config: TTSModelConfig,
+  text: string,
+): Promise<TTSGenerationResult> {
+  const baseUrl = (config.baseUrl || TTS_PROVIDERS['lemonade-tts'].defaultBaseUrl || '').replace(
+    /\/$/,
+    '',
+  );
+  const modelId = config.modelId || TTS_PROVIDERS['lemonade-tts'].defaultModelId;
+  const voice = config.voice || 'af_heart';
+
+  const response = await fetch(`${baseUrl}/audio/speech`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json; charset=utf-8',
+      ...getBackendAuthHeaders(config.apiKey),
+    },
+    body: JSON.stringify({
+      model: modelId,
+      input: text,
+      voice,
+      speed: config.speed || 1.0,
+      response_format: config.format || 'wav',
+    }),
+  });
+
+  if (!response.ok) {
+    throwIfTtsRateLimited('Lemonade', response.status);
+    throw new Error(`Lemonade TTS API error: ${await readTTSApiError(response)}`);
+  }
+
+  const arrayBuffer = await response.arrayBuffer();
+  const contentType = response.headers.get('content-type') || '';
+  return {
+    audio: new Uint8Array(arrayBuffer),
+    format: getAudioResponseFormat(contentType),
   };
 }
 
@@ -273,6 +329,7 @@ async function generateVoxCPMTTS(
         : await postVoxCPMVLLMOmni(baseUrl, request, config);
 
   if (!response.ok) {
+    throwIfTtsRateLimited('VoxCPM', response.status);
     throw new Error(`VoxCPM TTS API error: ${await readTTSApiError(response)}`);
   }
 
@@ -518,6 +575,7 @@ async function generateAzureTTS(
   });
 
   if (!response.ok) {
+    throwIfTtsRateLimited('Azure', response.status);
     throw new Error(`Azure TTS API error: ${response.statusText}`);
   }
 
@@ -551,6 +609,7 @@ async function generateGLMTTS(config: TTSModelConfig, text: string): Promise<TTS
   });
 
   if (!response.ok) {
+    throwIfTtsRateLimited('GLM', response.status);
     const errorText = await response.text().catch(() => response.statusText);
     let errorMessage = `GLM TTS API error: ${errorText}`;
     try {
@@ -601,6 +660,7 @@ async function generateQwenTTS(config: TTSModelConfig, text: string): Promise<TT
   });
 
   if (!response.ok) {
+    throwIfTtsRateLimited('Qwen', response.status);
     const errorText = await response.text().catch(() => response.statusText);
     throw new Error(`Qwen TTS API error: ${errorText}`);
   }
@@ -667,6 +727,7 @@ async function generateMiniMaxTTS(
   });
 
   if (!response.ok) {
+    throwIfTtsRateLimited('MiniMax', response.status);
     const errorText = await response.text().catch(() => response.statusText);
     throw new Error(`MiniMax TTS API error: ${errorText}`);
   }
@@ -732,6 +793,7 @@ async function generateElevenLabsTTS(
   );
 
   if (!response.ok) {
+    throwIfTtsRateLimited('ElevenLabs', response.status);
     const errorText = await response.text().catch(() => response.statusText);
     throw new Error(`ElevenLabs TTS API error: ${errorText || response.statusText}`);
   }
@@ -812,6 +874,7 @@ async function generateDoubaoTTS(
   });
 
   if (!response.ok) {
+    throwIfTtsRateLimited('Doubao', response.status);
     const errorText = await response.text().catch(() => response.statusText);
     throw new Error(`Doubao TTS API error (${response.status}): ${errorText}`);
   }
