@@ -66,6 +66,7 @@ const LLM_ENV_MAP: Record<string, string> = {
   LEMONADE: 'lemonade',
   ALIYUN_TP: 'aliyun_tp',
   LCONAI: 'lconai',
+  LCONAI_OPENAI: 'lconai-openai',
 };
 
 const TTS_ENV_MAP: Record<string, string> = {
