@@ -70,6 +70,7 @@ export interface SettingsState {
   ttsProviderId: TTSProviderId;
   ttsVoice: string;
   ttsSpeed: number;
+  ttsSelectionExplicit: boolean;
   asrProviderId: ASRProviderId;
   asrLanguage: string;
 
@@ -375,6 +376,7 @@ const getDefaultAudioConfig = () => ({
   ttsProviderId: 'browser-native-tts' as TTSProviderId,
   ttsVoice: 'default',
   ttsSpeed: 1.0,
+  ttsSelectionExplicit: false,
   asrProviderId: 'browser-native' as ASRProviderId,
   asrLanguage: 'zh',
   ttsProvidersConfig: {
@@ -543,6 +545,20 @@ function ensureValidProviderSelections(state: Partial<SettingsState>): void {
   ) {
     state.asrProviderId = defaultAudioConfig.asrProviderId;
   }
+}
+
+function hasExplicitTTSSelection(state: Partial<SettingsState>): boolean {
+  const defaultAudioConfig = getDefaultAudioConfig();
+  const selectedProviderId = state.ttsProviderId || defaultAudioConfig.ttsProviderId;
+  const selectedVoice = state.ttsVoice || defaultAudioConfig.ttsVoice;
+  const selectedModelId = state.ttsProvidersConfig?.[selectedProviderId]?.modelId || '';
+
+  return (
+    !!state.ttsSelectionExplicit ||
+    selectedProviderId !== defaultAudioConfig.ttsProviderId ||
+    selectedVoice !== defaultAudioConfig.ttsVoice ||
+    !!selectedModelId
+  );
 }
 
 function ensureBuiltInAudioProviders(state: Partial<SettingsState>): void {
@@ -939,11 +955,12 @@ export const useSettingsStore = create<SettingsState>()(
               : DEFAULT_TTS_VOICES[providerId as BuiltInTTSProviderId] || 'default';
             return {
               ttsProviderId: providerId,
+              ttsSelectionExplicit: true,
               ...(shouldUpdateVoice && { ttsVoice: defaultVoice }),
             };
           }),
 
-        setTTSVoice: (voice) => set({ ttsVoice: voice }),
+        setTTSVoice: (voice) => set({ ttsVoice: voice, ttsSelectionExplicit: true }),
 
         setTTSSpeed: (speed) => set({ ttsSpeed: speed }),
 
@@ -976,6 +993,7 @@ export const useSettingsStore = create<SettingsState>()(
                 ...config,
               },
             },
+            ...(providerId === state.ttsProviderId && { ttsSelectionExplicit: true }),
           })),
 
         setASRProviderConfig: (providerId, config) =>
@@ -1116,6 +1134,7 @@ export const useSettingsStore = create<SettingsState>()(
               },
             },
             ttsProviderId: id,
+            ttsSelectionExplicit: true,
           })),
 
         removeCustomTTSProvider: (id) =>
@@ -1395,12 +1414,16 @@ export const useSettingsStore = create<SettingsState>()(
                 newProvidersConfig,
                 llmFallback,
               );
-              const validTTSProvider = validateProvider(
-                state.ttsProviderId,
-                newTTSConfig,
-                ttsFallback,
-                'browser-native-tts' as TTSProviderId,
-              );
+              const explicitTTSSelection = hasExplicitTTSSelection(state);
+              const validTTSProvider =
+                explicitTTSSelection && newTTSConfig[state.ttsProviderId]
+                  ? state.ttsProviderId
+                  : validateProvider(
+                      state.ttsProviderId,
+                      newTTSConfig,
+                      ttsFallback,
+                      'browser-native-tts' as TTSProviderId,
+                    );
               const validASRProvider = validateProvider(
                 state.asrProviderId,
                 newASRConfig,
@@ -1511,6 +1534,7 @@ export const useSettingsStore = create<SettingsState>()(
                 const serverTtsIds = Object.keys(data.tts) as TTSProviderId[];
                 if (
                   serverTtsIds.length > 0 &&
+                  !explicitTTSSelection &&
                   !newTTSConfig[state.ttsProviderId]?.isServerConfigured
                 ) {
                   autoTtsProvider = serverTtsIds[0];
@@ -1746,6 +1770,10 @@ export const useSettingsStore = create<SettingsState>()(
         }
         if ((state as Record<string, unknown>).asrEnabled === undefined) {
           (state as Record<string, unknown>).asrEnabled = true;
+        }
+
+        if ((state as Record<string, unknown>).ttsSelectionExplicit === undefined) {
+          (state as Record<string, unknown>).ttsSelectionExplicit = hasExplicitTTSSelection(state);
         }
 
         // Existing users already have their config set up — mark auto-config as done

@@ -130,6 +130,36 @@ Generate natural teaching speech. The user prompt includes a **Course Outline** 
 - Transitional phrases (e.g., "Now let's move on to…")
 - Closing messages and teacher's reflections
 
+**CRITICAL — TTS-ready spoken narration**: Every `type:"text"` object's `content` is sent directly to text-to-speech. Write it as something a teacher can naturally say aloud, not as text meant to be displayed or read silently.
+
+- Use complete, conversational sentences with natural transitions.
+- Avoid slide-style fragments, headings, bullet wording, table labels, captions, abbreviations, code-like tokens, Markdown, HTML, URLs, file paths, raw IDs, or punctuation-heavy strings unless they are truly meant to be spoken.
+- Rewrite visual shorthand into spoken language. For example, say "the first key idea is..." instead of "Key idea colon"; say "look at the blue curve" instead of "#curve-blue".
+- Keep speech concise and oral: explain what students should notice, why it matters, and how it connects to the lesson.
+- Do NOT generate SSML.
+- For math and technical notation, never put anything that needs visual rendering in `content`: no raw LaTeX, Markdown math, `$...$`, `\(...\)`, `\[...\]`, code, ASCII formulas, or math-symbol strings.
+- Do NOT emit symbol-heavy text such as `<`, `>`, `≤`, `≥`, `∑`, `∫`, `√`, `→`, `∞`, `_`, `^`, or `|...|` in speech.
+- Convert formulas into concise spoken language according to the Language Directive. The result should be immediately suitable for TTS, not a written formula transcript.
+- Variables, subscripts, superscripts, Greek letters, roots, sums, integrals, inequalities, and absolute values must be spoken in words.
+- Prefer explaining the meaning of the displayed formula instead of mechanically spelling every symbol.
+- If a formula is already visible on the slide as a LatexElement, do not repeat the raw formula in speech. Refer to it as "屏幕上的公式", "这个特解形式", "the displayed equation", etc., then explain it orally.
+- Never output LaTeX delimiter leftovers or broken command fragments such as `$$`, `$`, `lambda`, `eq`, `implies`, `frac`, `sqrt`, `sum`, or `int` as spoken text. Use the normal spoken words required by the course language.
+
+Chinese examples:
+
+- Displayed formula `y_h=C e^{rx}` -> speech: "齐次通解可以写成 C 乘以 e 的 r x 次方。"
+- Displayed formula `|a_n-a_m|<\epsilon` -> speech: "第 n 项和第 m 项之差的绝对值小于 epsilon。"
+- Displayed formula `\alpha \pm \beta i` -> speech: "一对共轭复根 alpha 加减 beta i。"
+- Bad speech: "我们来看 $$y'' - 3y' + 2y = (2x+1)e^{3x}$$。" -> Good speech: "我们来看屏幕上的这道二阶非齐次微分方程，右端是一次多项式乘以指数函数。"
+- Bad speech: "$lambda = 3 eq r_{1,2}$，所以 $k=0$。" -> Good speech: "这里 lambda 等于三，它不是刚才得到的两个特征根，所以修正指数取零。"
+- Bad speech: "求齐次通解 -> 设特解形式 -> 求系数合并。" -> Good speech: "我们按三步来做：先求齐次通解，再设特解形式，最后求出系数并合并。"
+
+English examples:
+
+- Displayed formula `y_h=C e^{rx}` -> speech: "The homogeneous solution is C times e to the r x."
+- Displayed formula `|a_n-a_m|<\epsilon` -> speech: "The absolute value of a sub n minus a sub m is less than epsilon."
+- Displayed formula `\alpha \pm \beta i` -> speech: "A pair of conjugate complex roots, alpha plus or minus beta i."
+
 **CRITICAL — Same-session continuity**: All pages belong to the **same class session** happening right now. This is NOT a series of separate classes.
 
 - **First page**: Open with a greeting and course introduction. This is the ONLY page that should greet.

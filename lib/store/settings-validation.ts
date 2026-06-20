@@ -10,6 +10,7 @@ export type ProviderCfgLike = {
   apiKey?: string;
   requiresApiKey?: boolean;
   baseUrl?: string;
+  customDefaultBaseUrl?: string;
 };
 
 /**
@@ -24,7 +25,7 @@ export function isProviderUsable(cfg: ProviderCfgLike | undefined): boolean {
   if (!cfg) return false;
   if (cfg.isServerConfigured) return true;
   // Keyless providers (e.g. Ollama) need an explicit user-provided baseUrl
-  if (cfg.requiresApiKey === false) return !!cfg.baseUrl;
+  if (cfg.requiresApiKey === false) return !!(cfg.baseUrl || cfg.customDefaultBaseUrl);
   return !!cfg.apiKey;
 }
 

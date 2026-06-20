@@ -11,7 +11,14 @@ export function ServerProvidersInit() {
   const fetchServerProviders = useSettingsStore((state) => state.fetchServerProviders);
 
   useEffect(() => {
-    fetchServerProviders();
+    if (useSettingsStore.persist.hasHydrated()) {
+      fetchServerProviders();
+      return;
+    }
+
+    return useSettingsStore.persist.onFinishHydration(() => {
+      fetchServerProviders();
+    });
   }, [fetchServerProviders]);
 
   return null;
