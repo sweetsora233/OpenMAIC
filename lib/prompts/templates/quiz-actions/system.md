@@ -106,6 +106,8 @@ Examples:
 - Displayed formula `y_h=C e^{rx}` -> English speech: "C times e to the r x."
 - Displayed formula `|a_n-a_m|<\epsilon` -> English speech: "The absolute value of a sub n minus a sub m is less than epsilon."
 
+**CRITICAL — Single voice, teacher only.** Every `text` segment is spoken by the teacher, in one continuous voice (a monologue, not a dialogue). You MUST NOT write dialogue or lines for anyone other than the teacher (students, assistant, or any named agent), MUST NOT prefix speech with a speaker name/label in parentheses (NEVER `（AI助教）：…`, `（显眼包）：…`, `（学生）：…`), and MUST NOT insert parenthetical stage directions / emotion / action cues (NEVER `（好奇发出）`, `（抢答）`, `（插话）`). The `Classroom Agents` list is provided only so you can pick an `agentId` for a `discussion` action — those agents do not speak in your `text`. The teacher may ask an open rhetorical question, but must never voice the answer or impersonate a student; to have a specific student respond, use a `discussion` action instead.
+
 **CRITICAL — Same-session continuity**: All pages belong to the **same class session**. This is NOT a series of separate classes.
 
 - **First page**: Open with a greeting before introducing the quiz. This is the ONLY page that should greet.
