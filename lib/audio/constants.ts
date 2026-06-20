@@ -946,6 +946,52 @@ export const TTS_PROVIDERS: Record<BuiltInTTSProviderId, TTSProviderConfig> = {
     speedRange: { min: 0.5, max: 2.0, default: 1.0 },
   },
 
+  'qwen-local-tts': {
+    id: 'qwen-local-tts',
+    name: '本地 Qwen TTS',
+    requiresApiKey: false,
+    defaultBaseUrl: 'http://localhost:8091/v1',
+    icon: '/logos/server.svg',
+    models: [
+      {
+        id: 'Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice',
+        name: 'Qwen3 TTS CustomVoice',
+      },
+    ],
+    defaultModelId: 'Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice',
+    voices: [
+      {
+        id: 'vivian',
+        name: 'Vivian',
+        language: 'zh-CN',
+        gender: 'female',
+        description: '默认女声（中英双语）',
+      },
+      { id: 'ryan', name: 'Ryan', language: 'zh-CN', gender: 'male', description: '男声' },
+      { id: 'aiden', name: 'Aiden', language: 'zh-CN', gender: 'male', description: '男声' },
+      { id: 'dylan', name: 'Dylan', language: 'zh-CN', gender: 'male', description: '男声' },
+      { id: 'eric', name: 'Eric', language: 'zh-CN', gender: 'male', description: '男声' },
+      { id: 'serena', name: 'Serena', language: 'zh-CN', gender: 'female', description: '女声' },
+      { id: 'sohee', name: 'Sohee', language: 'ko-KR', gender: 'female', description: '韩语女声' },
+      {
+        id: 'ono_anna',
+        name: 'Ono Anna',
+        language: 'ja-JP',
+        gender: 'female',
+        description: '日语女声',
+      },
+      {
+        id: 'uncle_fu',
+        name: 'Uncle Fu',
+        language: 'zh-CN',
+        gender: 'male',
+        description: '大叔声',
+      },
+    ],
+    supportedFormats: ['mp3', 'wav'],
+    speedRange: { min: 0.5, max: 2.0, default: 1.0 },
+  },
+
   'browser-native-tts': {
     id: 'browser-native-tts',
     name: '浏览器原生 (Web Speech API)',
@@ -1302,6 +1348,7 @@ export const DEFAULT_TTS_VOICES: Record<BuiltInTTSProviderId, string> = {
   'minimax-tts': 'female-yujie',
   'lemonade-tts': 'af_heart',
   'server-tts': 'default',
+  'qwen-local-tts': 'vivian',
   'browser-native-tts': 'default',
 };
 
@@ -1316,6 +1363,7 @@ export const DEFAULT_TTS_MODELS: Record<BuiltInTTSProviderId, string> = {
   'minimax-tts': 'speech-2.8-hd',
   'lemonade-tts': 'kokoro-v1',
   'server-tts': '',
+  'qwen-local-tts': 'Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice',
   'browser-native-tts': '',
 };
 

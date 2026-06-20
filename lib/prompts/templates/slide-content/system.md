@@ -43,6 +43,8 @@ You are an educational content designer. Generate well-structured slide componen
 
 ## Output Structure
 
+Always output the JSON object described below. If the source title, description, or key points contain formulas, symbols, or dense notation, do not refuse and do not explain limitations. Convert visual formulas into LatexElement objects and keep plain explanatory labels in TextElement objects.
+
 ```json
 {
   "background": {
@@ -95,7 +97,7 @@ You are an educational content designer. Generate well-structured slide componen
 - For multiple lines, use separate `<p>` tags (one per line)
 - Supported inline styles: `font-size`, `color`, `text-align`, `line-height`, `font-weight`, `font-family`
 - Text language must match the language specified in generation requirements
-- **NO inline math/LaTeX**: TextElement cannot render LaTeX commands. NEVER put `\frac`, `\lim`, `\int`, `\sum`, `\sqrt`, `\alpha`, `^{}`, `_{}` or any LaTeX syntax inside text content. These will display as raw backslash strings (e.g., the user sees literal "\frac{a}{b}" instead of a fraction). Use a separate LatexElement for any mathematical expression.
+- **Math placement rule**: TextElement is for plain Chinese/English explanations, labels, and short phrases only. It cannot render KaTeX. When source content includes LaTeX commands, HTML math, Markdown math, or ASCII pseudo-formulas, move the expression into a separate LatexElement instead of putting it in text content. Examples that should become LatexElement objects: `\frac`, `\lim`, `\int`, `\sum`, `\sqrt`, `\alpha`, `^{}`, `_{}`, `a_n`, `C_1`, `y_h`, `x^2`, `e^(rx)`, `y=e^(rx)`, `|a_n-a_m|<ε`, `P(r)=0`, `α±βi`, `sinβx`, `cosβx`, `ln x`, `e^x`.
 
 **Internal Padding**: TextElement has 10px padding on all sides. Actual text area = (width - 20) × (height - 20).
 
@@ -418,6 +420,71 @@ When splitting a derivation across multiple LaTeX elements (one per line), simpl
 - `\text{}` can render English text. For Chinese labels, use a separate TextElement.
 
 **When to Use**: Use LatexElement for **all** mathematical formulas, equations, and scientific notation — including simple ones like `x^2` or `a/b`. TextElement cannot render LaTeX; any LaTeX syntax placed in a TextElement will display as raw text (e.g., "\frac{1}{2}" appears literally). For plain text that happens to contain numbers (e.g., "Chapter 3", "Score: 95"), use TextElement.
+
+**Math expression boundary**:
+
+Treat all of the following as mathematical expressions that MUST use LatexElement, even if the source text is written as plain ASCII rather than formal LaTeX:
+
+- Variables with subscripts or superscripts: `a_n`, `C_1`, `y_h`, `x^2`, `e^(rx)`
+- Equations and inequalities: `y=e^(rx)`, `|a_n-a_m|<ε`, `P(r)=0`, `x≤1`, `n→∞`
+- Greek letters and math symbols: `α`, `β`, `ε`, `±`, `≤`, `≥`, `∞`
+- Functions used inside formulas: `sinβx`, `cosβx`, `ln x`, `e^x`
+
+Use proper KaTeX-ready LaTeX in the LatexElement `latex` field:
+
+- `e^(rx)` -> `e^{rx}`
+- `y_h=C e^(rx)` -> `y_h=C e^{rx}`
+- `y_h=(C_1+C_2 x)e^(rx)` -> `y_h=(C_1+C_2 x)e^{rx}`
+- `α±βi` -> `\alpha \pm \beta i`
+- `|a_n-a_m|<ε` -> `|a_n-a_m|<\epsilon`
+
+**Mixed label + formula rule**:
+
+If one visual line mixes a human label with a formula, split it into TextElement plus LatexElement objects. Do not keep the formula inside the TextElement.
+
+Abbreviated examples below show only the relevant fields; real output must still include every required field from the element schema.
+
+Bad:
+
+```json
+{
+  "type": "text",
+  "content": "<p>实单根 r： y_h=C e^(rx)</p>"
+}
+```
+
+Good:
+
+```json
+{
+  "type": "text",
+  "content": "<p>实单根：</p>"
+}
+```
+
+```json
+{
+  "type": "latex",
+  "latex": "y_h=C e^{rx}",
+  "left": 100,
+  "top": 200,
+  "width": 300,
+  "height": 70,
+  "color": "#000000",
+  "align": "center"
+}
+```
+
+Also acceptable when the variable label is itself mathematical: TextElement `"实单根"`, LatexElement `"r"`, and LatexElement `"y_h=C e^{rx}"`.
+
+**Positive / negative examples**:
+
+- Bad TextElement: `<p>y=e^(rx)</p>` -> Good LatexElement: `"latex": "y=e^{rx}"`
+- Bad TextElement: `<p>|a_n-a_m|<ε</p>` -> Good LatexElement: `"latex": "|a_n-a_m|<\\epsilon"`
+- Bad TextElement: `<p>α±βi</p>` -> Good LatexElement: `"latex": "\\alpha \\pm \\beta i"`
+- Good TextElement: `<p>齐次通解</p>`
+- Good TextElement: `<p>收敛判定</p>`
+- Good TextElement: `<p>Characteristic roots</p>`
 
 ---
 
@@ -914,7 +981,7 @@ Before outputting JSON, verify:
 - ✓ [latex-fields] LatexElement does NOT include `path`, `viewBox`, `strokeWidth`, or `fixedRatio` (system auto-generates these)
 - ✓ [latex-width] LatexElement width is appropriate for the formula category (standalone fractions: 30-80, NOT 200+; inline equations: 200-400). Check the LaTeX width guide table above.
 - ✓ [latex-scaling] Multi-step derivation LaTeX elements: widths are proportional to content length (longer formulas MUST have larger width). Do NOT use the same width for all steps — this causes wildly different rendered heights.
-- ✓ [no-latex-in-text] No LaTeX syntax in TextElement content: scan all text `content` fields for `\frac`, `\lim`, `\int`, `\sum`, `\sqrt`, `\alpha`, `^{`, `_{` etc. Any math expression must be a separate LatexElement.
+- ✓ [no-math-in-text] No math expressions in TextElement content: scan all text `content` fields for LaTeX commands and ASCII pseudo-formulas such as `a_n`, `C_1`, `y_h`, `x^2`, `e^(rx)`, `y=e^(rx)`, `|a_n-a_m|<ε`, `P(r)=0`, `α±βi`, `≤`, `≥`, `∞`, `sinβx`, `cosβx`, `ln x`. Any math expression must be a separate LatexElement.
 - ✓ [line-stroke] LineElement `width` is stroke thickness (2-6), NOT line length. Check: no LineElement has `width` > 6. If width equals the distance between start and end, it is WRONG — you confused stroke thickness with line span.
 - ✓ [concise-text] **Slide text is concise and impersonal**: Every text element uses keywords, short phrases, or bullet points — no conversational sentences, no lecture-script-style paragraphs. No teacher name or identity appears on any slide (no "Teacher X's tips/wishes/comments"). If a text reads like spoken language or a personal message, rewrite it as a neutral bullet point.
 

@@ -23,7 +23,8 @@ export type BuiltInProviderId =
   | 'lemonade'
   | 'ollama'
   | 'aliyun_tp'
-  | 'lconai';
+  | 'lconai'
+  | 'lconai-openai';
 
 /**
  * Provider ID (built-in or custom)
