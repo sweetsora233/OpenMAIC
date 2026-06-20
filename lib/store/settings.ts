@@ -428,6 +428,12 @@ const getDefaultAudioConfig = () => ({
       enabled: true,
     },
     'server-tts': { apiKey: '', baseUrl: '', enabled: true },
+    'qwen-local-tts': {
+      apiKey: '',
+      baseUrl: '',
+      modelId: 'Qwen/Qwen3-TTS-12Hz-0.6B-CustomVoice',
+      enabled: true,
+    },
     // Browser-native is OFF by default — fully opt-in. Native voice quality is
     // poor; it must never be a silent default (#665).
     'browser-native-tts': { apiKey: '', baseUrl: '', enabled: false },

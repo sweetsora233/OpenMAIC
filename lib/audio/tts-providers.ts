@@ -179,6 +179,8 @@ export async function generateTTS(
       return await generateLemonadeTTS(config, text);
     case 'server-tts':
       return await generateOpenAITTS(config, text);
+    case 'qwen-local-tts':
+      return await generateOpenAITTS(config, text);
 
     case 'browser-native-tts':
       throw new Error(
