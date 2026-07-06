@@ -27,7 +27,7 @@
     { "id": "digital-logic", "label": "数字逻辑与数字系统", "level": 2, "semester": 3, "description": "逻辑门、组合逻辑、时序逻辑" },
     { "id": "formal-language", "label": "形式语言与自动机", "level": 2, "semester": 4, "description": "正则语言、上下文无关语言、自动机理论" },
 
-    { "id": "data-structures", "label": "数据结构", "level": 3, "semester": 3, "description": "线性表、树、图、排序与查找" },
+    { "id": "data-structures", "label": "数据结构", "level": 3, "semester": 3, "description": "线性表、栈和队列、树、查找、排序、串与图", "courseGraph": "data-structures" },
     { "id": "algorithms", "label": "算法设计与分析", "level": 3, "semester": 5, "description": "算法设计方法、复杂度分析" },
     { "id": "computer-system", "label": "计算机系统基础", "level": 3, "semester": 3, "description": "计算机系统概论、性能分析" },
     { "id": "computer-organization", "label": "计算机组成原理", "level": 3, "semester": 4, "description": "CPU、存储器、I/O系统" },
