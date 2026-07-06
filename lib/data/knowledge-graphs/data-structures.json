@@ -1,99 +1,2387 @@
 {
   "id": "data-structures",
   "name": "数据结构",
-  "description": "基于《数据结构(C语言版)》(严蔚敏、吴伟民编著)的知识体系，涵盖线性结构、树、图、查找与排序等核心内容",
+  "description": "涵盖概论、线性表、栈和队列、树、查找、排序、串、图和综合实验等内容",
   "metadata": {
-    "totalNodes": 24,
-    "totalEdges": 37,
-    "maxLevel": 2,
-    "version": "2.0",
-    "source": "《数据结构(C语言版)》清华大学出版社",
-    "authors": "严蔚敏、吴伟民",
-    "isbn": "9787302147510"
+    "totalNodes": 127,
+    "totalEdges": 192,
+    "maxLevel": 3,
+    "version": "1.1",
+    "source": "数据结构-知识图谱.xlsx；补充课程生成描述"
   },
   "nodes": [
-    { "id": "basics", "label": "基础概念", "level": 1, "description": "数据结构的基本概念、抽象数据类型、算法复杂度分析" },
-
-    { "id": "linear-structure", "label": "线性结构", "level": 1, "description": "线性表、栈、队列等线性数据结构" },
-    { "id": "sequential-storage", "label": "顺序存储", "level": 2, "description": "数组、顺序表、循环队列的顺序存储方式" },
-    { "id": "linked-storage", "label": "链式存储", "level": 2, "description": "单链表、循环链表、双向链表的链式存储方式" },
-    { "id": "stack", "label": "栈", "level": 2, "description": "先进后出的受限线性表，递归实现的基础" },
-    { "id": "queue", "label": "队列", "level": 2, "description": "先进先出的受限线性表，广度优先搜索的基础" },
-
-    { "id": "string-array", "label": "串与数组", "level": 1, "description": "字符串处理、多维数组与矩阵压缩" },
-    { "id": "pattern-matching", "label": "模式匹配", "level": 2, "description": "KMP算法等字符串匹配方法" },
-    { "id": "sparse-matrix", "label": "稀疏矩阵", "level": 2, "description": "特殊矩阵与稀疏矩阵的压缩存储" },
-
-    { "id": "tree-structure", "label": "树形结构", "level": 1, "description": "树、二叉树、森林等层次化数据组织" },
-    { "id": "binary-tree", "label": "二叉树", "level": 2, "description": "二叉树的性质、遍历算法（先序、中序、后序）" },
-    { "id": "huffman-tree", "label": "哈夫曼树", "level": 2, "description": "最优二叉树与哈夫曼编码" },
-
-    { "id": "graph-structure", "label": "图结构", "level": 1, "description": "有向图、无向图，网络关系建模" },
-    { "id": "graph-storage", "label": "图的存储", "level": 2, "description": "邻接矩阵、邻接表等图的存储表示" },
-    { "id": "graph-traversal", "label": "图的遍历", "level": 2, "description": "深度优先搜索DFS、广度优先搜索BFS" },
-    { "id": "graph-applications", "label": "图的应用", "level": 2, "description": "最小生成树、拓扑排序、最短路径、关键路径" },
-
-    { "id": "search-techniques", "label": "查找技术", "level": 1, "description": "数据元素的定位与检索方法" },
-    { "id": "linear-search", "label": "线性查找", "level": 2, "description": "顺序查找、折半查找、分块查找" },
-    { "id": "tree-search", "label": "树表查找", "level": 2, "description": "二叉排序树、平衡二叉树、B树、B+树" },
-    { "id": "hash-table", "label": "哈希表", "level": 2, "description": "哈希函数、冲突处理、散列查找" },
-
-    { "id": "sorting-techniques", "label": "排序技术", "level": 1, "description": "内部排序与外部排序算法" },
-    { "id": "basic-sorting", "label": "基础排序", "level": 2, "description": "插入排序、冒泡排序、简单选择排序" },
-    { "id": "advanced-sorting", "label": "高级排序", "level": 2, "description": "快速排序、堆排序、归并排序、基数排序" },
-
-    { "id": "file-organization", "label": "文件组织", "level": 1, "description": "外存数据的组织与管理" }
+    {
+      "id": "chapter-1-概论",
+      "label": "第1章 概论",
+      "level": 1,
+      "description": "建立数据结构课程的整体视角，理解计算问题、算法效率、数据组织方式与程序实现之间的关系。",
+      "category": "知识单元"
+    },
+    {
+      "id": "chapter-2-线性表",
+      "label": "第2章 线性表",
+      "level": 1,
+      "description": "学习线性结构的逻辑特征、顺序存储和链式存储，为栈、队列、串、查找和排序奠定基础。",
+      "category": "知识单元"
+    },
+    {
+      "id": "chapter-3-栈和队列",
+      "label": "第3章 栈和队列",
+      "level": 1,
+      "description": "掌握两类受限线性表的操作规则、存储实现和典型应用，理解递归、缓冲和广度优先处理的基础。",
+      "category": "知识单元"
+    },
+    {
+      "id": "chapter-4-树",
+      "label": "第4章 树",
+      "level": 1,
+      "description": "学习树、二叉树、森林及其存储、遍历和编码应用，建立层次结构建模能力。",
+      "category": "知识单元"
+    },
+    {
+      "id": "chapter-5-查找",
+      "label": "第5章 查找",
+      "level": 1,
+      "description": "围绕数据检索问题，比较线性查找、折半查找、树表查找和平衡结构、哈希查找的适用条件。",
+      "category": "知识单元"
+    },
+    {
+      "id": "chapter-6-排序",
+      "label": "第6章 排序",
+      "level": 1,
+      "description": "系统学习内部排序和外部排序思想，比较交换、插入、选择、基数、归并等算法的复杂度和稳定性。",
+      "category": "知识单元"
+    },
+    {
+      "id": "chapter-7-顺序结构的应用",
+      "label": "第7章 顺序结构的应用",
+      "level": 1,
+      "description": "以串匹配和字典树为主线，学习顺序结构在文本处理、模式匹配和多模式检索中的应用。",
+      "category": "知识单元"
+    },
+    {
+      "id": "chapter-8-图",
+      "label": "第8章 图",
+      "level": 1,
+      "description": "学习图的抽象模型、存储、遍历以及生成树、最短路径、拓扑排序和关键路径等经典算法。",
+      "category": "知识单元"
+    },
+    {
+      "id": "chapter-9-综合实验",
+      "label": "第9章 综合实验",
+      "level": 1,
+      "description": "通过综合实验整合线性表、树、图、查找和排序知识，训练从问题建模到程序实现的完整能力。",
+      "category": "知识单元"
+    },
+    {
+      "id": "unit-1-1计算机与算法",
+      "label": "1.1计算机与算法",
+      "level": 2,
+      "description": "从计算机能力和算法作用出发，理解为什么数据组织方式会影响问题求解效率。",
+      "category": "知识单元",
+      "parentId": "chapter-1-概论"
+    },
+    {
+      "id": "unit-1-2数据结构",
+      "label": "1.2数据结构",
+      "level": 2,
+      "description": "介绍数据、数据元素、逻辑结构、物理结构、运算定义和抽象数据类型等核心术语。",
+      "category": "知识单元",
+      "parentId": "chapter-1-概论"
+    },
+    {
+      "id": "unit-1-3算法复杂度分析",
+      "label": "1.3算法复杂度分析",
+      "level": 2,
+      "description": "学习用时间复杂度和空间复杂度评价算法效率，形成比较算法优劣的基本方法。",
+      "category": "知识单元",
+      "parentId": "chapter-1-概论"
+    },
+    {
+      "id": "unit-1-4编程相关知识",
+      "label": "1.4编程相关知识",
+      "level": 2,
+      "description": "复习实现数据结构所需的编程基础，包括函数、结构体、指针、数组和模块化设计。",
+      "category": "知识单元",
+      "parentId": "chapter-1-概论"
+    },
+    {
+      "id": "unit-2-1线性结构场景",
+      "label": "2.1线性结构场景",
+      "level": 2,
+      "description": "通过队列、列表、序列处理等场景理解线性结构的一对一关系和顺序访问特征。",
+      "category": "知识单元",
+      "parentId": "chapter-2-线性表"
+    },
+    {
+      "id": "unit-2-2线性表的定义",
+      "label": "2.2线性表的定义",
+      "level": 2,
+      "description": "明确线性表的抽象定义、基本操作和边界条件，为不同存储实现建立统一接口。",
+      "category": "知识单元",
+      "parentId": "chapter-2-线性表"
+    },
+    {
+      "id": "unit-2-3数组",
+      "label": "2.3数组",
+      "level": 2,
+      "description": "学习顺序存储表示，掌握下标访问、插入删除代价、顺序查找和简单排序实现。",
+      "category": "知识单元",
+      "parentId": "chapter-2-线性表"
+    },
+    {
+      "id": "unit-2-4链表",
+      "label": "2.4链表",
+      "level": 2,
+      "description": "学习链式存储表示，掌握结点、指针、插入删除和遍历操作的实现逻辑。",
+      "category": "知识单元",
+      "parentId": "chapter-2-线性表"
+    },
+    {
+      "id": "unit-3-1栈的应用场景",
+      "label": "3.1栈的应用场景",
+      "level": 2,
+      "description": "从表达式求值、括号匹配、函数调用和撤销操作中理解后进先出结构的价值。",
+      "category": "知识单元",
+      "parentId": "chapter-3-栈和队列"
+    },
+    {
+      "id": "unit-3-2栈的定义",
+      "label": "3.2栈的定义",
+      "level": 2,
+      "description": "明确栈的抽象数据类型、入栈出栈规则、栈顶指针和空满条件。",
+      "category": "知识单元",
+      "parentId": "chapter-3-栈和队列"
+    },
+    {
+      "id": "unit-3-3顺序栈与链栈",
+      "label": "3.3顺序栈与链栈",
+      "level": 2,
+      "description": "比较顺序栈和链栈的存储方式、边界处理、空间分配和操作复杂度。",
+      "category": "知识单元",
+      "parentId": "chapter-3-栈和队列"
+    },
+    {
+      "id": "unit-3-4栈的应用",
+      "label": "3.4栈的应用",
+      "level": 2,
+      "description": "学习用栈解决括号匹配、表达式转换、表达式求值和深度优先类问题。",
+      "category": "知识单元",
+      "parentId": "chapter-3-栈和队列"
+    },
+    {
+      "id": "unit-3-5递归",
+      "label": "3.5递归",
+      "level": 2,
+      "description": "理解递归定义、递归调用栈、终止条件和递归转非递归的基本思想。",
+      "category": "知识单元",
+      "parentId": "chapter-3-栈和队列"
+    },
+    {
+      "id": "unit-3-6队列",
+      "label": "3.6队列",
+      "level": 2,
+      "description": "学习先进先出结构、循环队列和链式队列，理解排队、缓冲和层次遍历中的应用。",
+      "category": "知识单元",
+      "parentId": "chapter-3-栈和队列"
+    },
+    {
+      "id": "unit-4-1树与二叉树",
+      "label": "4.1树与二叉树",
+      "level": 2,
+      "description": "建立树形结构的基本概念，理解结点、度、层次、高度、森林和二叉树之间的关系。",
+      "category": "知识单元",
+      "parentId": "chapter-4-树"
+    },
+    {
+      "id": "unit-4-2二叉树",
+      "label": "4.2二叉树",
+      "level": 2,
+      "description": "学习二叉树性质、满二叉树、完全二叉树和二叉树基本运算。",
+      "category": "知识单元",
+      "parentId": "chapter-4-树"
+    },
+    {
+      "id": "unit-4-3二叉树的存储结构",
+      "label": "4.3二叉树的存储结构",
+      "level": 2,
+      "description": "比较顺序存储和链式存储在二叉树表示中的适用条件和实现差异。",
+      "category": "知识单元",
+      "parentId": "chapter-4-树"
+    },
+    {
+      "id": "unit-4-4二叉树的遍历",
+      "label": "4.4二叉树的遍历",
+      "level": 2,
+      "description": "掌握先序、中序、后序和层序遍历，理解递归与非递归实现。",
+      "category": "知识单元",
+      "parentId": "chapter-4-树"
+    },
+    {
+      "id": "unit-4-5huffman树与huffman编码",
+      "label": "4.5Huffman树与Huffman编码",
+      "level": 2,
+      "description": "学习带权路径长度、最优二叉树构造和前缀编码原理。",
+      "category": "知识单元",
+      "parentId": "chapter-4-树"
+    },
+    {
+      "id": "unit-4-6树和森林",
+      "label": "4.6树和森林",
+      "level": 2,
+      "description": "学习普通树和森林的存储、遍历以及与二叉树之间的转换关系。",
+      "category": "知识单元",
+      "parentId": "chapter-4-树"
+    },
+    {
+      "id": "unit-4-7树的应用",
+      "label": "4.7树的应用",
+      "level": 2,
+      "description": "通过回溯、搜索树和层次建模理解树结构在问题求解中的应用。",
+      "category": "知识单元",
+      "parentId": "chapter-4-树"
+    },
+    {
+      "id": "unit-5-1概述",
+      "label": "5.1概述",
+      "level": 2,
+      "description": "概览查找问题的评价指标、查找表类型和平均查找长度等基本概念。",
+      "category": "知识单元",
+      "parentId": "chapter-5-查找"
+    },
+    {
+      "id": "unit-5-2折半查找",
+      "label": "5.2折半查找",
+      "level": 2,
+      "description": "学习有序顺序表上的二分思想、边界更新和查找效率分析。",
+      "category": "知识单元",
+      "parentId": "chapter-5-查找"
+    },
+    {
+      "id": "unit-5-3二叉排序树",
+      "label": "5.3二叉排序树",
+      "level": 2,
+      "description": "学习基于二叉树组织关键字的方法，掌握插入、删除和查找过程。",
+      "category": "知识单元",
+      "parentId": "chapter-5-查找"
+    },
+    {
+      "id": "unit-5-4avl树和红黑树",
+      "label": "5.4AVL树和红黑树",
+      "level": 2,
+      "description": "理解平衡约束如何降低树高，比较 AVL 树和红黑树的旋转与维护思想。",
+      "category": "知识单元",
+      "parentId": "chapter-5-查找"
+    },
+    {
+      "id": "unit-5-5b-树和bplus树",
+      "label": "5.5B-树和B+树",
+      "level": 2,
+      "description": "学习面向外存和数据库索引的多路平衡查找树结构。",
+      "category": "知识单元",
+      "parentId": "chapter-5-查找"
+    },
+    {
+      "id": "unit-5-7哈希表及应用",
+      "label": "5.7哈希表及应用",
+      "level": 2,
+      "description": "学习散列函数、冲突处理和装填因子，理解近似常数时间查找的条件。",
+      "category": "知识单元",
+      "parentId": "chapter-5-查找"
+    },
+    {
+      "id": "unit-6-1排序的概念",
+      "label": "6.1排序的概念",
+      "level": 2,
+      "description": "明确排序目标、稳定性、内部排序和外部排序、时间空间复杂度等评价维度。",
+      "category": "知识单元",
+      "parentId": "chapter-6-排序"
+    },
+    {
+      "id": "unit-6-2交换排序",
+      "label": "6.2交换排序",
+      "level": 2,
+      "description": "学习通过相邻或分区交换调整元素位置的排序方法，包括冒泡排序和快速排序。",
+      "category": "知识单元",
+      "parentId": "chapter-6-排序"
+    },
+    {
+      "id": "unit-6-3插入排序",
+      "label": "6.3插入排序",
+      "level": 2,
+      "description": "学习逐步构造有序序列的排序思想，包括直接插入排序和希尔排序。",
+      "category": "知识单元",
+      "parentId": "chapter-6-排序"
+    },
+    {
+      "id": "unit-6-4选择排序",
+      "label": "6.4选择排序",
+      "level": 2,
+      "description": "学习每趟选择关键元素的排序思想，包括简单选择排序、树形选择排序和堆排序。",
+      "category": "知识单元",
+      "parentId": "chapter-6-排序"
+    },
+    {
+      "id": "unit-6-5基数排序",
+      "label": "6.5基数排序",
+      "level": 2,
+      "description": "学习按关键字位分配和收集的非比较排序方法。",
+      "category": "知识单元",
+      "parentId": "chapter-6-排序"
+    },
+    {
+      "id": "unit-6-7归并排序",
+      "label": "6.7归并排序",
+      "level": 2,
+      "description": "学习分治合并思想，掌握两路归并和自然归并排序。",
+      "category": "知识单元",
+      "parentId": "chapter-6-排序"
+    },
+    {
+      "id": "unit-6-8多路平衡归并",
+      "label": "6.8多路平衡归并",
+      "level": 2,
+      "description": "学习外部排序中多路归并、归并趟数和缓冲区组织的基本思想。",
+      "category": "知识单元",
+      "parentId": "chapter-6-排序"
+    },
+    {
+      "id": "unit-7-1模式匹配",
+      "label": "7.1模式匹配",
+      "level": 2,
+      "description": "理解模式串在主串中的定位问题及朴素匹配和高效匹配的差异。",
+      "category": "知识单元",
+      "parentId": "chapter-7-顺序结构的应用"
+    },
+    {
+      "id": "unit-7-2串的基本操作和模式匹配",
+      "label": "7.2串的基本操作和模式匹配",
+      "level": 2,
+      "description": "学习串的存储、比较、截取、连接和朴素模式匹配算法。",
+      "category": "知识单元",
+      "parentId": "chapter-7-顺序结构的应用"
+    },
+    {
+      "id": "unit-7-3kmp算法",
+      "label": "7.3KMP算法",
+      "level": 2,
+      "description": "学习利用部分匹配信息减少回退的字符串匹配算法。",
+      "category": "知识单元",
+      "parentId": "chapter-7-顺序结构的应用"
+    },
+    {
+      "id": "unit-7-4trie树",
+      "label": "7.4Trie树",
+      "level": 2,
+      "description": "学习前缀树结构，理解字符串集合的插入、查找和前缀查询。",
+      "category": "知识单元",
+      "parentId": "chapter-7-顺序结构的应用"
+    },
+    {
+      "id": "unit-7-5ac自动机",
+      "label": "7.5AC自动机",
+      "level": 2,
+      "description": "学习多模式串匹配思想，理解 Trie、失败指针和自动机转移的组合。",
+      "category": "知识单元",
+      "parentId": "chapter-7-顺序结构的应用"
+    },
+    {
+      "id": "unit-8-1图的定义",
+      "label": "8.1图的定义",
+      "level": 2,
+      "description": "学习顶点、边、路径、连通性、度、权值、有向图和无向图等基本概念。",
+      "category": "知识单元",
+      "parentId": "chapter-8-图"
+    },
+    {
+      "id": "unit-8-2图的存储结构",
+      "label": "8.2图的存储结构",
+      "level": 2,
+      "description": "比较邻接矩阵、邻接表、十字链表和邻接多重表的空间代价和操作效率。",
+      "category": "知识单元",
+      "parentId": "chapter-8-图"
+    },
+    {
+      "id": "unit-8-3广度优先搜索和深度优先搜索",
+      "label": "8.3广度优先搜索和深度优先搜索",
+      "level": 2,
+      "description": "学习 BFS 和 DFS 的访问规则、辅助结构和连通性分析。",
+      "category": "知识单元",
+      "parentId": "chapter-8-图"
+    },
+    {
+      "id": "unit-8-4遍历算法的应用",
+      "label": "8.4遍历算法的应用",
+      "level": 2,
+      "description": "学习基于遍历解决路径存在性、简单路径和无权最短路径问题。",
+      "category": "知识单元",
+      "parentId": "chapter-8-图"
+    },
+    {
+      "id": "unit-8-5最小代价生成树",
+      "label": "8.5最小代价生成树",
+      "level": 2,
+      "description": "学习在连通带权无向图中构造总代价最小生成树的算法思想。",
+      "category": "知识单元",
+      "parentId": "chapter-8-图"
+    },
+    {
+      "id": "unit-8-6最短路径",
+      "label": "8.6最短路径",
+      "level": 2,
+      "description": "学习单源和多源最短路径问题，理解权值、松弛和路径恢复。",
+      "category": "知识单元",
+      "parentId": "chapter-8-图"
+    },
+    {
+      "id": "unit-8-7有向无环图及相关算法",
+      "label": "8.7有向无环图及相关算法",
+      "level": 2,
+      "description": "学习 DAG 上的拓扑排序、关键路径和任务依赖分析。",
+      "category": "知识单元",
+      "parentId": "chapter-8-图"
+    },
+    {
+      "id": "unit-9-1综合实验",
+      "label": "9.1综合实验",
+      "level": 2,
+      "description": "综合使用课程中的数据结构和算法完成问题分析、结构选择、程序设计和测试。",
+      "category": "知识单元",
+      "parentId": "chapter-9-综合实验"
+    },
+    {
+      "id": "计算机定义",
+      "label": "计算机定义",
+      "level": 3,
+      "description": "计算机是能够按程序自动处理数据的系统，课程中重点关注数据表示、存储和算法执行。",
+      "category": "知识点",
+      "parentId": "unit-1-1计算机与算法"
+    },
+    {
+      "id": "计算机作用",
+      "label": "计算机作用",
+      "level": 3,
+      "description": "计算机通过高效存储和处理数据解决实际问题，数据结构决定了许多程序的效率上限。",
+      "category": "知识点",
+      "parentId": "unit-1-1计算机与算法"
+    },
+    {
+      "id": "计算能力",
+      "label": "计算能力",
+      "level": 3,
+      "description": "计算能力体现为指令执行、算法实现和资源调度能力，是分析算法时间代价的背景。",
+      "category": "知识点",
+      "parentId": "unit-1-1计算机与算法"
+    },
+    {
+      "id": "存储能力",
+      "label": "存储能力",
+      "level": 3,
+      "description": "存储能力决定数据可组织的规模和访问方式，需要结合内存、外存和结构选择理解。",
+      "category": "知识点",
+      "parentId": "unit-1-1计算机与算法"
+    },
+    {
+      "id": "算法的影响",
+      "label": "算法的影响",
+      "level": 3,
+      "description": "算法决定问题求解步骤和效率，同一问题可因算法和数据结构不同产生数量级差异。",
+      "category": "知识点",
+      "parentId": "unit-1-1计算机与算法"
+    },
+    {
+      "id": "数据结构",
+      "label": "数据结构",
+      "level": 3,
+      "description": "数据结构研究数据元素之间的关系及其存储表示，是算法设计和程序实现的基础。",
+      "category": "知识点",
+      "parentId": "unit-1-2数据结构"
+    },
+    {
+      "id": "数据元素",
+      "label": "数据元素",
+      "level": 3,
+      "description": "数据元素是数据的基本单位，通常由若干数据项组成，是结构关系和操作对象的载体。",
+      "category": "知识点",
+      "parentId": "unit-1-2数据结构"
+    },
+    {
+      "id": "逻辑结构",
+      "label": "逻辑结构",
+      "level": 3,
+      "description": "逻辑结构描述数据元素之间的抽象关系，包括集合、线性、树形和图形结构。",
+      "category": "知识点",
+      "parentId": "unit-1-2数据结构"
+    },
+    {
+      "id": "物理结构",
+      "label": "物理结构",
+      "level": 3,
+      "description": "物理结构描述逻辑结构在计算机中的存储方式，常见为顺序存储、链式存储、索引和散列。",
+      "category": "知识点",
+      "parentId": "unit-1-2数据结构"
+    },
+    {
+      "id": "运算定义",
+      "label": "运算定义",
+      "level": 3,
+      "description": "运算定义规定数据结构支持的操作及其语义，如查找、插入、删除、遍历和更新。",
+      "category": "知识点",
+      "parentId": "unit-1-2数据结构"
+    },
+    {
+      "id": "抽象数据类型",
+      "label": "抽象数据类型",
+      "level": 3,
+      "description": "抽象数据类型将数据对象、关系和操作封装起来，强调接口语义而非具体实现。",
+      "category": "知识点",
+      "parentId": "unit-1-2数据结构"
+    },
+    {
+      "id": "算法时间复杂度",
+      "label": "算法时间复杂度",
+      "level": 3,
+      "description": "时间复杂度用输入规模增长时的运算次数量级评价算法效率，常用大 O 表示。",
+      "category": "知识点",
+      "parentId": "unit-1-3算法复杂度分析"
+    },
+    {
+      "id": "算法空间复杂度",
+      "label": "算法空间复杂度",
+      "level": 3,
+      "description": "空间复杂度评价算法运行时额外占用存储空间的增长量，常与时间效率进行权衡。",
+      "category": "知识点",
+      "parentId": "unit-1-3算法复杂度分析"
+    },
+    {
+      "id": "算法编写基础",
+      "label": "算法编写基础",
+      "level": 3,
+      "description": "算法编写基础包括控制结构、函数、数组、指针和结构体，是实现数据结构操作的前提。",
+      "category": "知识点",
+      "parentId": "unit-1-4编程相关知识"
+    },
+    {
+      "id": "线性表",
+      "label": "线性表",
+      "level": 3,
+      "description": "线性表是由有限个同类型元素组成的一对一序列结构，支持按位置访问、插入和删除。",
+      "category": "知识点",
+      "parentId": "unit-2-2线性表的定义"
+    },
+    {
+      "id": "线性结构顺序存储",
+      "label": "线性结构顺序存储",
+      "level": 3,
+      "description": "顺序存储用连续存储单元保存线性结构，支持随机访问，但插入删除通常需要移动元素。",
+      "category": "知识点",
+      "parentId": "unit-2-3数组"
+    },
+    {
+      "id": "顺序表顺序查找",
+      "label": "顺序表顺序查找",
+      "level": 3,
+      "description": "顺序查找从表的一端逐个比较关键字，适用于无序表或小规模数据。",
+      "category": "知识点",
+      "parentId": "unit-2-3数组"
+    },
+    {
+      "id": "顺序表简单排序",
+      "label": "顺序表简单排序",
+      "level": 3,
+      "description": "顺序表简单排序利用数组下标和元素交换实现基础排序，是理解排序过程的入门案例。",
+      "category": "知识点",
+      "parentId": "unit-2-3数组"
+    },
+    {
+      "id": "线性结构链式存储",
+      "label": "线性结构链式存储",
+      "level": 3,
+      "description": "链式存储用指针连接结点，插入删除灵活，但访问第 i 个元素需要顺序遍历。",
+      "category": "知识点",
+      "parentId": "unit-2-4链表"
+    },
+    {
+      "id": "链表顺序查找",
+      "label": "链表顺序查找",
+      "level": 3,
+      "description": "链表顺序查找沿指针逐结点比较关键字，体现链式结构只能顺序访问的特点。",
+      "category": "知识点",
+      "parentId": "unit-2-4链表"
+    },
+    {
+      "id": "链表简单排序",
+      "label": "链表简单排序",
+      "level": 3,
+      "description": "链表排序需要调整结点指针或交换数据，重点理解链式结构下移动成本和实现细节。",
+      "category": "知识点",
+      "parentId": "unit-2-4链表"
+    },
+    {
+      "id": "栈",
+      "label": "栈",
+      "level": 3,
+      "description": "栈是只允许在一端插入和删除的线性表，遵循后进先出原则。",
+      "category": "知识点",
+      "parentId": "unit-3-2栈的定义"
+    },
+    {
+      "id": "顺序栈",
+      "label": "顺序栈",
+      "level": 3,
+      "description": "顺序栈用数组和栈顶指针实现，需要处理上溢、下溢和容量限制。",
+      "category": "知识点",
+      "parentId": "unit-3-3顺序栈与链栈"
+    },
+    {
+      "id": "链栈",
+      "label": "链栈",
+      "level": 3,
+      "description": "链栈用链表结点动态组织栈元素，适合容量不固定的场景。",
+      "category": "知识点",
+      "parentId": "unit-3-3顺序栈与链栈"
+    },
+    {
+      "id": "栈的应用",
+      "label": "栈的应用",
+      "level": 3,
+      "description": "栈常用于括号匹配、表达式求值、函数调用、回溯和深度优先搜索。",
+      "category": "知识点",
+      "parentId": "unit-3-4栈的应用"
+    },
+    {
+      "id": "递归算法",
+      "label": "递归算法",
+      "level": 3,
+      "description": "递归算法通过函数调用自身分解问题，需要明确递归边界和规模缩小过程。",
+      "category": "知识点",
+      "parentId": "unit-3-5递归"
+    },
+    {
+      "id": "队列",
+      "label": "队列",
+      "level": 3,
+      "description": "队列是只允许队尾插入、队头删除的线性表，遵循先进先出原则。",
+      "category": "知识点",
+      "parentId": "unit-3-6队列"
+    },
+    {
+      "id": "链式队列",
+      "label": "链式队列",
+      "level": 3,
+      "description": "链式队列用链表维护队头和队尾指针，便于动态扩展和连续入队出队。",
+      "category": "知识点",
+      "parentId": "unit-3-6队列"
+    },
+    {
+      "id": "顺序队列",
+      "label": "顺序队列",
+      "level": 3,
+      "description": "顺序队列通常用循环数组实现，以避免普通数组队列的假溢出现象。",
+      "category": "知识点",
+      "parentId": "unit-3-6队列"
+    },
+    {
+      "id": "队列的应用",
+      "label": "队列的应用",
+      "level": 3,
+      "description": "队列常用于缓冲区、任务调度、层序遍历、广度优先搜索和打印队列等场景。",
+      "category": "知识点",
+      "parentId": "unit-3-6队列"
+    },
+    {
+      "id": "树",
+      "label": "树",
+      "level": 3,
+      "description": "树是一种层次化非线性结构，用父子关系表示元素之间的一对多联系。",
+      "category": "知识点",
+      "parentId": "unit-4-1树与二叉树"
+    },
+    {
+      "id": "二叉树",
+      "label": "二叉树",
+      "level": 3,
+      "description": "二叉树是每个结点最多有两个孩子的树结构，是许多查找、表达式和编码算法的基础。",
+      "category": "知识点",
+      "parentId": "unit-4-2二叉树"
+    },
+    {
+      "id": "顺序存储二叉树",
+      "label": "顺序存储二叉树",
+      "level": 3,
+      "description": "顺序存储二叉树用数组下标表示父子关系，适合完全二叉树等结构紧凑的情况。",
+      "category": "知识点",
+      "parentId": "unit-4-3二叉树的存储结构"
+    },
+    {
+      "id": "链式存储二叉树",
+      "label": "链式存储二叉树",
+      "level": 3,
+      "description": "链式存储二叉树用结点保存左右孩子指针，适合形态不规则的二叉树。",
+      "category": "知识点",
+      "parentId": "unit-4-3二叉树的存储结构"
+    },
+    {
+      "id": "二叉树遍历",
+      "label": "二叉树遍历",
+      "level": 3,
+      "description": "二叉树遍历按先序、中序、后序或层序访问所有结点，是许多树算法的基础。",
+      "category": "知识点",
+      "parentId": "unit-4-4二叉树的遍历"
+    },
+    {
+      "id": "二叉树遍历的简单应用",
+      "label": "二叉树遍历的简单应用",
+      "level": 3,
+      "description": "遍历可用于求树高、统计结点、复制树、表达式树求值和线索化等基础任务。",
+      "category": "知识点",
+      "parentId": "unit-4-4二叉树的遍历"
+    },
+    {
+      "id": "哈夫曼树",
+      "label": "哈夫曼树",
+      "level": 3,
+      "description": "哈夫曼树是带权路径长度最小的二叉树，常用于最优编码。",
+      "category": "知识点",
+      "parentId": "unit-4-5huffman树与huffman编码"
+    },
+    {
+      "id": "哈夫曼编码",
+      "label": "哈夫曼编码",
+      "level": 3,
+      "description": "哈夫曼编码根据字符权值生成前缀码，使高频字符编码更短以降低总编码长度。",
+      "category": "知识点",
+      "parentId": "unit-4-5huffman树与huffman编码"
+    },
+    {
+      "id": "树的存储",
+      "label": "树的存储",
+      "level": 3,
+      "description": "树的存储可采用双亲表示法、孩子表示法、孩子兄弟表示法等方式。",
+      "category": "知识点",
+      "parentId": "unit-4-6树和森林"
+    },
+    {
+      "id": "树的遍历",
+      "label": "树的遍历",
+      "level": 3,
+      "description": "树和森林遍历可转化为二叉树遍历，常用于层次数据处理和搜索。",
+      "category": "知识点",
+      "parentId": "unit-4-6树和森林"
+    },
+    {
+      "id": "回溯法",
+      "label": "回溯法",
+      "level": 3,
+      "description": "回溯法在解空间树中试探选择并在不满足条件时撤销，适合组合搜索问题。",
+      "category": "知识点",
+      "parentId": "unit-4-7树的应用"
+    },
+    {
+      "id": "遍历查找",
+      "label": "遍历查找",
+      "level": 3,
+      "description": "遍历查找逐个检查数据元素，是最直接的查找方法，也是比较其他查找策略的基线。",
+      "category": "知识点",
+      "parentId": "unit-5-1概述"
+    },
+    {
+      "id": "折半查找",
+      "label": "折半查找",
+      "level": 3,
+      "description": "折半查找在有序顺序表中每次缩小一半查找范围，时间复杂度为 O(log n)。",
+      "category": "知识点",
+      "parentId": "unit-5-2折半查找"
+    },
+    {
+      "id": "二叉排序树",
+      "label": "二叉排序树",
+      "level": 3,
+      "description": "二叉排序树满足左子树关键字小于根、右子树关键字大于根，支持动态查找。",
+      "category": "知识点",
+      "parentId": "unit-5-3二叉排序树"
+    },
+    {
+      "id": "平衡二叉树",
+      "label": "平衡二叉树",
+      "level": 3,
+      "description": "平衡二叉树通过旋转控制左右子树高度差，避免普通二叉排序树退化。",
+      "category": "知识点",
+      "parentId": "unit-5-4avl树和红黑树"
+    },
+    {
+      "id": "b树",
+      "label": "B树",
+      "level": 3,
+      "description": "B 树是多路平衡查找树，减少外存访问次数，常用于文件系统和数据库索引。",
+      "category": "知识点",
+      "parentId": "unit-5-5b-树和bplus树"
+    },
+    {
+      "id": "哈希表",
+      "label": "哈希表",
+      "level": 3,
+      "description": "哈希表通过散列函数将关键字映射到存储位置，重点处理冲突和装填因子。",
+      "category": "知识点",
+      "parentId": "unit-5-7哈希表及应用"
+    },
+    {
+      "id": "冒泡排序",
+      "label": "冒泡排序",
+      "level": 3,
+      "description": "冒泡排序通过相邻元素比较和交换逐趟将极值移动到序列端部，简单但效率较低。",
+      "category": "知识点",
+      "parentId": "unit-6-2交换排序"
+    },
+    {
+      "id": "快速排序",
+      "label": "快速排序",
+      "level": 3,
+      "description": "快速排序通过划分和递归排序子区间实现平均 O(n log n) 的高效排序。",
+      "category": "知识点",
+      "parentId": "unit-6-2交换排序"
+    },
+    {
+      "id": "直接插入排序",
+      "label": "直接插入排序",
+      "level": 3,
+      "description": "直接插入排序将待排元素插入已排有序区，适合小规模或基本有序数据。",
+      "category": "知识点",
+      "parentId": "unit-6-3插入排序"
+    },
+    {
+      "id": "希尔排序",
+      "label": "希尔排序",
+      "level": 3,
+      "description": "希尔排序按增量分组进行插入排序，逐步缩小增量以改善直接插入排序效率。",
+      "category": "知识点",
+      "parentId": "unit-6-3插入排序"
+    },
+    {
+      "id": "简单选择排序",
+      "label": "简单选择排序",
+      "level": 3,
+      "description": "简单选择排序每趟选择最小或最大元素放到最终位置，交换次数少但比较次数多。",
+      "category": "知识点",
+      "parentId": "unit-6-4选择排序"
+    },
+    {
+      "id": "树性选择排序",
+      "label": "树性选择排序",
+      "level": 3,
+      "description": "树形选择排序用选择树保存比较结果，便于多路选择和归并场景。",
+      "category": "知识点",
+      "parentId": "unit-6-4选择排序"
+    },
+    {
+      "id": "堆排序",
+      "label": "堆排序",
+      "level": 3,
+      "description": "堆排序利用完全二叉树上的堆结构反复选出最大或最小元素，时间复杂度 O(n log n)。",
+      "category": "知识点",
+      "parentId": "unit-6-4选择排序"
+    },
+    {
+      "id": "基数排序",
+      "label": "基数排序",
+      "level": 3,
+      "description": "基数排序按关键字位进行分配和收集，适用于位数有限且可分解的关键字。",
+      "category": "知识点",
+      "parentId": "unit-6-5基数排序"
+    },
+    {
+      "id": "两路归并排序",
+      "label": "两路归并排序",
+      "level": 3,
+      "description": "两路归并排序将两个有序子序列合并为一个有序序列，是归并排序的核心操作。",
+      "category": "知识点",
+      "parentId": "unit-6-7归并排序"
+    },
+    {
+      "id": "自然两路归并排序",
+      "label": "自然两路归并排序",
+      "level": 3,
+      "description": "自然两路归并排序利用原序列中已有的有序段，减少不必要的归并趟数。",
+      "category": "知识点",
+      "parentId": "unit-6-7归并排序"
+    },
+    {
+      "id": "多路平衡归并排序",
+      "label": "多路平衡归并排序",
+      "level": 3,
+      "description": "多路平衡归并排序同时归并多个有序段，是外部排序减少读写趟数的重要方法。",
+      "category": "知识点",
+      "parentId": "unit-6-8多路平衡归并"
+    },
+    {
+      "id": "穷举法",
+      "label": "穷举法",
+      "level": 3,
+      "description": "穷举法逐一尝试所有可能位置或方案，逻辑简单但常存在较高时间开销。",
+      "category": "知识点",
+      "parentId": "unit-7-2串的基本操作和模式匹配"
+    },
+    {
+      "id": "kmp算法",
+      "label": "KMP算法",
+      "level": 3,
+      "description": "KMP 算法利用 next 数组或部分匹配表避免主串回退，提高字符串匹配效率。",
+      "category": "知识点",
+      "parentId": "unit-7-3kmp算法"
+    },
+    {
+      "id": "trie树",
+      "label": "Trie树",
+      "level": 3,
+      "description": "Trie 树按字符路径组织字符串集合，适合前缀查询、词典检索和自动补全。",
+      "category": "知识点",
+      "parentId": "unit-7-4trie树"
+    },
+    {
+      "id": "ac自动机",
+      "label": "AC自动机",
+      "level": 3,
+      "description": "AC 自动机在 Trie 上加入失败指针，可一次扫描完成多模式串匹配。",
+      "category": "知识点",
+      "parentId": "unit-7-5ac自动机"
+    },
+    {
+      "id": "图的存储结构",
+      "label": "图的存储结构",
+      "level": 3,
+      "description": "图的存储结构决定访问邻接点和边的效率，需根据稀疏图或稠密图选择。",
+      "category": "知识点",
+      "parentId": "unit-8-2图的存储结构"
+    },
+    {
+      "id": "图的遍历",
+      "label": "图的遍历",
+      "level": 3,
+      "description": "图的遍历通过 BFS 或 DFS 系统访问顶点，可用于连通性、路径和生成树分析。",
+      "category": "知识点",
+      "parentId": "unit-8-3广度优先搜索和深度优先搜索"
+    },
+    {
+      "id": "简单路径算法",
+      "label": "简单路径算法",
+      "level": 3,
+      "description": "简单路径算法关注不重复经过顶点的路径搜索，常结合 DFS 和回溯实现。",
+      "category": "知识点",
+      "parentId": "unit-8-4遍历算法的应用"
+    },
+    {
+      "id": "无权最短路径算法",
+      "label": "无权最短路径算法",
+      "level": 3,
+      "description": "无权最短路径可用 BFS 按层扩展求得，适合边权相同的图。",
+      "category": "知识点",
+      "parentId": "unit-8-4遍历算法的应用"
+    },
+    {
+      "id": "最小生成树算法",
+      "label": "最小生成树算法",
+      "level": 3,
+      "description": "最小生成树算法在连通带权无向图中选择连接所有顶点且总权值最小的边集。",
+      "category": "知识点",
+      "parentId": "unit-8-5最小代价生成树"
+    },
+    {
+      "id": "最短路径",
+      "label": "最短路径",
+      "level": 3,
+      "description": "最短路径问题寻找顶点间总代价最小的路径，典型算法包括 Dijkstra 和 Floyd。",
+      "category": "知识点",
+      "parentId": "unit-8-6最短路径"
+    },
+    {
+      "id": "拓扑排序",
+      "label": "拓扑排序",
+      "level": 3,
+      "description": "拓扑排序对有向无环图中的依赖关系进行线性排序，常用于课程先修和任务调度。",
+      "category": "知识点",
+      "parentId": "unit-8-7有向无环图及相关算法"
+    },
+    {
+      "id": "关键路径",
+      "label": "关键路径",
+      "level": 3,
+      "description": "关键路径分析在 AOE 网中找出决定工程最短完成时间的活动序列。",
+      "category": "知识点",
+      "parentId": "unit-8-7有向无环图及相关算法"
+    },
+    {
+      "id": "综合实验",
+      "label": "综合实验",
+      "level": 3,
+      "description": "综合实验要求根据问题特点选择合适的数据结构和算法，并完成实现、调试和结果分析。",
+      "category": "知识点",
+      "parentId": "unit-9-1综合实验"
+    }
   ],
   "edges": [
-    { "id": "e1", "source": "basics", "target": "linear-structure", "type": "prerequisite", "label": "理论基础" },
-    { "id": "e2", "source": "basics", "target": "sorting-techniques", "type": "prerequisite", "label": "复杂度分析" },
-
-    { "id": "e3", "source": "linear-structure", "target": "sequential-storage", "type": "prerequisite", "label": "存储方式" },
-    { "id": "e4", "source": "linear-structure", "target": "linked-storage", "type": "prerequisite", "label": "存储方式" },
-    { "id": "e5", "source": "linear-structure", "target": "stack", "type": "prerequisite", "label": "受限线性表" },
-    { "id": "e6", "source": "linear-structure", "target": "queue", "type": "prerequisite", "label": "受限线性表" },
-
-    { "id": "e7", "source": "sequential-storage", "target": "stack", "type": "related", "label": "顺序栈" },
-    { "id": "e8", "source": "linked-storage", "target": "queue", "type": "related", "label": "链队列" },
-    { "id": "e9", "source": "sequential-storage", "target": "string-array", "type": "related", "label": "顺序串" },
-    { "id": "e10", "source": "linked-storage", "target": "sparse-matrix", "type": "related", "label": "三元组链表" },
-
-    { "id": "e11", "source": "string-array", "target": "pattern-matching", "type": "prerequisite", "label": "字符串操作" },
-    { "id": "e12", "source": "string-array", "target": "sparse-matrix", "type": "prerequisite", "label": "数组存储" },
-
-    { "id": "e13", "source": "linked-storage", "target": "tree-structure", "type": "prerequisite", "label": "链式思想" },
-    { "id": "e14", "source": "tree-structure", "target": "binary-tree", "type": "prerequisite", "label": "树的基础" },
-    { "id": "e15", "source": "tree-structure", "target": "huffman-tree", "type": "prerequisite", "label": "树的应用" },
-    { "id": "e16", "source": "binary-tree", "target": "huffman-tree", "type": "related", "label": "最优二叉树" },
-
-    { "id": "e17", "source": "stack", "target": "tree-structure", "type": "related", "label": "递归遍历" },
-    { "id": "e18", "source": "queue", "target": "graph-traversal", "type": "prerequisite", "label": "BFS基础" },
-    { "id": "e19", "source": "stack", "target": "graph-traversal", "type": "prerequisite", "label": "DFS基础" },
-
-    { "id": "e20", "source": "tree-structure", "target": "graph-structure", "type": "related", "label": "图的特例" },
-    { "id": "e21", "source": "graph-structure", "target": "graph-storage", "type": "prerequisite", "label": "存储方式" },
-    { "id": "e22", "source": "graph-structure", "target": "graph-traversal", "type": "prerequisite", "label": "遍历方法" },
-    { "id": "e23", "source": "graph-structure", "target": "graph-applications", "type": "prerequisite", "label": "图的应用" },
-    { "id": "e24", "source": "graph-traversal", "target": "graph-applications", "type": "prerequisite", "label": "遍历基础" },
-    { "id": "e25", "source": "binary-tree", "target": "graph-applications", "type": "related", "label": "生成树" },
-
-    { "id": "e26", "source": "binary-tree", "target": "tree-search", "type": "prerequisite", "label": "二叉树基础" },
-    { "id": "e27", "source": "search-techniques", "target": "linear-search", "type": "prerequisite", "label": "查找概念" },
-    { "id": "e28", "source": "search-techniques", "target": "tree-search", "type": "prerequisite", "label": "查找概念" },
-    { "id": "e29", "source": "search-techniques", "target": "hash-table", "type": "prerequisite", "label": "查找概念" },
-    { "id": "e30", "source": "linear-search", "target": "hash-table", "type": "related", "label": "查找方法对比" },
-
-    { "id": "e31", "source": "sorting-techniques", "target": "basic-sorting", "type": "prerequisite", "label": "排序概念" },
-    { "id": "e32", "source": "sorting-techniques", "target": "advanced-sorting", "type": "prerequisite", "label": "排序概念" },
-    { "id": "e33", "source": "basic-sorting", "target": "advanced-sorting", "type": "prerequisite", "label": "排序思想" },
-    { "id": "e34", "source": "binary-tree", "target": "advanced-sorting", "type": "related", "label": "堆排序基础" },
-
-    { "id": "e35", "source": "advanced-sorting", "target": "file-organization", "type": "prerequisite", "label": "归并思想" },
-    { "id": "e36", "source": "tree-search", "target": "file-organization", "type": "related", "label": "B树索引" },
-    { "id": "e37", "source": "hash-table", "target": "file-organization", "type": "related", "label": "散列文件" }
+    {
+      "id": "e0",
+      "source": "chapter-1-概论",
+      "target": "unit-1-1计算机与算法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e1",
+      "source": "chapter-1-概论",
+      "target": "unit-1-2数据结构",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e2",
+      "source": "chapter-1-概论",
+      "target": "unit-1-3算法复杂度分析",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e3",
+      "source": "chapter-1-概论",
+      "target": "unit-1-4编程相关知识",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e4",
+      "source": "chapter-2-线性表",
+      "target": "unit-2-1线性结构场景",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e5",
+      "source": "chapter-2-线性表",
+      "target": "unit-2-2线性表的定义",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e6",
+      "source": "chapter-2-线性表",
+      "target": "unit-2-3数组",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e7",
+      "source": "chapter-2-线性表",
+      "target": "unit-2-4链表",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e8",
+      "source": "chapter-3-栈和队列",
+      "target": "unit-3-1栈的应用场景",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e9",
+      "source": "chapter-3-栈和队列",
+      "target": "unit-3-2栈的定义",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e10",
+      "source": "chapter-3-栈和队列",
+      "target": "unit-3-3顺序栈与链栈",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e11",
+      "source": "chapter-3-栈和队列",
+      "target": "unit-3-4栈的应用",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e12",
+      "source": "chapter-3-栈和队列",
+      "target": "unit-3-5递归",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e13",
+      "source": "chapter-3-栈和队列",
+      "target": "unit-3-6队列",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e14",
+      "source": "chapter-4-树",
+      "target": "unit-4-1树与二叉树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e15",
+      "source": "chapter-4-树",
+      "target": "unit-4-2二叉树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e16",
+      "source": "chapter-4-树",
+      "target": "unit-4-3二叉树的存储结构",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e17",
+      "source": "chapter-4-树",
+      "target": "unit-4-4二叉树的遍历",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e18",
+      "source": "chapter-4-树",
+      "target": "unit-4-5huffman树与huffman编码",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e19",
+      "source": "chapter-4-树",
+      "target": "unit-4-6树和森林",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e20",
+      "source": "chapter-4-树",
+      "target": "unit-4-7树的应用",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e21",
+      "source": "chapter-5-查找",
+      "target": "unit-5-1概述",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e22",
+      "source": "chapter-5-查找",
+      "target": "unit-5-2折半查找",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e23",
+      "source": "chapter-5-查找",
+      "target": "unit-5-3二叉排序树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e24",
+      "source": "chapter-5-查找",
+      "target": "unit-5-4avl树和红黑树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e25",
+      "source": "chapter-5-查找",
+      "target": "unit-5-5b-树和bplus树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e26",
+      "source": "chapter-5-查找",
+      "target": "unit-5-7哈希表及应用",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e27",
+      "source": "chapter-6-排序",
+      "target": "unit-6-1排序的概念",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e28",
+      "source": "chapter-6-排序",
+      "target": "unit-6-2交换排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e29",
+      "source": "chapter-6-排序",
+      "target": "unit-6-3插入排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e30",
+      "source": "chapter-6-排序",
+      "target": "unit-6-4选择排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e31",
+      "source": "chapter-6-排序",
+      "target": "unit-6-5基数排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e32",
+      "source": "chapter-6-排序",
+      "target": "unit-6-7归并排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e33",
+      "source": "chapter-6-排序",
+      "target": "unit-6-8多路平衡归并",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e34",
+      "source": "chapter-7-顺序结构的应用",
+      "target": "unit-7-1模式匹配",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e35",
+      "source": "chapter-7-顺序结构的应用",
+      "target": "unit-7-2串的基本操作和模式匹配",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e36",
+      "source": "chapter-7-顺序结构的应用",
+      "target": "unit-7-3kmp算法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e37",
+      "source": "chapter-7-顺序结构的应用",
+      "target": "unit-7-4trie树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e38",
+      "source": "chapter-7-顺序结构的应用",
+      "target": "unit-7-5ac自动机",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e39",
+      "source": "chapter-8-图",
+      "target": "unit-8-1图的定义",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e40",
+      "source": "chapter-8-图",
+      "target": "unit-8-2图的存储结构",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e41",
+      "source": "chapter-8-图",
+      "target": "unit-8-3广度优先搜索和深度优先搜索",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e42",
+      "source": "chapter-8-图",
+      "target": "unit-8-4遍历算法的应用",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e43",
+      "source": "chapter-8-图",
+      "target": "unit-8-5最小代价生成树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e44",
+      "source": "chapter-8-图",
+      "target": "unit-8-6最短路径",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e45",
+      "source": "chapter-8-图",
+      "target": "unit-8-7有向无环图及相关算法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e46",
+      "source": "chapter-9-综合实验",
+      "target": "unit-9-1综合实验",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e47",
+      "source": "unit-1-1计算机与算法",
+      "target": "计算机定义",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e48",
+      "source": "unit-1-1计算机与算法",
+      "target": "计算机作用",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e49",
+      "source": "unit-1-1计算机与算法",
+      "target": "计算能力",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e50",
+      "source": "unit-1-1计算机与算法",
+      "target": "存储能力",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e51",
+      "source": "unit-1-1计算机与算法",
+      "target": "算法的影响",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e52",
+      "source": "unit-1-2数据结构",
+      "target": "数据结构",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e53",
+      "source": "unit-1-2数据结构",
+      "target": "数据元素",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e54",
+      "source": "unit-1-2数据结构",
+      "target": "逻辑结构",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e55",
+      "source": "unit-1-2数据结构",
+      "target": "物理结构",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e56",
+      "source": "unit-1-2数据结构",
+      "target": "运算定义",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e57",
+      "source": "unit-1-2数据结构",
+      "target": "抽象数据类型",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e58",
+      "source": "unit-1-3算法复杂度分析",
+      "target": "算法时间复杂度",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e59",
+      "source": "unit-1-3算法复杂度分析",
+      "target": "算法空间复杂度",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e60",
+      "source": "unit-1-4编程相关知识",
+      "target": "算法编写基础",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e61",
+      "source": "unit-2-2线性表的定义",
+      "target": "线性表",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e62",
+      "source": "unit-2-3数组",
+      "target": "线性结构顺序存储",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e63",
+      "source": "unit-2-3数组",
+      "target": "顺序表顺序查找",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e64",
+      "source": "unit-2-3数组",
+      "target": "顺序表简单排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e65",
+      "source": "unit-2-4链表",
+      "target": "线性结构链式存储",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e66",
+      "source": "unit-2-4链表",
+      "target": "链表顺序查找",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e67",
+      "source": "unit-2-4链表",
+      "target": "链表简单排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e68",
+      "source": "unit-3-2栈的定义",
+      "target": "栈",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e69",
+      "source": "unit-3-3顺序栈与链栈",
+      "target": "顺序栈",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e70",
+      "source": "unit-3-3顺序栈与链栈",
+      "target": "链栈",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e71",
+      "source": "unit-3-4栈的应用",
+      "target": "栈的应用",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e72",
+      "source": "unit-3-5递归",
+      "target": "递归算法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e73",
+      "source": "unit-3-6队列",
+      "target": "队列",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e74",
+      "source": "unit-3-6队列",
+      "target": "链式队列",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e75",
+      "source": "unit-3-6队列",
+      "target": "顺序队列",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e76",
+      "source": "unit-3-6队列",
+      "target": "队列的应用",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e77",
+      "source": "unit-4-1树与二叉树",
+      "target": "树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e78",
+      "source": "unit-4-2二叉树",
+      "target": "二叉树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e79",
+      "source": "unit-4-3二叉树的存储结构",
+      "target": "顺序存储二叉树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e80",
+      "source": "unit-4-3二叉树的存储结构",
+      "target": "链式存储二叉树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e81",
+      "source": "unit-4-4二叉树的遍历",
+      "target": "二叉树遍历",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e82",
+      "source": "unit-4-4二叉树的遍历",
+      "target": "二叉树遍历的简单应用",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e83",
+      "source": "unit-4-5huffman树与huffman编码",
+      "target": "哈夫曼树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e84",
+      "source": "unit-4-5huffman树与huffman编码",
+      "target": "哈夫曼编码",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e85",
+      "source": "unit-4-6树和森林",
+      "target": "树的存储",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e86",
+      "source": "unit-4-6树和森林",
+      "target": "树的遍历",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e87",
+      "source": "unit-4-7树的应用",
+      "target": "回溯法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e88",
+      "source": "unit-5-1概述",
+      "target": "遍历查找",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e89",
+      "source": "unit-5-2折半查找",
+      "target": "折半查找",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e90",
+      "source": "unit-5-3二叉排序树",
+      "target": "二叉排序树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e91",
+      "source": "unit-5-4avl树和红黑树",
+      "target": "平衡二叉树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e92",
+      "source": "unit-5-5b-树和bplus树",
+      "target": "b树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e93",
+      "source": "unit-5-7哈希表及应用",
+      "target": "哈希表",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e94",
+      "source": "unit-6-2交换排序",
+      "target": "冒泡排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e95",
+      "source": "unit-6-2交换排序",
+      "target": "快速排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e96",
+      "source": "unit-6-3插入排序",
+      "target": "直接插入排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e97",
+      "source": "unit-6-3插入排序",
+      "target": "希尔排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e98",
+      "source": "unit-6-4选择排序",
+      "target": "简单选择排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e99",
+      "source": "unit-6-4选择排序",
+      "target": "树性选择排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e100",
+      "source": "unit-6-4选择排序",
+      "target": "堆排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e101",
+      "source": "unit-6-5基数排序",
+      "target": "基数排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e102",
+      "source": "unit-6-7归并排序",
+      "target": "两路归并排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e103",
+      "source": "unit-6-7归并排序",
+      "target": "自然两路归并排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e104",
+      "source": "unit-6-8多路平衡归并",
+      "target": "多路平衡归并排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e105",
+      "source": "unit-7-2串的基本操作和模式匹配",
+      "target": "穷举法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e106",
+      "source": "unit-7-3kmp算法",
+      "target": "kmp算法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e107",
+      "source": "unit-7-4trie树",
+      "target": "trie树",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e108",
+      "source": "unit-7-5ac自动机",
+      "target": "ac自动机",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e109",
+      "source": "unit-8-2图的存储结构",
+      "target": "图的存储结构",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e110",
+      "source": "unit-8-3广度优先搜索和深度优先搜索",
+      "target": "图的遍历",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e111",
+      "source": "unit-8-4遍历算法的应用",
+      "target": "简单路径算法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e112",
+      "source": "unit-8-4遍历算法的应用",
+      "target": "无权最短路径算法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e113",
+      "source": "unit-8-5最小代价生成树",
+      "target": "最小生成树算法",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e114",
+      "source": "unit-8-6最短路径",
+      "target": "最短路径",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e115",
+      "source": "unit-8-7有向无环图及相关算法",
+      "target": "拓扑排序",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e116",
+      "source": "unit-8-7有向无环图及相关算法",
+      "target": "关键路径",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e117",
+      "source": "unit-9-1综合实验",
+      "target": "综合实验",
+      "type": "related",
+      "label": "包含"
+    },
+    {
+      "id": "e118",
+      "source": "逻辑结构",
+      "target": "线性表",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e119",
+      "source": "线性表",
+      "target": "线性结构顺序存储",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e120",
+      "source": "线性结构顺序存储",
+      "target": "顺序表顺序查找",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e121",
+      "source": "线性结构顺序存储",
+      "target": "顺序表简单排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e122",
+      "source": "线性表",
+      "target": "线性结构链式存储",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e123",
+      "source": "线性结构链式存储",
+      "target": "链表顺序查找",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e124",
+      "source": "线性结构链式存储",
+      "target": "链表简单排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e125",
+      "source": "线性表",
+      "target": "栈",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e126",
+      "source": "栈",
+      "target": "顺序栈",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e127",
+      "source": "线性结构顺序存储",
+      "target": "顺序栈",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e128",
+      "source": "栈",
+      "target": "链栈",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e129",
+      "source": "线性结构顺序存储",
+      "target": "链栈",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e130",
+      "source": "栈",
+      "target": "栈的应用",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e131",
+      "source": "线性结构顺序存储",
+      "target": "栈的应用",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e132",
+      "source": "线性表",
+      "target": "队列",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e133",
+      "source": "队列",
+      "target": "链式队列",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e134",
+      "source": "顺序表顺序查找",
+      "target": "链式队列",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e135",
+      "source": "队列",
+      "target": "顺序队列",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e136",
+      "source": "线性结构顺序存储",
+      "target": "顺序队列",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e137",
+      "source": "链式队列",
+      "target": "队列的应用",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e138",
+      "source": "顺序队列",
+      "target": "队列的应用",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e139",
+      "source": "逻辑结构",
+      "target": "树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e140",
+      "source": "树",
+      "target": "二叉树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e141",
+      "source": "二叉树",
+      "target": "顺序存储二叉树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e142",
+      "source": "二叉树",
+      "target": "链式存储二叉树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e143",
+      "source": "链式存储二叉树",
+      "target": "二叉树遍历",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e144",
+      "source": "二叉树遍历",
+      "target": "二叉树遍历的简单应用",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e145",
+      "source": "二叉树",
+      "target": "哈夫曼树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e146",
+      "source": "哈夫曼树",
+      "target": "哈夫曼编码",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e147",
+      "source": "顺序存储二叉树",
+      "target": "树的存储",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e148",
+      "source": "二叉树遍历",
+      "target": "树的存储",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e149",
+      "source": "树的存储",
+      "target": "树的遍历",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e150",
+      "source": "二叉树遍历的简单应用",
+      "target": "树的遍历",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e151",
+      "source": "树的遍历",
+      "target": "回溯法",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e152",
+      "source": "顺序表顺序查找",
+      "target": "遍历查找",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e153",
+      "source": "遍历查找",
+      "target": "折半查找",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e154",
+      "source": "遍历查找",
+      "target": "二叉排序树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e155",
+      "source": "二叉排序树",
+      "target": "平衡二叉树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e156",
+      "source": "二叉排序树",
+      "target": "b树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e157",
+      "source": "遍历查找",
+      "target": "哈希表",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e158",
+      "source": "线性结构顺序存储",
+      "target": "冒泡排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e159",
+      "source": "冒泡排序",
+      "target": "快速排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e160",
+      "source": "线性结构顺序存储",
+      "target": "快速排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e161",
+      "source": "线性结构顺序存储",
+      "target": "直接插入排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e162",
+      "source": "直接插入排序",
+      "target": "希尔排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e163",
+      "source": "线性结构顺序存储",
+      "target": "希尔排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e164",
+      "source": "线性结构顺序存储",
+      "target": "简单选择排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e165",
+      "source": "简单选择排序",
+      "target": "树性选择排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e166",
+      "source": "线性结构顺序存储",
+      "target": "树性选择排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e167",
+      "source": "简单选择排序",
+      "target": "堆排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e168",
+      "source": "线性结构顺序存储",
+      "target": "堆排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e169",
+      "source": "线性结构顺序存储",
+      "target": "基数排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e170",
+      "source": "线性结构顺序存储",
+      "target": "两路归并排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e171",
+      "source": "两路归并排序",
+      "target": "自然两路归并排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e172",
+      "source": "线性结构顺序存储",
+      "target": "自然两路归并排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e173",
+      "source": "两路归并排序",
+      "target": "多路平衡归并排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e174",
+      "source": "线性结构顺序存储",
+      "target": "多路平衡归并排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e175",
+      "source": "穷举法",
+      "target": "kmp算法",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e176",
+      "source": "穷举法",
+      "target": "trie树",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e177",
+      "source": "trie树",
+      "target": "ac自动机",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e178",
+      "source": "线性结构顺序存储",
+      "target": "图的存储结构",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e179",
+      "source": "顺序表顺序查找",
+      "target": "图的存储结构",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e180",
+      "source": "图的存储结构",
+      "target": "图的遍历",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e181",
+      "source": "线性结构顺序存储",
+      "target": "图的遍历",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e182",
+      "source": "顺序表顺序查找",
+      "target": "图的遍历",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e183",
+      "source": "图的存储结构",
+      "target": "简单路径算法",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e184",
+      "source": "图的遍历",
+      "target": "简单路径算法",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e185",
+      "source": "图的存储结构",
+      "target": "无权最短路径算法",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e186",
+      "source": "图的遍历",
+      "target": "无权最短路径算法",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e187",
+      "source": "图的存储结构",
+      "target": "最小生成树算法",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e188",
+      "source": "图的存储结构",
+      "target": "最短路径",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e189",
+      "source": "图的存储结构",
+      "target": "拓扑排序",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e190",
+      "source": "图的存储结构",
+      "target": "关键路径",
+      "type": "prerequisite",
+      "label": "前序"
+    },
+    {
+      "id": "e191",
+      "source": "最小生成树算法",
+      "target": "关键路径",
+      "type": "prerequisite",
+      "label": "前序"
+    }
   ],
   "relationTypes": {
-    "prerequisite": { "label": "前置知识", "description": "需要先学", "color": "#3b82f6" },
-    "related": { "label": "相关知识", "description": "知识关联", "color": "#6b7280" }
+    "prerequisite": {
+      "label": "前置知识",
+      "description": "学习当前知识点之前建议先掌握",
+      "color": "#3b82f6",
+      "style": "solid"
+    },
+    "related": {
+      "label": "相关知识",
+      "description": "知识层级、包含关系或语义关联",
+      "color": "#6b7280",
+      "style": "dashed"
+    },
+    "inference": {
+      "label": "推理",
+      "description": "由一般概念、规则或方法推导出更具体的知识",
+      "color": "#f59e0b",
+      "style": "solid"
+    }
   }
 }
